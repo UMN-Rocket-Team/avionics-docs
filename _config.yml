@@ -6,3 +6,7 @@ url: https://UMN-Rocket-Team.github.io/avionics-docs
 
 aux_links:
   Template Repository: https://github.com/UMN-Rocket-Team/avionics-docs
+
+## There're 87 repetitive deprecation warnings in the build log. This is a temporary fix to silence them until the issue is resolved.
+sass:
+  quiet_deps: true
