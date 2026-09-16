@@ -1,0 +1,57 @@
+---
+layout: default
+title: Project Name
+parent: Projects
+nav_order: 1
+nav_exclude: true
+---
+
+<!--
+  HOW TO USE THIS TEMPLATE
+  1. Copy this file into docs/projects/ and rename it, e.g. docs/projects/name.md
+  2. Replace "Project Name" in the title above.
+  3. Remove `nav_exclude: true` so the page shows up in the sidebar and in the
+     auto-generated list on the Projects landing page.
+  4. Set nav_order to control where it appears relative to other projects.
+  5. Delete this comment block and fill in the sections below.
+-->
+
+# Project Name
+
+_One or two sentence summary of the project — what it is and what rocket/launch it supports._
+
+## Overview
+
+High-level description: mission goals, timeline, current status (in development / flown / retired).
+
+## Architecture
+
+Block diagram or written breakdown of how the avionics stack is organized for this project.
+
+## Hardware
+
+- Flight computer revision
+- Sensors
+- Power system
+- Notable design decisions
+
+## Firmware
+
+- RTOS / bare-metal
+- Key modules and drivers
+- Data logging approach
+
+## GNC
+
+- Algorithms used (e.g. Kalman filtering, apogee prediction)
+- Key assumptions and constraints
+
+## Testing & Results
+
+Ground testing, static fires, flight data, lessons learned.
+
+## Resources
+
+- [ ] Link to schematics / PCB files
+- [ ] Link to firmware repo
+- [ ] Link to flight data / post-flight report

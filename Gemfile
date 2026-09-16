@@ -7,3 +7,9 @@ gem "just-the-docs", "0.12.0" # pinned to the current release
 # gem "just-the-docs"        # always download the latest release
 
 gem "logger"
+
+group :jekyll_plugins do
+  gem "jekyll-last-modified-at"
+  gem 'jekyll-seo-tag'
+  gem 'jekyll-sitemap'
+end
