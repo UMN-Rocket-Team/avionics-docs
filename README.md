@@ -1,3 +1,5 @@
+## [Link to current website](https://UMN-Rocket-Team.github.io/avionics-docs)
+
 # just-the-docs-template
 
 This is a *bare-minimum* template to create a [Jekyll] site that:
