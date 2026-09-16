@@ -56,7 +56,7 @@ callouts:
     color: red
 
 # Footer
-footer_content: "Maintained by the UMN Rocket Team Avionics subteam."
+footer_content: "Maintained by the UMN Rocket Team Avionics subteam. Found an error or an outdated page? Open a pull request or ping a subteam lead."
 
 # Plugins
 plugins:
