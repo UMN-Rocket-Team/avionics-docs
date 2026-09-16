@@ -11,26 +11,26 @@ permalink: /
   <p>Documentation, tutorials, and project records for the Avionics subteam.</p>
 </div>
 
-Welcome to the Avionics documentation hub. This site is where we keep everything a new or returning
+Welcome to the Avionics documentation page. This site is where we keep everything a new or returning
 member needs — who's on the team, what we're building, and how to get up to speed on hardware,
 firmware, software, and GNC.
 
 <div class="card-grid">
 
   <a class="card" href="{{ '/docs/team/' | relative_url }}">
-    <span class="card-icon">🧑‍🚀</span>
+    <span class="card-icon"></span>
     <h2>Meet the Team</h2>
     <p>Who we are, subteam leads, and how to get in touch.</p>
   </a>
 
   <a class="card" href="{{ '/docs/projects/' | relative_url }}">
-    <span class="card-icon">🚀</span>
+    <span class="card-icon"></span>
     <h2>Projects</h2>
     <p>Current and past avionics projects, with build logs and design docs.</p>
   </a>
 
   <a class="card" href="{{ '/docs/tutorials/' | relative_url }}">
-    <span class="card-icon">📚</span>
+    <span class="card-icon"></span>
     <h2>Tutorials</h2>
     <p>Onboarding guides for Hardware, Software, Firmware, and GNC.</p>
   </a>
@@ -41,8 +41,8 @@ firmware, software, and GNC.
 
 New to the team? Here's the recommended path:
 
-1. Read through **[Meet the Team]({{ '/docs/team/' | relative_url }})** to see how Avionics is organized.
-2. Pick your subteam under **[Tutorials]({{ '/docs/tutorials/' | relative_url }})** and work through the onboarding material.
+1. Read through **[Meet the Team]({{ '/docs/team/' | relative_url }})** to see how Avionics is currently organized.
+2. Pick a subteam under **[Tutorials]({{ '/docs/tutorials/' | relative_url }})** and work through the tutorials.
 3. Browse **[Projects]({{ '/docs/projects/' | relative_url }})** to see what you'll actually be working on.
 
 ## Quick links
