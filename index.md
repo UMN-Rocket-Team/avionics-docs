@@ -54,10 +54,6 @@ New to the team? Here's the recommended path:
 | Firmware | [Start here]({{ '/docs/tutorials/firmware/' | relative_url }}) | Flight firmware, testing scripts, drivers |
 | GNC | [Start here]({{ '/docs/tutorials/gnc/' | relative_url }}) | Guidance, navigation, and control algorithms |
 
----
-
-<p class="footnote">Maintained by the UMN Rocket Team Avionics subteam. Found an error or an outdated page? Open a pull request or ping a subteam lead.</p>
-
 <style>
 .hero {
   padding: 2rem 0 1.5rem;
