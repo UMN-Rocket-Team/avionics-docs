@@ -346,14 +346,165 @@ Some boards will get very complicated and require you to cross wires, but if you
 
 ### Design Rules
 
+Before we go ahead and finish all of our traces, we need to adjust some of Altium's design rules. The design rules are rules dictating things like the minimum distance between two pads, or the minimum distance between a trace and a via. These are dictated by the manufacturer. We can use JLBPCB’s rules as a guide, which can be found at https://jlcpcb.com/capabilities/pcb-capabilities. To edit these in Altium, click Design → Rules. The ones we are particularly interested in are under Design Rules > Electrical > Clearance > Clearance. Here you can change the minimum clearances Altium will accept.
+
+ℹ️ ***You may not always need to change these, you can often just keep Altiums defaults, as they are very generous. But you can change these to your PCB manufacturer's minimums if you are having issues. But never go below the manufacturers minimums.***
+
+I have set them up like this (in accordance to JLBPBs rules)
+
+⚠️ **Ensure your units are displayed in mm, by looking at the bottom left of the editor, you will see grid coordinates in the unit you are in. You change change them to mm by going to View → Toggle Units**
+
+<img width="1330" height="541" alt="image" src="https://github.com/user-attachments/assets/63a1a808-06e5-4522-ad21-c6e4f6be198e" />
+
+There's another rule we want to change that is separated from the ones we just modified. In the rules window search bar, search for "sliver". Once you open every subsection you should find a rule for "MinimumSolderMaskSliver". Change this value to .18mm.
+
+<img width="608" height="445" alt="image" src="https://github.com/user-attachments/assets/f1c309f1-f985-4305-a1f2-d2f90aeb5c42" />
+
+Now you should be able to proceed through and complete all of the connections. Ignore the GND connections for now, we will do something different with these later. Don't be afraid to try a few different layouts to find one that looks the cleanest! Try routing your traces!
+
+<details>
+<summary>Let's compare. Notice how my layout changed.</summary>
+  <img width="976" height="612" alt="image" src="https://github.com/user-attachments/assets/ee8d9ca2-f3f3-4ad5-8ef4-0ecdb359b298" />
+</details>
+
+With our components laid out how we want them, we can now define the edges of our board. Note that in some instances this is the first thing you do, such as for the flight computer where the boards must have defined dimensions. On other projects, the dimensions will depend on the components needed, which is the case for this project.
+
+### Test Points
+
+While not being used for this project, this section will briefly describe test pins and pads. Altium also lets the user place pins/pads by hand instead of just with footprints. This is useful for test points. 
+
+Test points allow hardware to debug the PCBs more easily while soldering, and firmware to debug it during firmware development. We use pins for firmware, as this provides a solid connection for a device called a Saleae. For hardware, we can use pads as we only need them for a multimeter contact. 
+
+ℹ️ ***Often for devices using the STM32 we use STLink test points, a preset component. However if you are making boards such as this breakout, manually creating test points is very useful.***
 
 
+To make one (again it's not needed in this project, but for demonstration purposes), in the hotbar, if you right click on via, you can select a pad. Place one of these down where it's needed then double click it to open the properties.
 
+<img width="411" height="291" alt="image" src="https://github.com/user-attachments/assets/85acd5ce-177a-4e1d-a21c-05e002c0875e" />
 
+Here you will set the designator to "TEST", and the net to whatever net you intend to connect to this point. You'll also notice a "Template" option, which allows you to use various different pins and pads. You can view the team's test point standards in the [General Design Practices](#general-design-practices) page. You then connect the test point up with a trace just as you did previously.
 
+### Defining Board Shapes
 
+To change the board shape, click View → Board Planning Mode. You’ll notice the previously black area turn green. You are now editing the shape of the board. Since our board is already a square, you can click Design → Edit Board Shape. Drag in the edges using the white mouse points until the board fits your components more ideally, leaving a bit of extra space on the bottom (we will get to this in a minute). It should now look something like this:
 
+<img width="752" height="614" alt="image" src="https://github.com/user-attachments/assets/8eed6391-7809-4f62-857a-04f398a20f17" />
 
+You can go back to the layout mode by clicking View → 2D Layout Mode.
+
+### Silkscreens
+
+Next we want to add text to the board. For this project, it would be helpful for the users of this breakout to have the header pins clearly labeled to avoid having to look at our documentation every time they want to use the breakout. To do this we are going to use the yellow layer called the “Top Overlay” in Altium. This is also known as the silkscreen layer, and is used for adding drawings or text to the board.
+
+To add the labels, click “Top Overlay” to make sure you are editing the correct layer. Then in the toolbar click the “Place String” button.
+
+<img width="437" height="69" alt="image" src="https://github.com/user-attachments/assets/a54874b0-b80b-4203-9b6a-9ed9d496b0bc" />
+
+Then place it near the VCC pin on the header. Double click the text to open its properties panel. First, change the Font Type to TrueType. Change the text to “VCC”, then edit the Text Height to something reasonable like 1.524mm.
+
+<img width="426" height="312" alt="image" src="https://github.com/user-attachments/assets/5e943c58-00e4-4509-86e1-d4e8d4abfa61" />
+
+Continue to add text near the rest of the header pins labeling them with their respective nets. You can redefine the board shape again as necessary to get the text to fit. It should now look something like this:
+
+<img width="589" height="545" alt="image" src="https://github.com/user-attachments/assets/bfee53ab-078b-4634-b314-f88acb630218" />
+
+Next, you need to label the PCB as a whole. For example, since we are working on a breakout for the H3LIS200DL accelerometer, labeling the PCB as "H3LIS200DL" will be sufficient. These labels are usually put on the backside of the board. To do this, again you will use the "Place String" button, but this time change the "Top Overlay" to "Bottom Overlay", then set the "Mirror" checkbox to checked so that the text will be the right way around when reading it from the back.
+
+<img width="895" height="804" alt="image" src="https://github.com/user-attachments/assets/f9c722d6-3aff-4942-905f-684df6aa04ed" />
+
+ℹ️ Remember the bottom overlay is on the, well, bottom. This means it won't interfere with anything exclusively placed on the top of the board, such as the top overlay or the top layer! The team's silkscreen standards can be found in the [General Design Practices](#general-design-practices) page. 
+
+### Ground Planes
+
+Remember those ground connections we left unconnected? Now that we have a more defined board shape, we are going to finally connect those up. But we are going to do it by using something called a ground plane, that is, the whole bottom copper layer of the board will be a ground connection. The team often uses both power and ground planes on their PCBs.
+
+In the top toolbar, click Tools → Polygon Pour → Polygon Manager
+
+<img width="553" height="363" alt="image" src="https://github.com/user-attachments/assets/e59cca70-e3ec-49b2-8af1-ca6117f66161" />
+
+You should now be in the polygon manager window. Here you can manage all of the "polygons" on your PCB. Polygons are basically just big shapes (polygons) of copper (just like the traces) that you can connect any electrical signals to, usually power and ground. In our case, we will just use a ground plane for now.
+
+Click the button farthest on the right that says New polygon from > board outline. Now in the settings for that polygon in the right hand panel, set the Net to be GND, make sure the layer is the blue layer (known in Altium as the "Bottom Layer"), and name it whatever you want, I will just use GND. In the center screen, check the "Locked" checkbox. This will prevent the plane from being accidentally moved around. Then click apply.
+
+<img width="1248" height="349" alt="image" src="https://github.com/user-attachments/assets/9703d2b9-b21f-4809-a1b5-63b29de35908" />
+
+Your polygon should now look something like this (your polygons may go all the way to the edge):
+
+<img width="433" height="390" alt="image" src="https://github.com/user-attachments/assets/2b4b7879-1fe1-4821-a225-535c003abc8a" />
+
+As you make changes to the PCB beyond this, the polygon will need to be updated. You can do this either by going back to the polygon manager and click the "Repour" button, or you can do it from the polygons properties.
+
+Double click the polygon you just created. The properties panel should open. Then near the top of the panel it will have a button that says “Repour”, click that. This will tell Altium to calculate the details of this plane avoiding obstacles such as holes and previously existing traces.
+
+<img width="266" height="547" alt="image" src="https://github.com/user-attachments/assets/46372239-1c93-45ac-ae64-b0183769e319" />
+
+This ground plane will connect to anything that is either on the layer it’s on, such as pads on an SMD component, or connect to components going through the layer such as vias or through-hole components (as long as they are on the same net). Let's start by pacing vias next to ground pads. Then you can connect traces to those vias that are now grounded. Make sure you repour the ground plane again after adding the vias!
+
+<img width="435" height="389" alt="image" src="https://github.com/user-attachments/assets/64004f0a-49a7-4f42-bd89-710dc8075b01" />
+
+### Design Rule Check
+
+That's it for the design process! Remember the rules we set earlier? We must now go through and verify there are no errors and all of the rules are followed. This is done by clicking Tools → Design Rule Check > Run Design Rule Check.
+
+A design rule verification report will appear with any errors or rule violations. Altium might ragebait you as you’re forced to endlessly conform to the design rules, but don’t take it personally. You will have to work through any errors and try to fix these violations. You can view where the rule violation occurs by clicking the blue link of the rule.
+
+<img width="1555" height="683" alt="image" src="https://github.com/user-attachments/assets/8b7e86d3-48f5-443a-bbd5-cff35577c228" />
+
+When you are happy with the final result, ensure you click “Save to Server” next to the project name. This will save changes to the project to the workspace
+
+ℹ️ ***There may be a popup that allows you to make a comment on the revision being saved to the server. On larger projects where you are saving more often, I highly recommend adding to the comment notes on the changes made.***
+
+### Generating Output Files
+
+There is one last step, and that is to verify that there are no issues from a manufacturers standpoint. There are 2 ways we do this, the first is through a free online manufacturing check.
+
+Start by ensuring your PCB file is selected, then go to File → Fabrication Outputs → Gerber X2 Files.
+
+<img width="372" height="707" alt="image" src="https://github.com/user-attachments/assets/bdea5b31-2d16-4fcc-a3cd-53445490791c" />
+
+There will be a popup with output options for you to select. On the right there are all of the layers we have been using that you can select and generate output files for. Please match the settings in the image below.
+
+<img width="1033" height="705" alt="image" src="https://github.com/user-attachments/assets/7a9c81e9-3133-4c66-99f3-258278f3b329" />
+
+Next go to (with PCB file selected) File → Fabrication Outputs → NC Drill Files.
+
+<img width="372" height="706" alt="image" src="https://github.com/user-attachments/assets/0e5733c3-9500-448c-808e-fae5ed7cd288" />
+
+In the popup, select inches and 2:5 for the resolution, then make sure “Suppress leading zeros” is selected, as well as “Reference to relative origin”, then click OK. If another window pops up, select OK again.
+
+<img width="459" height="714" alt="image" src="https://github.com/user-attachments/assets/d73c766a-65ec-4255-ba6d-d76204087e33" />
+
+Now that you’ve created the output files, open the file explorer, find the project folder on your local device, and inside it there should be a folder called “Project Outputs for projectname”. Here you can find all of the output files you just created.
+
+Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) as well as the the “H3LIS200DL_Breakout_PCB.TXT” and "H3LIS200DL_Breakout_PCB.GM" files.
+
+<img width="761" height="431" alt="image" src="https://github.com/user-attachments/assets/ae18a9ba-61cb-4c5e-857b-3375ef348732" />
+
+Then right click → Send to → Compressed (zipped) folder.
+
+With your zip file, you can see a preview of your board with [JLBPCB](https://jlcpcb.com/), and drag your zip file over where it says "Add gerber file"
+
+<img width="885" height="135" alt="image" src="https://github.com/user-attachments/assets/b837e71c-54d9-4250-87ee-6ea1a460a184" />
+
+After it uploads, JLB will then show you a preview of your board, take a look over this and verify it appears correctly by checking things like all of the holes showing up, the silkscreens showing up and not overlapping, all of the pins and pads where they are supposed to be, etc.
+
+<img width="906" height="234" alt="image" src="https://github.com/user-attachments/assets/18ff757d-18b1-428c-b361-0013700bc4d6" />
+
+If all of it looks good, then that's it! You're done with the training!
+
+⚠️ **Don't forget to Save to Server when you are done with everything!**
+
+### Other Resources
+
+This guide is just a quick guide to getting started using Altium on the team, we encourage you to continue to practice and utilize online resources and the rest of this guide to improve your skills. Listed below are a few links that may help you in your adventures with Altium!
+
+A video on YouTube by Robert Feranec, with a very in depth tutorial how to use Altium, long but very helpful: https://www.youtube.com/watch?v=PqFtSpAXB9Q
+
+Guides from EE3102: https://drive.google.com/drive/u/2/folders/1zoEPUlK-15pITA9IwbEAqrWZzhHMu31a
+
+Guide to creating custom footprints. Again, very long but very helpful if your project requires custom component footprints https://youtu.be/wxYbIGV9_CY?si=AotVodZdm0toma9B
+
+The next section will go over the team’s design practices, which I urge you to go over.
 
 
 
