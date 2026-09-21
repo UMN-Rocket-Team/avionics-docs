@@ -260,6 +260,103 @@ You should be able to repeat the previous steps to add the capacitors.
 
 ### Schematic Wiring
 
+Now we can finally wire up the components. You can move components around the sheet by clicking and dragging over the component, then grabbing and moving them around. While they are selected you can rotate them by hitting the spacebar. Position them approximately like the previous image.
+
+To create wires, click the image with the blue lines in the hotbar on the top of the display window, you can then click the ends of the pins you want to connect together. A red asterisks will appear on your mouse when you are hovering on the edge of a pin.
+
+<img width="400" height="30" alt="image" src="https://github.com/user-attachments/assets/eb601fb0-6086-473a-955b-8f275cffb855" />
+
+Connect the components up like in the image below. Notice the connected GND pins.
+
+<img width="804" height="578" alt="image" src="https://github.com/user-attachments/assets/86e48404-a05f-4a59-966f-067863fbc810" />
+
+We now need to tell Altium where the power and ground pins are. In the toolbar again, click the GND symbol. This should attach one to your mouse. You can then place them on the desired nodes. If you then right click the GND node in the toolbar, you will see a VCC node, you can click on this and place it in your circuit as well.
+
+<img width="395" height="295" alt="image" src="https://github.com/user-attachments/assets/3b585008-7500-42cb-8b6f-054516ff90ed" />
+
+However VCC is not that descriptive, so once you've placed one, you can double click it to open the properties, and there you can rename it to "+3.3".
+
+<img width="396" height="287" alt="image" src="https://github.com/user-attachments/assets/854e7ced-8a3b-4957-901c-64d991f932dd" />
+
+Your circuit should now look like the image below:
+
+<img width="660" height="392" alt="image" src="https://github.com/user-attachments/assets/377b2b89-e641-492b-884d-4dcc175849fd" />
+
+Finally, we need to add some off-board connectors. We will do this by using a 6 pin header (4 pins for SPI, 1 for VCC, 1 for GND). Go into components and search for “6 Pin Header”, add this to the schematic. We are going to connect the remaining pins to this header by using something called a net label. You can place these by right clicking on the wire symbol, and selecting “Net Label”. You can attach these to any pins or existing wires, then double click them to change the “Net Name”. Any wires with the same net label attached to them are considered connected by Altium. It’s essentially wiring without the wires. Spaghetti’s good, but not when your wires look like it, so please use these to organize. Assign Net Labels to match the image below.
+
+<img width="916" height="439" alt="image" src="https://github.com/user-attachments/assets/27e6fc42-39fe-4c55-8dc3-b52df6c3d09f" />
+
+Nearly there! Now we need to annotate all of our components. This means numbering the designators we talked about before. Remember Altium can number these automatically as long as they follow the correct format (Letter?), if any do not look like that, make sure to fix them. To Annotate, click Tools > Annotation > Annotate Schematic.
+
+<img width="543" height="439" alt="image" src="https://github.com/user-attachments/assets/e71118df-be7e-4bc6-95c5-fde31b1652f2" />
+
+There should then be a popup. On this window, click “Update Changes List”, then “Accept Changes (Create ECO)”, there will be another popup showing you the changes it will make. Click “Validate Changes” then “Execute Changes”. You can then close both of these windows and every component should be annotated!
+
+<img width="958" height="453" alt="image" src="https://github.com/user-attachments/assets/44f079dd-d76e-4432-92ef-2520abf8e708" />
+
+Finally we need to validate our schematic. To do this, click Project → Validate PCB Project ProjectName.
+
+<img width="384" height="551" alt="image" src="https://github.com/user-attachments/assets/90cff6fd-db7c-497e-97e7-6bc345cebf3a" />
+
+Look at the bottom of the screen in the messages panel for any errors. If you’ve done everything correctly, it will look something like this:
+
+<img width="745" height="81" alt="image" src="https://github.com/user-attachments/assets/bdf06d8a-ad8a-4109-94ba-9ab49f1a8a34" />
+
+### Creating the PCB
+
+We can finally start working on the PCB! Like with the schematic, you will have to create a PCB document. File → New → PCB. Rename it to something useful like “H3LIS200DL_Breakout_PCB”.
+
+<img width="446" height="358" alt="image" src="https://github.com/user-attachments/assets/571a50e6-1f4a-413d-96d4-56e6a7d67ad3" />
+
+Instead of schematic symbols, the PCB requires what's called footprints. Footprints are the physical pads that the components connect to on the PCB. As with the schematic symbols, some footprints are in Altium natively and others are not. You can also create custom footprints as well (find details on how to in the [Selecting Components](#selecting-components) page). Components from the Components panel and Manufacturer Part Search should have their footprints already attached!
+
+We can now update the PCB based off of the schematic. You can also make changes to the schematic after you’ve edited the PCB file, and update the PCB file again with any changes. But in this process, Altium likes to create something called rooms. We do not use rooms so we can disable them to avoid accidentally adding them when updating the PCB.
+
+Click Project → Project Options → Class Generation, then uncheck the checkboxes underneath “Generate Rooms”. Click “OK”.
+
+<img width="1029" height="597" alt="image" src="https://github.com/user-attachments/assets/14faa624-3858-4be5-8287-6e14190e5128" />
+
+From the schematic, click Design > Update PCB Document FileName. A popup will appear showing you the changes that will be made. Click Validate and Execute.
+
+<img width="1267" height="692" alt="image" src="https://github.com/user-attachments/assets/7205194c-e611-450e-9d35-f47f1b9dd531" />
+
+Your footprints should now appear on the PCB document! It might look straight out of the matrix or something, but don’t worry it’s actually quite simple! You can move around your footprints by dragging them around, just like on the schematic. Take note of the yellow lines connecting components. These lines show you what's connected to what in the schematic. Unfortunately you will have to use your brain to think, so use those brain cells to place components in a way that avoids these lines crossing as much as possible in order to make your job easier later.
+
+<img width="645" height="530" alt="image" src="https://github.com/user-attachments/assets/d5f98bfd-308f-4ec9-a254-8ad51baca982" />
+
+Before we begin routing, notice the tabs at the bottom of the display window.
+
+<img width="778" height="132" alt="image" src="https://github.com/user-attachments/assets/7ae25893-6200-4472-9a37-2f4f78742964" />
+
+These are the board layers. They are all color coded and used for different purposes. The 2 important layers for routing are the Top and Bottom Layers. These are the copper layers of the board and represent the wire connections. If you look at the components already placed, you'll notice the footprint pads are red, this is because these are on the “Top Layer”. It is also possible to have components on the “Bottom Layer”, but that is uncommon unless you’re really pressed for space. Some boards have 4 of these copper layers, useful when there are a lot of things that need to be connected, but we are fine with just 2.
+
+### PCB Routing
+
+To begin routing click the line symbol in the middle of the toolbar.
+
+<img width="407" height="64" alt="image" src="https://github.com/user-attachments/assets/8589fc9c-cece-432e-9d93-1b6309bc8458" />
+
+Remember those faint yellow lines? They are suggesting connections between the pads. You want to use these as a general guide on what pads to build traces between. For example, there is the faint line between the square pin of the header and the left pad of R1, we can place a wire between these similarly to how we did in the schematic.
+
+<img width="367" height="317" alt="image" src="https://github.com/user-attachments/assets/7383f245-3697-4b30-96c3-b274f052b09f" />
+
+We have now created a physical connection between these two points!
+
+Some boards will get very complicated and require you to cross wires, but if you try to do that all on the same layer you will connect pins together that should not be. You do this by creating some wires on the bottom layer. There's two ways to do this, either click the “Bottom Layer” tab, and then the “Interactively Route Connections” button again, and you will now be routing on the bottom layer. Or you can use the “+” and “-” keys to change layers in the middle of a line. When you do this you will create something called a via. Vias are used to do exactly this, change the layer of a wire connection.
+
+### Design Rules
+
+
+
+
+
+
+
+
+
+
+
+
 ## General Design Practices
 
 ## Selecting Components
