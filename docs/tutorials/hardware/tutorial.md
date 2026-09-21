@@ -4,7 +4,7 @@ title: Altium Tutorial
 parent: Hardware
 grand_parent: Tutorials
 has_children: false
-nav_order: 1
+nav_order: 2
 permalink: /docs/tutorials/hardware/tutorial
 ---
 
