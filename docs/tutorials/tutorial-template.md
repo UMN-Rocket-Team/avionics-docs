@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Tutorial Name
-parent: Hardware
+parent: -
 grand_parent: Tutorials
 nav_order: 1
 nav_exclude: true
