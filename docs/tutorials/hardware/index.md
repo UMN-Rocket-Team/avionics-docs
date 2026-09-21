@@ -22,13 +22,6 @@ permalink: /docs/tutorials/hardware/
 # Hardware - The Ultimate Guide  
 
 
-
-## Table of Contents
-* [Introduction](#introduction)
-* [Important Software Downloads](#important-software-downloads)
-* [Altium Basics Tutorial](#altium-basics-tutorial)
-* [General Design Practices](#general-design-practices)
-
 ## Introduction
 
 Welcome to the Ultimate Hardware Guide! If you’re new here, welcome to the hardware team! If you’re a returning member, feel free to get a refresher from the guides here. 
