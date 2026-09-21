@@ -4,7 +4,7 @@ title: Data Busses
 parent: Hardware
 grand_parent: Tutorials
 has_children: false
-nav_order: 1
+nav_order: 5
 permalink: /docs/tutorials/hardware/data_busses
 ---
 
