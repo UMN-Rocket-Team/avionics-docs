@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Introduction
+title: Important Software Downloads
 parent: Hardware
 grand_parent: Tutorials
 has_children: false
