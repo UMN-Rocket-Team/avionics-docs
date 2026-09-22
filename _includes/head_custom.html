@@ -1,0 +1,7 @@
+{%- if page.math -%}
+<!-- MathJax for pages with `math: true` in their front matter. kramdown turns $$...$$ into \(...\) / \[...\]. -->
+<script>
+  window.MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] } };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{%- endif -%}

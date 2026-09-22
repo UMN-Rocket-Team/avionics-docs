@@ -55,6 +55,10 @@ callouts:
     title: Important
     color: red
 
+# Diagrams (```mermaid code blocks)
+mermaid:
+  version: "11.4.1"
+
 # Footer
 footer_content: "Maintained by the UMN Rocket Team Avionics subteam. Found an error or an outdated page? Open a pull request or ping a subteam lead."
 
