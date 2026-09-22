@@ -23,7 +23,7 @@ each one has its own sequence of tutorials, from fundamentals to team-specific t
 | [Hardware]({{ '/docs/tutorials/hardware/' | relative_url }}) | PCB design, sensor selection, wiring |
 | [Software]({{ '/docs/tutorials/software/' | relative_url }}) | Ground station, telemetry, data pipelines |
 | [Firmware]({{ '/docs/tutorials/firmware/' | relative_url }}) | Flight computer code, RTOS, drivers |
-| [GNC]({{ '/docs/tutorials/gnc/' | relative_url }}) | Guidance, navigation, and control algorithms |
+| [GNC]({{ '/docs/tutorials/gnc/' | relative_url }}) | Roll control, state estimation, simulation, Python setup |
 
 ## Adding a new tutorial
 

@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "jekyll", "runtimeExecutable": "/private/tmp/claude-501/-Users-alistairwhite-Downloads-Rocket-Team-AvionicsWebsite-avionics-docs/546481f9-9ffb-4b6c-a559-b09d0928b6f9/scratchpad/serve.sh", "runtimeArgs": [], "port": 4000 }
+  ]
+}

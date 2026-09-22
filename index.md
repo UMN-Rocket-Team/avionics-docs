@@ -52,7 +52,7 @@ New to the team? Here's the recommended path:
 | Hardware | [Start here]({{ '/docs/tutorials/hardware/' | relative_url }}) | PCB design, sensor selection, wiring |
 | Software | [Start here]({{ '/docs/tutorials/software/' | relative_url }}) | Ground station, telemetry, data pipelines |
 | Firmware | [Start here]({{ '/docs/tutorials/firmware/' | relative_url }}) | Flight firmware, testing scripts, drivers |
-| GNC | [Start here]({{ '/docs/tutorials/gnc/' | relative_url }}) | Guidance, navigation, and control algorithms |
+| GNC | [Start here]({{ '/docs/tutorials/gnc/' | relative_url }}) | Roll control, state estimation, simulation, Python setup |
 
 <style>
 .hero {
