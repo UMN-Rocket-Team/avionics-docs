@@ -1,0 +1,21 @@
+{%- comment -%}
+  A compact row of numbered links to a set of photos/screenshots that are still hosted on
+  the UMN Enterprise GitHub (UMN login needed). Used where the old wiki had a long run of
+  photos with no captions.
+
+  Usage (URLs separated by commas, line breaks are fine):
+    {% include photo-links.html label="Top bulkhead" urls="https://...,https://..." %}
+
+  Once the photos are moved into assets/images/, swap this for figure.html includes.
+{%- endcomment -%}
+{%- assign pl_urls = include.urls | split: "," -%}
+<div class="photo-links">
+<span class="photo-links-label">{{ include.label | default: "Photos" }}</span>
+{%- for pl_url in pl_urls %}
+{%- assign pl_clean = pl_url | strip -%}
+{%- if pl_clean != "" %}
+<a href="{{ pl_clean }}" target="_blank" rel="noopener">{{ forloop.index }}</a>
+{%- endif -%}
+{%- endfor %}
+<span class="photo-links-note">UMN login needed</span>
+</div>

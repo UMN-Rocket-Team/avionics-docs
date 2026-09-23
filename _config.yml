@@ -54,6 +54,11 @@ callouts:
   important:
     title: Important
     color: red
+  # Marks something that is inconsistent, incomplete, or possibly out of date.
+  # grep for "{: .check }" to find all of them.
+  check:
+    title: Needs checking
+    color: purple
 
 # Diagrams (```mermaid code blocks)
 mermaid:

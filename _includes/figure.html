@@ -1,0 +1,31 @@
+{%- comment -%}
+  A figure with an optional caption.
+
+  Usage:
+    {% include figure.html src="/assets/images/projects/ufc/system-diagram.png" caption="UFC system diagram" %}
+    {% include figure.html src="https://github.com/user-attachments/assets/..." caption="..." width="60%" %}
+
+  Images that are still hosted on the UMN Enterprise GitHub (github.umn.edu) need a UMN
+  login, so they can't load on the public site. Those render as a link card instead.
+  To fix one: download the image, save it under assets/images/projects/<project>/,
+  and point src at the new path. Nothing else needs to change.
+{%- endcomment -%}
+{%- assign fig_src = include.src -%}
+{%- if fig_src contains "://" -%}
+  {%- assign fig_url = fig_src -%}
+{%- else -%}
+  {%- assign fig_url = fig_src | relative_url -%}
+{%- endif -%}
+<figure class="doc-figure">
+{%- if fig_src contains "github.umn.edu" %}
+<a class="umn-image" href="{{ fig_url }}" target="_blank" rel="noopener">
+<span class="umn-image-title">{{ include.caption | default: include.alt | default: "Image" }}</span>
+<span class="umn-image-note">Image is still on the old UMN GitHub wiki (UMN login needed) ↗</span>
+</a>
+{%- else %}
+<img src="{{ fig_url }}" alt="{{ include.alt | default: include.caption }}" loading="lazy"{% if include.width %} style="width: {{ include.width }};"{% endif %}>
+{%- if include.caption %}
+<figcaption>{{ include.caption }}</figcaption>
+{%- endif -%}
+{%- endif %}
+</figure>

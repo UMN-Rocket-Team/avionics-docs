@@ -1,0 +1,117 @@
+// Site-wide additions to the Just the Docs theme.
+
+// ---------------------------------------------------------------------------
+// Figures (_includes/figure.html)
+// ---------------------------------------------------------------------------
+.doc-figure {
+  margin: 1.25rem 0;
+
+  img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+  }
+
+  figcaption {
+    margin-top: 0.4rem;
+    font-size: 0.85rem;
+    color: $grey-dk-000;
+  }
+}
+
+// Link card shown in place of an image that still lives on github.umn.edu
+.umn-image {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  max-width: 34rem;
+  padding: 0.7rem 1rem;
+  border: 1px dashed darken($border-color, 12%);
+  border-radius: 6px;
+  background: $grey-lt-000;
+  text-decoration: none !important;
+
+  .umn-image-title {
+    font-weight: 500;
+    color: $body-heading-color;
+  }
+
+  .umn-image-note {
+    font-size: 0.8rem;
+    color: $grey-dk-000;
+  }
+
+  &:hover {
+    border-color: $link-color;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Numbered photo links (_includes/photo-links.html)
+// ---------------------------------------------------------------------------
+.photo-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.75rem 0 1.25rem;
+  font-size: 0.85rem;
+
+  .photo-links-label {
+    font-weight: 500;
+    margin-right: 0.25rem;
+  }
+
+  a {
+    display: inline-block;
+    min-width: 1.9rem;
+    padding: 0.1rem 0.45rem;
+    border: 1px solid darken($border-color, 8%);
+    border-radius: 4px;
+    text-align: center;
+    text-decoration: none;
+    background: $grey-lt-000;
+
+    &:hover {
+      border-color: $link-color;
+    }
+  }
+
+  .photo-links-note {
+    margin-left: 0.25rem;
+    color: $grey-dk-000;
+    font-size: 0.78rem;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Key facts box: put {: .facts } on a definition list
+// ---------------------------------------------------------------------------
+.main-content dl.facts {
+  grid-template: auto / 8.5em 1fr;
+  padding: 0.6rem 1rem;
+  margin: 1rem 0 1.5rem;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  background: $grey-lt-000;
+  font-size: 0.9rem;
+
+  dd {
+    margin-left: 0.75em;
+  }
+}
+
+// Status tags used in the test matrix, e.g. <span class="tag tag-ok">Written</span>
+.tag {
+  display: inline-block;
+  padding: 0 0.4rem;
+  border-radius: 3px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1.5;
+}
+.tag-ok { background: #dff3e4; color: #1d5b2c; }
+.tag-partial { background: #fff3cd; color: #6b4e00; }
+.tag-none { background: $grey-lt-100; color: #5c5c5c; }
