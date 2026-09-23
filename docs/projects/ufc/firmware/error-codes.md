@@ -3,7 +3,7 @@ layout: default
 title: Error Codes
 parent: Firmware
 grand_parent: Universal Flight Computer
-nav_order: 5
+nav_order: 6
 permalink: /docs/projects/ufc/firmware/error-codes/
 ---
 

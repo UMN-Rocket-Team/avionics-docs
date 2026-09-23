@@ -74,6 +74,30 @@ precise. The low-g part (LIS2DW12) is much more precise but saturates sooner. Be
 The BMP390 is wired the same way as on the Primary Card: CSB tied to power to select I2C, SDO grounded for
 address 0x76. More on the shared parts in the [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
 
+{: .check }
+The `UFC-2024 Pin Allocations` sheet in the team Drive puts all of this card's sensors on **SPI2** (PB13 SCK, PB14 CIPO,
+PB15 COPI), with chip selects for the magnetometer (PC0), gyro (PC1), low-g (PC2), high-g (PC3), and a "temp" sensor
+(PC4), and the LoRa on UART7. The old wiki says SPI6, and has the BMP390 on I2C. A chip select labelled "temp"
+suggests the barometer/thermometer may be on SPI on this card. Check the schematic.
+
+### Sensor settings
+
+How the firmware configures each sensor, from the firmware subteam's `UFC Sensor Range, ODR, Modes` notes (around
+the end of 2024). "Measured" is the rate they actually saw.
+
+| Sensor | Range | Output rate | Mode / notes |
+|:--|:--|:--|:--|
+| I3G4250D gyro | ±245 dps | 400 Hz (428 Hz measured) | Options: 100–800 Hz |
+| LIS2DW12 low-g | ±16 g | 400 Hz (406 Hz measured) | High-performance mode only |
+| H3LIS200DL high-g | ±200 g | 400 Hz (404 Hz measured) | High-performance mode only. The notes say it doesn't show the 1 g of gravity at rest. |
+| LIS3MDL magnetometer | ±4 gauss (about ±3 usable after zeroing) | 300 Hz (305 Hz measured) | Uses FAST_ODR. The notes list the FAST_ODR rates as 155 Hz (low power), 300 Hz (medium), 560 Hz (high), and 1000 Hz (ultra-high performance); without FAST_ODR you can pick 0.625–80 Hz. |
+| BMP390 | 300–1100 hPa | Not finalised | Same settings as the [Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#sensor-settings) |
+
+The same notes record a known issue from that time: with single-SPI flash writes and about 10 s of pad data, this
+card missed **1.3 s of flight at the start of ascent** while it wrote its circular buffer (296,000 bytes then) to flash.
+The [Flash Driver]({{ '/docs/projects/ufc/firmware/flash-driver/' | relative_url }}#why-the-buffer-is-written-last)
+page describes how the driver handles this now.
+
 ### Radio
 
 The RN2483A is the secondary (backup) telemetry link and talks over UART. The module supports the 433 MHz and

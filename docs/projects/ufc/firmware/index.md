@@ -136,5 +136,6 @@ format above. Either WINGS converts them or the format changed. Check `packets.h
 | [Terminal]({{ '/docs/projects/ufc/firmware/terminal/' | relative_url }}) | UFCTI 1.0: command format and the commands we know about |
 | [Packets]({{ '/docs/projects/ufc/firmware/packets/' | relative_url }}) | Packet types, who produces them, and their sizes |
 | [Flash Driver]({{ '/docs/projects/ufc/firmware/flash-driver/' | relative_url }}) | How NAND flash behaves, the driver's rules, and the pre-launch circular buffer |
+| [Timings & Budgets]({{ '/docs/projects/ufc/firmware/timings/' | relative_url }}) | Bus speeds, loop rates, flash fill times, transfer times, telemetry bandwidth |
 | [Error Codes]({{ '/docs/projects/ufc/firmware/error-codes/' | relative_url }}) | ECODE values and how to test for them |
 | [STM32CubeIDE Setup]({{ '/docs/projects/ufc/firmware/ide-setup/' | relative_url }}) | Importing the projects, fixing source paths, run configurations |

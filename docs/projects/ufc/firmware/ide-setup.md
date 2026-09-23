@@ -3,7 +3,7 @@ layout: default
 title: STM32CubeIDE Setup
 parent: Firmware
 grand_parent: Universal Flight Computer
-nav_order: 6
+nav_order: 7
 permalink: /docs/projects/ufc/firmware/ide-setup/
 ---
 

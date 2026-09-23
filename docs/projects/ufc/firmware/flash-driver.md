@@ -80,3 +80,18 @@ about **10 seconds** of data.
 The driver sets aside a section of flash for the buffer's contents. When a **LANDING** condition is detected,
 or the flash fills up, the buffer is written out to the beginning of the flash chip. That's the one exception to
 writing front to back.
+
+### Why the buffer is written last
+
+An earlier version wrote the buffer to flash as soon as launch was detected. With single-SPI flash writes and about
+10 s of pad data, the Secondary Card spent **1.3 s** of the ascent writing its 296,000-byte buffer and missed that
+part of the flight. The firmware notes from the time (around the end of 2024) list the options they considered:
+
+- make the transfer faster (quad SPI, a smaller buffer),
+- defer writing the buffer until after the flight,
+- reserve space at the start of the flash for it,
+- or mark the start of the buffer with a delimiter and write it at the end of the flash on landing.
+
+The current design combines the second and third: space is reserved at the start, and the buffer is written there
+after landing. Buffer sizes and write times per card are on
+[Timings & Budgets]({{ '/docs/projects/ufc/firmware/timings/' | relative_url }}#circular-buffer-sizes).

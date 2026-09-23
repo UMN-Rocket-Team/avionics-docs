@@ -51,12 +51,17 @@ Sensors:
 - **GPS (MAX-M10S)**: low power, used for recovery
 
 {: .check }
-> The old wiki disagrees on which radio this card carries. The Primary Card spec lists an
-> **E22-400T22S LoRa** (433 MHz) as the primary radio. But the firmware architecture page, the firmware test
-> list, the April 2025 overnight test, and the flight operations guide all use an **RFD900** (902–928 MHz) on
-> this card, and the E22's own paragraph talks about a fuse added because of "issues with the RFD last year".
+> **Which radio?** It depends on the year, and the docs mix them up.
 >
-> Check the current schematic before relying on either. Both are listed below.
+> - The firmware architecture page, the firmware test list, the April 2025 overnight test, and the flight guide
+>   all use an **RFD900** (902–928 MHz). That's the 2024–25 setup.
+> - For 2026 the team moved to **433 MHz**. The UFC 3.5 radio trade study ([below](#radio-trade-study-2026)) lists
+>   433 MHz operation as "required for 2026 IREC SRAD avionics systems" and scores the **E22-400T33S** highest,
+>   and the 2026 ground station requirement GNDSTN-1.1 names the E22-400T33S too.
+> - The card spec in the old wiki lists the **E22-400T22S**, the 22 dBm version of the same module (the T33S is the
+>   33 dBm, 2 W version).
+>
+> Check the UFC 3.5 schematic for which part is actually fitted. Both radios are listed below.
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/029bdf46-1aab-40f9-b5d1-d48c4171fadb" caption="Primary Card diagram" %}
 
@@ -82,13 +87,51 @@ the [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
 |:--|:--|:--|:--|
 | BNO055 | I2C, address **0x28** (COM3 low) | INT1 | |
 | BMP390 | I2C, address **0x76** (SDO low) | INT | CSB tied to power to select I2C, SDO grounded |
-| MAX-M10S | I2C at 400 kHz, timing register value `0x00B03BCD` | GPS_INT | TVS diode for ESD and an RLC filter on the RF input |
+| MAX-M10S | I2C at 400 kHz, timing register value `0x00B03BCD` (see note) | GPS_INT | TVS diode for ESD and an RLC filter on the RF input |
 | Radio | UART with RTS/CTS | | 1100 mA resettable fuse and a 0 Ω jumper on its 5 V input (below) |
 | Flash | QUADSPI | | Same flash circuit as every other UFC card |
+
+{: .check }
+The `UFC-2024 Pin Allocations` sheet in the team Drive (the "CURRENT" tab) puts the GPS on **UART4** (PB9 TX, PB8 RX),
+not I2C. The same sheet has the radio on UART7 (PE8/PE7) and the I2C3 bus on PA8/PC9. The firmware timing sheet
+also gives the Primary Card's I2C bus as 1000 kHz rather than 400 kHz. Check the schematic and `GPS_Driver.h` to see
+which bus the GPS really uses.
 
 **Why the radio fuse.** An RFD damaged an STM32 the year before this card was designed, so its 5 V input now
 goes through a 1100 mA resettable fuse (with a 0 Ω jumper). The RFD peaks at about 1 A, so 1100 mA leaves some
 headroom before it trips by accident.
+
+## Sensor settings
+
+How the firmware configures each sensor, from the firmware subteam's `UFC Sensor Range, ODR, Modes` notes
+(written around the end of 2024). "Measured" is the rate they actually saw.
+
+| Sensor | Range | Output rate | Notes |
+|:--|:--|:--|:--|
+| BNO055 | ±16 g | 100 Hz (about 90 Hz measured) | |
+| MAX-M10S GPS | — | 10 Hz | UBX messages only. See the [integration manual](https://content.u-blox.com/sites/default/files/MAX-M10S_IntegrationManual_UBX-20053088.pdf) and [interface description](https://content.u-blox.com/sites/default/files/u-blox-M10-SPG-5.10_InterfaceDescription_UBX-21035062.pdf). |
+| BMP390 | 300–1100 hPa, 0–65 °C | Not finalised | Set to the highest pressure resolution (21-bit) with 2× temperature oversampling (17-bit). The trade-off: about 200 samples/s at the lowest resolution (nearest 0.76 ft of altitude) versus about 14 samples/s at 32× oversampling (nearest 0.28 in). |
+
+Timing numbers for the whole card (loop rate, data rate, flash fill time) are on
+[Timings & Budgets]({{ '/docs/projects/ufc/firmware/timings/' | relative_url }}).
+
+## Radio trade study (2026)
+
+From the UFC 3.5 design review (`433 Mhz Radio Trade Study.xlsx`). Operating at 433 MHz was a pass/fail
+requirement; the rest were weighted scores.
+
+| | RFD900ux | SiK telemetry radio (1 W) | E19-433M30S | **E22-400T33S** |
+|:--|:-:|:-:|:-:|:-:|
+| Modulation | FHSS | FHSS | LoRa | LoRa |
+| Works at 433 MHz (required) | No | Yes | Yes | Yes |
+| Air data rate (45%) | 1.0 | 0.95 | 0.25 | 0.5 |
+| TX power consumption (20%) | 0.0 | 0.1 | 0.4 | 0.0 |
+| Transmit power (20%) | 0.5 | 0.5 | 0.5 | 1.0 |
+| **Weighted total** | 0.55 | 0.55 | 0.37 | **0.58** |
+
+The sheet also has a 15% "UART interface" criterion (the current comms firmware uses UART) that isn't counted in
+the totals, which is why the weights only add up to 85%. Its data-rate scale assumes 2025 flew at 60 kbps and that
+about 102 kbps would be ideal.
 
 ## Schematic
 
