@@ -24,7 +24,7 @@ Flash
 : W25N512GV, 64 MB NAND over QUADSPI
 
 Radio
-: RFD900 (902–928 MHz) per most of the old docs; the card spec says E22-400T22S LoRa. See the box below.
+: EBYTE E22-400T33S LoRa, 433 MHz, from 2025–26. An RFD900ux (902–928 MHz) before that. See [Radio](#radio).
 
 Firmware
 : [`Firmware/Primary_Card`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/Firmware/Primary_Card)
@@ -50,18 +50,20 @@ Sensors:
 - **Barometer/thermometer (BMP390)**
 - **GPS (MAX-M10S)**: low power, used for recovery
 
-{: .check }
-> **Which radio?** It depends on the year, and the docs mix them up.
->
-> - The firmware architecture page, the firmware test list, the April 2025 overnight test, and the flight guide
->   all use an **RFD900** (902–928 MHz). That's the 2024–25 setup.
-> - For 2026 the team moved to **433 MHz**. The UFC 3.5 radio trade study ([below](#radio-trade-study-2026)) lists
->   433 MHz operation as "required for 2026 IREC SRAD avionics systems" and scores the **E22-400T33S** highest,
->   and the 2026 ground station requirement GNDSTN-1.1 names the E22-400T33S too.
-> - The card spec in the old wiki lists the **E22-400T22S**, the 22 dBm version of the same module (the T33S is the
->   33 dBm, 2 W version).
->
-> Check the UFC 3.5 schematic for which part is actually fitted. Both radios are listed below.
+```mermaid
+flowchart LR
+    MCU["STM32H7"]
+    MCU -- UART --> RAD["Radio<br/>(RFD900ux, then E22-400T33S)"]
+    MCU -- I2C --> BNO["BNO055 IMU"]
+    MCU -- I2C --> BMP["BMP390 baro"]
+    MCU -- "I2C (or UART, see below)" --> GPS["MAX-M10S GPS"]
+    MCU -- QSPI --> FL["W25N512GV flash"]
+    MCU -- GPIO --> LED["LEDs"]
+    MCU <-- CAN --> BP["Backplane"]
+```
+
+Redrawn from `Data Card 1 Block Diagram` in the team Drive (`03-Avionics IREC/Diagrams`), which also marks the RFD
+and GPS antenna connectors. The old wiki's version is below.
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/029bdf46-1aab-40f9-b5d1-d48c4171fadb" caption="Primary Card diagram" %}
 
@@ -74,8 +76,8 @@ Sensors:
 | 9-axis IMU | [BNO055](https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf) | I2C | Fused orientation output (quaternion) |
 | Barometer/thermometer | [BMP390](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf) | I2C | 30–125 kPa, −40–85 °C, up to 200 Hz |
 | GPS | [MAX-M10S-00B](https://www.digikey.com/en/products/detail/u-blox/MAX-M10S-00B/15712906) | I2C | Up to 20 Hz updates |
-| Radio (per card spec) | [E22-400T22S](https://use.365.altium.com/librarycomponentsapi/api/v1/References/1A5364BB-2399-40E0-B04A-82A08AA792DD) | UART, RTS/CTS | LoRa, 410–493 MHz (default 433.125 MHz), 22 dBm max, ~5 km |
-| Radio (per firmware docs) | [RFD900UX2](https://files.rfdesign.com.au/Files/documents/RFD900ux%20DataSheet%20v1.2.pdf) | UART | 902–928 MHz FHSS |
+| Radio (2025–26 on, per card spec) | [E22-400T22S](https://use.365.altium.com/librarycomponentsapi/api/v1/References/1A5364BB-2399-40E0-B04A-82A08AA792DD) | UART, RTS/CTS | LoRa, 410–493 MHz (default 433.125 MHz), 22 dBm max, ~5 km |
+| Radio (2024–25) | [RFD900UX2](https://files.rfdesign.com.au/Files/documents/RFD900ux%20DataSheet%20v1.2.pdf) | UART | 902–928 MHz FHSS |
 | LEDs | [Red](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060RS75000/4489901), [green](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060VS75000/4489906), [blue](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060BS75000/4489895), yellow (150060YS75000) | GPIO | Würth 150060 series |
 
 Specs, datasheets, and general notes for the shared parts (MCU, flash, BNO055, BMP390, GPS, radios) are on
@@ -101,21 +103,44 @@ which bus the GPS really uses.
 goes through a 1100 mA resettable fuse (with a 0 Ω jumper). The RFD peaks at about 1 A, so 1100 mA leaves some
 headroom before it trips by accident.
 
-## Sensor settings
+## Radio
 
-How the firmware configures each sensor, from the firmware subteam's `UFC Sensor Range, ODR, Modes` notes
-(written around the end of 2024). "Measured" is the rate they actually saw.
+The Primary Card carries the UFC's high-rate telemetry radio. Which radio that is depends on the year:
 
-| Sensor | Range | Output rate | Notes |
+| Years | Radio | Band | Notes |
 |:--|:--|:--|:--|
-| BNO055 | ±16 g | 100 Hz (about 90 Hz measured) | |
-| MAX-M10S GPS | — | 10 Hz | UBX messages only. See the [integration manual](https://content.u-blox.com/sites/default/files/MAX-M10S_IntegrationManual_UBX-20053088.pdf) and [interface description](https://content.u-blox.com/sites/default/files/u-blox-M10-SPG-5.10_InterfaceDescription_UBX-21035062.pdf). |
-| BMP390 | 300–1100 hPa, 0–65 °C | Not finalised | Set to the highest pressure resolution (21-bit) with 2× temperature oversampling (17-bit). The trade-off: about 200 samples/s at the lowest resolution (nearest 0.76 ft of altitude) versus about 14 samples/s at 32× oversampling (nearest 0.28 in). |
+| 2024–25 (flew at IREC 2025) | RFD900ux | 902–928 MHz, frequency hopping | What the firmware, the April 2025 overnight test, and [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}) describe |
+| 2025–26 on | EBYTE E22-400T33S | 433 MHz LoRa | Chosen for UFC 3.5 |
 
-Timing numbers for the whole card (loop rate, data rate, flash fill time) are on
-[Timings & Budgets]({{ '/docs/projects/ufc/firmware/timings/' | relative_url }}).
+**Why it changed.** New IREC rules for 2026 don't allow frequency hopping, which most telemetry radios (the RFD
+included) rely on, and the team decided to stay in the 433 MHz band under 200 mW. The E22 is a one-for-one swap on
+the Primary Card. The Secondary Card's LoRa already complied, so the plan at the December 2025 PDR was two 433 MHz
+LoRa radios: one for data and one for commands. Whether LoRa's chirp spread spectrum counts as allowed wasn't
+confirmed by the competition at the time; the team's reasoning was that another spread-spectrum band is allowed.
 
-## Radio trade study (2026)
+From the 2025–26 PDR:
+
+E22-400T33S
+: 2 W max transmit power, set to 200 mW for IREC. UART interface. −128 dBm receiver sensitivity at 2.4 kbps.
+
+Data rate needed
+: 102.4 kbps: a 640-byte frame (16-byte header, 8–404 bytes of data, 4-byte footer) at 20 Hz. The E22 scored 0.5 on
+  data rate in the trade study below, and one PDR action item is to shrink the GPS packet and lower packet rates for
+  "this year's lower telemetry radio".
+
+Link budget at 10 km
+: 22.3 dB margin, assuming 22 dBm out, a 2 dBi antenna on the rocket, a 12 dBi antenna on the ground, −95 dBm receiver
+  sensitivity, and 4.5 dB of losses. The same calculation for the RN2483 gave 13.2 dB.
+
+Antenna connectors
+: MCX. SMA was too big and U.FL was unreliable. A reviewer suggested looking at SMP.
+{: .facts }
+
+At PDR, the E22 schematic and layout weren't done, and there was no 433 MHz Yagi for the ground station yet. The
+component table below has both radios; the one in the card spec is the E22-400**T22S** (22 dBm), not the T33S (33 dBm,
+2 W). Check the UFC 3.5 schematic for the part actually fitted.
+
+### Radio trade study (2026)
 
 From the UFC 3.5 design review (`433 Mhz Radio Trade Study.xlsx`). Operating at 433 MHz was a pass/fail
 requirement; the rest were weighted scores.
@@ -132,6 +157,24 @@ requirement; the rest were weighted scores.
 The sheet also has a 15% "UART interface" criterion (the current comms firmware uses UART) that isn't counted in
 the totals, which is why the weights only add up to 85%. Its data-rate scale assumes 2025 flew at 60 kbps and that
 about 102 kbps would be ideal.
+
+## Sensor settings
+
+How the firmware configures each sensor, from the firmware subteam's `UFC Sensor Range, ODR, Modes` notes
+(written around the end of 2024). "Measured" is the rate they actually saw.
+
+| Sensor | Range | Output rate | Notes |
+|:--|:--|:--|:--|
+| BNO055 | ±16 g | 100 Hz (about 90 Hz measured) | |
+| MAX-M10S GPS | — | 10 Hz | UBX messages only. See the [integration manual](https://content.u-blox.com/sites/default/files/MAX-M10S_IntegrationManual_UBX-20053088.pdf) and [interface description](https://content.u-blox.com/sites/default/files/u-blox-M10-SPG-5.10_InterfaceDescription_UBX-21035062.pdf). |
+| BMP390 | 300–1100 hPa, 0–65 °C | Not finalised | Set to the highest pressure resolution (21-bit) with 2× temperature oversampling (17-bit). The trade-off: about 200 samples/s at the lowest resolution (nearest 0.76 ft of altitude) versus about 14 samples/s at 32× oversampling (nearest 0.28 in). |
+
+The BMP390 bottoms out at 300 hPa, roughly 30,000 ft, which is why the 2025–26 vacuum test stops there. At that PDR a
+reviewer suggested the MS5611, which a lot of COTS altimeters use and which is good to 100,000 ft. Nobody had decided
+whether it's worth switching (or writing a driver for it) as of the PDR action items.
+
+Timing numbers for the whole card (loop rate, data rate, flash fill time) are on
+[Timings & Budgets]({{ '/docs/projects/ufc/firmware/timings/' | relative_url }}).
 
 ## Schematic
 

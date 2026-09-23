@@ -66,7 +66,7 @@ Every card with a microcontroller (Primary, Secondary, Interface, and Pitot) inc
 |:--|:--|:--|
 | Clock config and boot | Common startup code | [`common_init.cpp`](https://github.umn.edu/Rocket-Team/UFC-2024/blob/main/Firmware/UFC_Core/common_init.cpp) |
 | Packets | The data format for everything the UFC stores and sends | [Packets]({{ '/docs/projects/ufc/firmware/packets/' | relative_url }}) |
-| State detection | A seven-stage module that works out the rocket's flight state from acceleration and pressure. Starts and stops recording. | Not documented yet |
+| State detection | Works out the rocket's flight state from acceleration and pressure. Starts and stops recording. | [State detection](#state-detection) below |
 | Error codes (ECODEs) | Bitfield return codes used by most functions | [Error Codes]({{ '/docs/projects/ufc/firmware/error-codes/' | relative_url }}) |
 | LED driver | The four status LEDs | — |
 | Flash driver | Driver for the W25N512GV NAND flash | [Flash Driver]({{ '/docs/projects/ufc/firmware/flash-driver/' | relative_url }}) |
@@ -76,18 +76,63 @@ Every card with a microcontroller (Primary, Secondary, Interface, and Pitot) inc
 
 The terminal, the phone, and state detection are the three most complicated pieces.
 
-{: .check }
-The state names that show up in test logs are `UFC_STATE_PAD` and `UFC_STATE_PAD_RECORD`. The other stages of
-the seven-stage state detection, and how it decides between them, aren't written down anywhere in the old
-wiki. Read the UFC_Core source.
+## State detection
+
+State detection decides what the rocket is doing from pressure and acceleration, and the card acts on it: recording
+starts at launch, and after landing the pre-launch data is moved into place. This is the UFC3 (2024–25) state machine,
+from the `UFC3 State Diagram` drawio in the team Drive's `03-Avionics IREC/Diagrams` folder:
+
+```mermaid
+flowchart TD
+    ARM(["System armed"]) --> PAD
+    PAD -- "RECORD command" --> PR["PAD RECORD"]
+    PR -- "dP/dt < −500 Pa/s<br/>or a > 50 m/s²" --> PA["POWERED ASCENT"]
+    PAD -. "same launch condition" .-> PA
+    PA -- "a < 10 m/s²" --> UA["UNPOWERED ASCENT"]
+    UA -- "altitude drops" --> FF["FREE FALL"]
+    FF -- "a > 13 m/s²" --> DR["DROGUE"]
+    DR -- "dP/dt < 1000 Pa/s" --> MA["MAIN"]
+    MA -- "ΔP over 1 s < 10 Pa<br/>and P > 8000 Pa" --> LA["LANDED"]
+```
+
+P is barometric pressure and a is acceleration. The terminal commands `RECORD` and `LAND` force the
+`UFC_STATE_PAD_RECORD` and `UFC_STATE_LANDED` states by hand
+([Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#recording)). The old wiki calls this a
+seven-stage module; the diagram has eight states, or seven if you don't count PAD RECORD.
+
+What we know about how it works, mostly from the Q&A at the December 2025 PDR:
+
+- **Filtering.** Pressure and acceleration go through a 1-second rolling median before they're compared to a
+  threshold, so a bump on the pad shouldn't trigger launch. The landing check might use raw pressure instead; the
+  answer at the PDR wasn't sure.
+- **Launch is an OR.** Either the pressure rate or the acceleration is enough.
+- **Where the thresholds came from.** Simulations. They haven't been checked against flight data.
+- **The failsafe.** A time-after-liftoff timer triggers the data transfer if landing isn't detected. There's no
+  other way to reach LANDED: if the card misses DROGUE or MAIN, it never gets there.
+
+{: .warning }
+> **At IREC 2025 the UFC didn't detect the launch.** Recording only happened because someone sent `RECORD` by hand.
+> The Pitot card, which also runs state detection from its own pressure data, did detect it. The team looked at the
+> data afterwards and found the spot where the UFC should have triggered, but never worked out why it didn't. Until
+> someone does, [start recording by hand]({{ '/docs/projects/ufc/operations/' | relative_url }}#recording).
+
+Action items from the 2025–26 PDR:
+- Compare the UFC's state detection, post-processed on the IREC 2025 data, against the Blue Ravens (the COTS
+  altimeters) and against the Pitot card's algorithm.
+- Add redundant paths to LANDED, such as time since liftoff. Size the timeout for off-nominal flights too, like the
+  main opening at apogee.
+- Filter out pressure spikes from the ejection charges. This matters more for the payload board, which sits right
+  next to them.
+- Consider converting pressure to altitude above ground level (and differentiating it to get velocity) so thresholds
+  work at different launch sites. Marked optional.
 
 ## Card firmware
 
 | Card | CARD_TYPE | Card-specific drivers |
 |:--|:--|:--|
-| [Primary]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#firmware) | 4 | BNO055 IMU, BMP390 barometer, MAX-M10S GPS, RFD900UX2 radio |
+| [Primary]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#firmware) | 4 | BNO055 IMU, BMP390 barometer, MAX-M10S GPS, RFD900UX2 radio (an E22 LoRa from 2025–26) |
 | [Secondary]({{ '/docs/projects/ufc/cards/secondary-card/' | relative_url }}#firmware) | 8 | BMP390, H3LIS200DL, LIS2DW12, I3G4250D, LIS3MDL, RN2483A LoRa |
-| [Interface]({{ '/docs/projects/ufc/cards/interface-card/' | relative_url }}#firmware) | 2 | Not documented in the old wiki (it handles the SD card) |
+| [Interface]({{ '/docs/projects/ufc/cards/interface-card/' | relative_url }}#firmware) | 2 | Not documented. The block diagram has an SD card, the buzzer, and four mode switches. |
 | [Pitot]({{ '/docs/projects/pitot/sensor-card/' | relative_url }}#firmware) | 16 | [`Firmware/Pitot_Card`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/Firmware/Pitot_Card) |
 
 CARD_TYPE is defined in [`packets.h`](https://github.umn.edu/Rocket-Team/UFC-2024/blob/main/Firmware/UFC_Core/packets.h).

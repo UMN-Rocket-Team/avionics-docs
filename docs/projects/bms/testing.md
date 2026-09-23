@@ -68,6 +68,21 @@ The avionics environmental testing runs in this order:
 
 There are no vacuum soak results in the old wiki.
 
+## Test profiles
+
+The profiles presented at the December 2025 PDR. The thermal and vacuum profiles apply to all the avionics and are on
+[UFC System Tests]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#environmental-test-profiles).
+These two are specific to the BMS:
+
+| Test | Profile | Why |
+|:--|:--|:--|
+| Discharge surge | 0 A, then **5 A for 30 s**, then back to 0 A | Simulates a short downstream. 5 A is 10× the expected draw; 30 s is the fuse's blow time with a factor of safety of 5. |
+| Capacity | **6.5 W** (the UFC's power draw) for **6 hours** | 1 hour on the pad, 5 minutes of flight, 4 hours of recovery, and 1 hour of margin |
+
+6.5 W for 6 hours is 39 Wh, which lines up with the 40 Wh requirement (EPS-2.1). The 4-hour recovery figure was
+questioned at the review ([BMS page]({{ '/docs/projects/bms/' | relative_url }}#design-review-december-2025)). The
+surge test in the old wiki's photos (below) used a 2.7 Ω load, about 4.7 A, close to this profile.
+
 ## Thermal soak
 
 {% include figure.html src="https://github.umn.edu/user-attachments/assets/aea81402-0838-43d2-b8e3-cd193154c4ad" caption="Thermal soak profile" %}

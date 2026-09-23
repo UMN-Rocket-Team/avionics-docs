@@ -35,7 +35,7 @@ Firmware
 : [`Firmware/Pitot_Card`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/Firmware/Pitot_Card), CARD_TYPE 16
 
 Status
-: Calibrated at Collins Aerospace in 2025–26 (per the fall 2026 kickoff slides). The calibration data isn't in the old wiki or the Drive export.
+: Redesigned probe for 2025–26, with a wind-tunnel calibration at Collins Aerospace planned for January 2026. The fall 2026 kickoff slides say it was calibrated; the data isn't in the old wiki or the Drive export.
 {: .facts }
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/30202/484dc91a-396d-4b18-a02d-40a45c709572" caption="Pitot tube system overview" %}
@@ -64,7 +64,13 @@ electronics right behind it:
   it can also talk to the other cards over CAN.
 
 When the system powers up, it sits idle and periodically reads the accelerometer to see if the rocket has
-launched. Once it has, the STM32 reads the analog pressure sensors and writes the data to its flash chip.
+launched. Once it has, the STM32 reads the analog pressure sensors and writes the data to its flash chip. (The
+2025–26 PDR slide says data is saved to the STM32's own embedded flash from power-on, and to the flash chip once the
+IMU sees launch.)
+
+At IREC 2025 this launch detection worked, and the UFC's didn't
+([UFC state detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection)). Comparing the two
+algorithms is one of the 2025–26 PDR action items.
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/a7706732-ba63-4f1f-be3f-d394e18e1330" caption="Pitot system block diagram" %}
 
@@ -82,8 +88,10 @@ The sensors have analog outputs, which gives more freedom in choosing how accura
 
 ### From pressure to airspeed
 
-These are the standard textbook relations. The old wiki doesn't say how our firmware or post-processing actually
-converts the readings, so treat this as background, not a description of our code.
+These are the standard textbook relations, as background. For 2025–26 the firmware was changed to calculate Mach
+number on board, with per-sensor calibration offsets, and send it to the UFC over CAN (2025–26 PDR). The code
+itself isn't described anywhere migrated here. The ~2019 probe ([History](#history)) used the subsonic and Rayleigh
+equations below, with an uncertainty of about ±0.017 Mach.
 
 With total pressure $$p_t$$ and static pressure $$p_s$$, the dynamic pressure is $$q = p_t - p_s$$. At low speed,
 where air is effectively incompressible:
@@ -100,8 +108,9 @@ M = \sqrt{\frac{2}{\gamma - 1}\left[\left(\frac{p_t}{p_s}\right)^{\frac{\gamma-1
 $$
 
 Above Mach 1 a shock forms in front of the probe and neither formula holds; you need the Rayleigh pitot-tube
-formula. Turning the four radial pressures into angle of attack and sideslip needs a calibration for this particular
-probe. The probe was calibrated at Collins Aerospace in 2025–26, but the results weren't in anything migrated here.
+formula. It has no closed-form solution for M, so the ~2019 code solved it with Newton's method. Turning the four
+radial pressures into angle of attack and sideslip needs a calibration for this particular probe
+([Calibration](#calibration)).
 
 ## Probe design
 
@@ -132,6 +141,64 @@ standoffs have machined pockets for radial O-ring seals. The card itself mounts 
 {: .check }
 The old write-up says the attachment's strength is shown by "the structural simulation detailed in diagram XX in
 Appendix XX". It was lifted from a report, and neither the simulation nor the appendix made it into the wiki.
+
+### 2025–26 changes
+
+From the December 2025 PDR:
+
+- **Angle-of-attack ports** re-drilled normal to the conical surface, in a 5-hole layout for angle of attack and
+  sideslip.
+- **1/8 in copper tubing** from the ports, with **epoxy potting**, instead of the Tygon above. A retaining disk and an
+  "instrumentation suite mount" hold the electronics behind the nose cone transition.
+- **Electronics:** "circuitry identical to 2024", with firmware changes: Mach number calculated on board, pressure
+  calibration offsets built in, and data sent to the UFC over CAN. Power is still a 2S2P 18650 pack.
+- **Sensors:** the center port is estimated to see about 63 psi at most, and the others much less. The PDR compared
+  keeping six identical 100 psi sensors (±0.25%) with a mixed set: a barbed 100 psi sensor (±0.5%) for the center
+  port and 60 psi sensors (±0.25%) for the rest. The component table still lists the 100 psi part for all six, so
+  the mixed set may not have happened.
+
+## Calibration
+
+Each port reads a little differently because of manufacturing variation, so the probe has to be calibrated as a
+whole in a wind tunnel. The plan described at the 2024–25 PDR: put the probe in a transonic wind tunnel at 0° angle
+of attack for the head-on readings, calibrate the center port at known transonic Mach numbers, and calibrate each
+radial port individually at set angles. Before that, the team used numbers provided by Collins and had never
+calibrated with our own sensors. On the bench, the team checked the sensors responded to pressure with a rubber air
+pump, and had no plans to validate accuracy at high pressure.
+
+The 2025–26 PDR planned the calibration in **Collins Aerospace's transonic wind tunnel in January 2026**, sweeping
+angle of attack over 10°.
+
+{: .check }
+Nothing migrated here has the calibration results or says where they're stored. If you find them, link them here.
+
+## Design review feedback
+
+Reviewers at the 2024–25 PDR spent most of their Pitot time on the analog side:
+
+- **Do an error budget.** Work out the pressures and voltages you expect in flight, add noise and tolerances at every
+  step, and see how much the ADC reading actually changes. That tells you whether you need an instrumentation amplifier
+  to use more of the ADC's range. (The team's answer: the sensors put out 0.5–4.5 V, the peak should be about 64 psi
+  of the 100 psi range, and that's scaled down to 3.3 V for a 16-bit ADC.)
+- **All the analog signals are single-ended**, which makes the analysis a bit harder.
+- **Simplify the power.** Put the sensors and the ADC on the same rail so any ripple is common to both, and consider
+  dropping the switching regulator or moving the linear regulators downstream of it
+  ([Pitot Power Card]({{ '/docs/projects/pitot/power-card/' | relative_url }})).
+- **Add debugger pins** to the Sensor Card.
+
+## History
+
+The team has flown a pitot probe for a while. The earliest write-up in the Drive
+(`Archive/Air Data Systems/PITOT PROBE`, around 2019) describes a different design:
+
+- The probe was **built into the nose cone** rather than replacing its tip, because earlier probes had been fragile
+  and broke on landing, and the previous year's tubes had kinked and twisted.
+- Total pressure came in through an axial channel at the tip. The threaded rod that held the nose cone on had a
+  1/8 in hole through it that doubled as that channel.
+- Static pressure came from **six holes** drilled into the fiberglass 12 in from the tip, feeding a semi-torus inside
+  that averaged them to make the reading insensitive to angle of attack.
+- **Two sensors**: an absolute one on static pressure, and a differential one between total and static.
+- UTC Aerospace Systems (now part of Collins) advised on the design and gave simulation feedback.
 
 ## Pages in this section
 

@@ -49,6 +49,22 @@ doesn't say whether any have been implemented.
 This card took over the storage role of UFC2's Host Card when the backplane switched from SPI to CAN
 ([Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425)).
 
+```mermaid
+flowchart LR
+    MCU["STM32H7"]
+    MCU -- SPI --> SD["SD card"]
+    MCU -- QSPI --> FL["NAND flash"]
+    MCU -- "4× GPIO" --> SW["Mode-select switches"]
+    MCU -- GPIO --> BZ["Buzzer"]
+    MCU -- GPIO --> LED["Status LEDs"]
+    MCU <-- CAN --> BP["Backplane"]
+    MCU <-- CAN --> H1["CAN header 1<br/>(+5 V, 3.3 V)"]
+    MCU <-- CAN --> H2["CAN header 2<br/>(+5 V, 3.3 V)"]
+```
+
+Redrawn from `Interface Card Block Diagram` in the team Drive (`03-Avionics IREC/Diagrams`). The old wiki's version
+is below.
+
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/c50ad117-1435-4b29-8d09-80843e010366" caption="Interface Card diagram" %}
 
 ## Components
@@ -66,14 +82,20 @@ This card took over the storage role of UFC2's Host Card when the backplane swit
 ### Flash
 
 The same 512 Mbit chip as the other cards, wired the same way as on the Primary Card. On the STM32 it's on the
-OCTOSPI peripheral running in quad mode. Right now it doesn't have a set job: this card has no sensors, and the
-data cards log to their own flash. It's there so an external system without its own storage could log through
-this card.
+OCTOSPI peripheral running in quad mode. The card has no sensors of its own; the flash is there so an external
+system without its own storage could log through this card.
+
+By IREC 2025 it was recording all the time: the launch procedure expects its `flash status` to "vary" because it's
+already recording, and it has no reserved [circular-buffer]({{ '/docs/projects/ufc/firmware/flash-driver/' | relative_url }}#the-circular-buffer)
+space. The same procedure has a quirk to watch for: **if you `restart` this card, its flash stops working** until
+you power-cycle the whole UFC. So if a `RESET` fails on the Interface Card, turn the UFC off and on rather than
+restarting the card.
 
 {: .check }
 The April 2025 overnight flash test noted "Flash on interface card still does not work"
-([Test Results]({{ '/docs/projects/ufc/testing/results/' | relative_url }}#overnight-flash-test-1)). Nothing
-in the old wiki says whether that was fixed.
+([Test Results]({{ '/docs/projects/ufc/testing/results/' | relative_url }}#overnight-flash-test-1)). The IREC 2025
+procedure a couple of months later treats it as working, apart from the restart quirk. Nobody wrote down what it
+records.
 
 ### SD card
 
@@ -122,7 +144,11 @@ Renders: [3D view ↗](https://github.umn.edu/Rocket-Team/UFC-2024/assets/23053/
 
 The old wiki's firmware section for this card was empty. What we know from elsewhere:
 
-- The SD card transfer is done with the `flash transfer {card_id}` terminal command (see [Terminal]({{ '/docs/projects/ufc/firmware/terminal/' | relative_url }}#commands)).
+- After landing, the other cards' flash ends up on the SD card as one `FlashBackup_Card{id}_{timestamp}.txt` file
+  per card. At IREC 2025, `sd status` showed the three files once the rocket was recovered.
+- You can also run the transfer by hand: `sd transfer` for every card, or `flash transfer {card_id}` for one
+  (see [Terminal]({{ '/docs/projects/ufc/firmware/terminal/' | relative_url }}#commands)). `sd status` shows the card's
+  health and the files on it.
 - The SD card driver uses FatFS. When the [STM32CubeIDE Setup]({{ '/docs/projects/ufc/firmware/ide-setup/' | relative_url }})
   guide was written, the SD card was on UFC2's Host Card, so that was the only project that needed the FatFS
   source folder. On UFC 3.5 it should be this card's project instead.

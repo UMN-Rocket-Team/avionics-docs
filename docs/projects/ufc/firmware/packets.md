@@ -38,6 +38,11 @@ card's flash to the SD card. At 2048 bytes it's the same size as one page of the
 Every packet starts with a header that includes a 64-bit timestamp
 ([format]({{ '/docs/projects/ufc/firmware/' | relative_url }}#timestamps)).
 
+In a raw flash dump opened in a hex editor, packets start with the bytes **`11 BA 5E BA`** and end with
+**`1E AB 11 CA`** (from the IREC 2025 launch procedure). Searching for those is the quickest way to find packet
+boundaries by hand. The 2025–26 PDR's radio link budget used a 16-byte header, 8 to 404 bytes of data, and a 4-byte
+footer per packet.
+
 {: .check }
 The PKT_TYPE table in the [CAN spec]({{ '/docs/projects/ufc/firmware/can-protocol/' | relative_url }}#pkt_type-values)
 uses different names (`rawPkt_t`, `bnoPkt_t`, `tempBaroPkt_t`, ...), and the telemetry names below are different

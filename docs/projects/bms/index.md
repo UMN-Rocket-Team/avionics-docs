@@ -24,7 +24,7 @@ Where it sits
 : Inside the UFC's battery holder
 
 MCU
-: STM32G431KBT6
+: STM32G431KBT6 (one PDR slide says STM32L412KBT3; see [December 2025 review](#design-review-december-2025))
 
 Battery
 : 3S2P pack of INR-18650-P26A cells (about 12 V nominal)
@@ -135,6 +135,9 @@ Renders: [3D view 1 ↗](https://github.umn.edu/user-attachments/assets/5571a266
 [3D view 2 ↗](https://github.umn.edu/user-attachments/assets/016bd1de-a8fb-4c3e-a3b1-0aa5b2230682)
 (image links need a UMN login)
 
+The PCB has nickel spot-weld pads for the cell tabs, thermistor potting holes, and 18650 spacers holding the cells
+(2025–26 PDR).
+
 ## Firmware
 
 {: .check }
@@ -146,7 +149,8 @@ almost certainly a copy-paste mistake. Where the BMS firmware actually lives isn
 
 The EPS (electrical power subsystem) requirements for IREC 2026, derived with a model-based systems engineering
 approach. From the team's requirements sheet (`UMNRKT Requirements.xlsx`, "BMS Requirements" tab), where all of them
-are marked **Met**. The full table with parent requirements is also in the
+are marked **Met**. At the December 2025 PDR every one of them was still **Not Met**, so they were closed out
+some time in 2026. The full table with parent requirements is also in the
 [IREC 2026 requirements spreadsheet](https://docs.google.com/spreadsheets/d/1ZM7sDWcCKupetqs2eV_MjmVUnbQAa9NKSMUKOIiYPZk/edit?gid=514004948#gid=514004948).
 How each one was to be verified is on [BMS Testing]({{ '/docs/projects/bms/testing/' | relative_url }}#verification-plan).
 
@@ -232,6 +236,51 @@ From the review notes. Worth reading before the next BMS revision:
   single bad cell. Its lifetime monitoring may show that something looks off.
 - **Power and architecture:** look at the STM32's ultra-low-voltage features and wake-up schemes. The last discussion
   point in the notes was keeping the power electronics external, with a handshake to the UFC.
+
+## Design review (December 2025)
+
+The BMS was part of the avionics PDR on **4 December 2025**. By then the board used the MAX17320 (the reason for the
+switch from the BQ40Z50 still isn't written down), and the pack was sized at **40 Wh for 6 hours** of runtime, all
+hard-cased Li-ion cells. The test profiles it presented are on
+[BMS Testing]({{ '/docs/projects/bms/testing/' | relative_url }}#test-profiles).
+
+**Charging math**, as presented:
+
+- Each cell is 3000 mAh, so the 3S2P pack is 6000 mAh.
+- The rule of thumb is to charge at about half the capacity, so 3 A. Upsized to **3.7 A** for a charge time of 1.6 hours.
+- The MAX745 datasheet sets the full-scale charge current as I<sub>FS</sub> = 137 mV / R1, which gives a **50 mΩ** set
+  resistor.
+
+{: .check }
+> Three things in the PDR slides don't line up with the rest of the BMS docs:
+>
+> - **Cell capacity.** The charging math uses 3000 mAh cells. The chosen INR-18650-P26A is 2600 mAh (the CoDR trade
+>   study above), so the pack is 5200 mAh, not 6000.
+> - **Charge current.** With the MAX745's equation, 137 mV / 50 mΩ = **2.74 A**, not 3.7 A. Getting 3.7 A would take
+>   about 37 mΩ. At 2.74 A a 5.2 Ah pack takes roughly 1.9 hours, which still meets EPS-4 (4 hours). Check which
+>   resistor is on the board.
+> - **Microcontroller.** The overview and PCB slides say STM32G431, but the microcontroller slide describes an
+>   **STM32L412KBT3** (Cortex-M4 at 80 MHz, 32 pins, 128 KB flash, one CAN-FD interface). The old wiki and the board
+>   use the G431, and that slide's CAN-FD line fits the G431 better, so it's probably a leftover from an earlier trade.
+
+**Questions from the review:**
+
+- *Why 4 hours of recovery in the 6-hour budget?* The numbers came from asking previous IREC leads; the team couldn't
+  justify 4 hours specifically. The UFC stops transmitting once it's landed, so the draw does drop. Another reviewer
+  pointed out that recovery can take 8+ hours for reasons outside the team's control. The action item: work out run
+  times for about 1.5 hours of recovery, and what a smaller **3S1P** pack would give.
+- *What's running on the boards during environmental tests?* The boards run in the states they'd be in during the
+  mission, with live data plotted against red and orange limit lines. The action item was to write test plans with
+  pass/fail criteria.
+
+**Changes after the review** (from the PDR action item list, all marked done):
+
+- The CAN connector got in the way of the battery's mechanical mounting, so it became a **right-angle 6-pin JST**
+  (there was no right-angle version of the original CAN connector).
+- Power planes instead of thin traces on the high-power paths.
+- A new **L1** rated for the current (the old one wasn't).
+- Different surface-mount thermistors.
+- Test points added, vias tented, the net-tie footprint removed, and a notch cut for the programmer connector.
 
 ## Testing
 

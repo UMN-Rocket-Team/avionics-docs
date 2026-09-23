@@ -54,23 +54,43 @@ Commands can also be scripted from Python with `pyserial`.
 | `whoami` | Prints this card's CARD_ID and CARD_TYPE |
 | `echo {text}` | Prints the text back |
 | `ls` | Lists the CARD_ID and CARD_TYPE of every card on the network |
-| `restart` | Tries to reboot the card |
+| `restart` | Reboots the card (see below) |
 
-**Flight and test commands** that show up in the flight guide and test procedures:
+**Flight and test commands.** These come from the IREC 2025 launch procedure and the test procedures, not from the
+spec, so not every card has every one.
 
-| Command | What it does | Seen in |
-|:--|:--|:--|
-| `status {card_id}` | Shows the status of a card | [Check the cards]({{ '/docs/projects/ufc/operations/' | relative_url }}#check-the-cards) |
-| `RESET` | **Destructive.** Asks y/n, then erases the flash and sets the state to `UFC_STATE_PAD`, and forwards `RESET` to the other cards | [Reset for flight]({{ '/docs/projects/ufc/operations/' | relative_url }}#reset-for-flight) |
-| `RECORD` | Starts recording now (`UFC_STATE_PAD_RECORD`). Works over either radio as a backup to state detection. | [Recording]({{ '/docs/projects/ufc/operations/' | relative_url }}#recording) |
-| `LAUNCH`, `LAND` | Steps the card through launch and landing by hand | [Flight simulation tests]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#flight-simulation-day) |
-| `tele on` | Turns live RFD telemetry back on | [Recording over the RFD]({{ '/docs/projects/ufc/operations/' | relative_url }}#over-the-rfd) |
-| `flash transfer {card_id}` | Copies that card's flash onto the SD card (run on the Interface Card) | [After the flight]({{ '/docs/projects/ufc/operations/' | relative_url }}#after-the-flight) |
+| Command | What it does |
+|:--|:--|
+| **Getting around** | |
+| `cd {card_id}` | Sends your following commands to another card over CAN. `cd ..` comes back to the card you're plugged into. |
+| `pwd` | Tells you which card you're talking to |
+| `ls` | Lists every card this card can see, marking itself with `(this card)` |
+| `sync` | Resets this card's CAN "phone". Try it when `ls` is missing a card. |
+| **State** | |
+| `status [card_id]` | Flight state (`UFC_STATE_PAD`, …) and whether each card and component is **Online**. No ID means this card. |
+| `RECORD` | Starts recording now (`UFC_STATE_PAD_RECORD`) and forwards it to the other cards. The backup for [state detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection). |
+| `LAUNCH` | Steps the card into launch by hand. Used in [flight simulation tests]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#flight-simulation-day). |
+| `LAND` | Sets `UFC_STATE_LANDED` and moves the [circular buffer]({{ '/docs/projects/ufc/firmware/flash-driver/' | relative_url }}#the-circular-buffer) to the start of the flash |
+| `RESET` | **Destructive.** Asks y/n, then erases the flash on **every** card and puts them all in `UFC_STATE_PAD` |
+| `restart` | Reboots **this** card only. It goes back to the pad state and stops recording, but keeps its flash. No response, since it's rebooting. |
+| **Flash and SD card** | |
+| `flash status` | Page number, write address, and how full the flash is |
+| `flash read {address}` | Prints one page of flash, starting at the address |
+| `flash transfer {card_id}` | Copies one card's flash onto the SD card (run on the Interface Card) |
+| `sd status` | SD card health (`GOOD`) and the files on it |
+| `sd transfer` | Copies every card's flash onto the SD card |
+| **Radios** | |
+| `tele on` | Turns live telemetry back on after `rfdTurnOffTelemetry.py` turned it off |
+| `gps` | Prints the GPS position. Handy for recovery over the RFD. |
+| `lora {command}` | On the Secondary Card, appears to pass the rest of the line to the RN2483. `lora sys get ver` should answer `RN2483 1.0.5 Oct 31 2018 15:06:52`. |
+
+Where these get used in practice is on [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}).
+The empty-flash `flash status` values and the `flash read` spot-check addresses are there too.
 
 {: .check }
-This list is only what the old wiki happened to mention. Commands vary between cards, and the docs don't say
-which cards support which flight commands or whether commands are case-sensitive (type them as shown). Run
-`help` on the card to get the real list.
+Nobody wrote down which cards support which flight commands, so run `help` on the card to get the real list.
+Commands are case-sensitive: `restart` and `RESET` are different commands, so type everything exactly as shown.
+The `lora` passthrough is a guess from the one example in the launch procedure.
 
 ## Command format
 

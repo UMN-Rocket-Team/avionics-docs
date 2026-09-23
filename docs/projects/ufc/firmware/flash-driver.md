@@ -79,7 +79,20 @@ about **10 seconds** of data.
 
 The driver sets aside a section of flash for the buffer's contents. When a **LANDING** condition is detected,
 or the flash fills up, the buffer is written out to the beginning of the flash chip. That's the one exception to
-writing front to back.
+writing front to back. The `LAND` terminal command does the same thing by hand.
+
+The reserved space, from the IREC 2025 launch procedure:
+
+| Card | Reserved | Empty `flash status` |
+|:--|--:|:--|
+| Primary | 0x20000 (128 KB) | `pageNumber: 65`, `writeAddress: 0x20800` |
+| Secondary | 0x40000 (256 KB) | `pageNumber: 129`, `writeAddress: 0x40800` |
+| Pitot | 0x20000 (128 KB) | `pageNumber: 65`, `writeAddress: 0x20800` |
+| Interface | None | Varies (it records all the time) |
+
+So a freshly erased card starts writing one page past its reservation, and it never reads 0%. After a flight you can
+check where the buffer ended up with `flash read`
+([Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#check-the-flash-contents)).
 
 ### Why the buffer is written last
 

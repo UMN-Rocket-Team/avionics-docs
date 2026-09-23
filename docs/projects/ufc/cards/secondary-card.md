@@ -47,6 +47,23 @@ Because it duplicates the Primary Card's measurements, we can test and fly one d
 done. [Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425) explains why the
 cards are split this way.
 
+```mermaid
+flowchart LR
+    MCU["STM32H7"]
+    MCU -- SPI --> HG["High-g accel"]
+    MCU -- SPI --> LG["Low-g accel"]
+    MCU -- SPI --> GY["Gyroscope"]
+    MCU -- SPI --> MAG["Magnetometer"]
+    MCU -- SPI --> BARO["Baro/temp"]
+    MCU -- UART --> LORA["LoRa transceiver"]
+    MCU -- QSPI --> FL["NAND flash"]
+    MCU -- GPIO --> LED["Status LEDs"]
+    MCU <-- CAN --> BP["Backplane"]
+```
+
+Redrawn from `Data Card 2 Block Diagram` in the team Drive (`03-Avionics IREC/Diagrams`). The old wiki's version is
+below. Note the barometer on SPI; see the box under [Sensors](#sensors).
+
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/00cd04bb-f702-4557-bdb0-c8baa5151ef2" caption="Secondary Card diagram" %}
 
 ## Components
@@ -66,19 +83,24 @@ cards are split this way.
 | 3-axis high-g accelerometer | [H3LIS200DLTR](https://www.st.com/resource/en/datasheet/h3lis200dl.pdf) | SPI (≤10 MHz) | ±100 / ±200 g | ±1.5 g | INT1, INT2 |
 | 3-axis low-g accelerometer | [LIS2DW12TR](https://www.st.com/resource/en/datasheet/lis2dw12.pdf) | SPI (≤10 MHz) | ±2 / ±4 / ±8 / ±16 g | ±0.02 g | INT1, INT2 |
 | 3-axis magnetometer | [LIS3MDL](https://www.st.com/resource/en/datasheet/lis3mdl.pdf) | SPI (≤10 MHz) | ±4 / ±8 / ±12 / ±16 gauss | | MAG_DRDY, INT1 |
-| Barometer/thermometer | [BMP390](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf) | I2C, address **0x76** | 30–125 kPa, −40–85 °C | | INT |
+| Barometer/thermometer | [BMP390](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf) | Probably SPI (old wiki: I2C, 0x76) | 30–125 kPa, −40–85 °C | | INT |
 
 **Why two accelerometers.** The high-g part (H3LIS200DL) covers the big accelerations of boost but is less
 precise. The low-g part (LIS2DW12) is much more precise but saturates sooner. Between them you get both.
 
-The BMP390 is wired the same way as on the Primary Card: CSB tied to power to select I2C, SDO grounded for
-address 0x76. More on the shared parts in the [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
+More on the shared parts in the [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
 
 {: .check }
-The `UFC-2024 Pin Allocations` sheet in the team Drive puts all of this card's sensors on **SPI2** (PB13 SCK, PB14 CIPO,
-PB15 COPI), with chip selects for the magnetometer (PC0), gyro (PC1), low-g (PC2), high-g (PC3), and a "temp" sensor
-(PC4), and the LoRa on UART7. The old wiki says SPI6, and has the BMP390 on I2C. A chip select labelled "temp"
-suggests the barometer/thermometer may be on SPI on this card. Check the schematic.
+> **Which bus is the barometer on?** The old wiki says the BMP390 is wired like the Primary Card's (I2C, address
+> 0x76), and that the sensors are on SPI6. Two other sources disagree:
+>
+> - The `UFC-2024 Pin Allocations` sheet puts all of this card's sensors on **SPI2** (PB13 SCK, PB14 CIPO, PB15 COPI),
+>   with chip selects for the magnetometer (PC0), gyro (PC1), low-g (PC2), high-g (PC3), and a "temp" sensor (PC4),
+>   and the LoRa on UART7.
+> - The Data Card 2 block diagram (above) draws the baro/temp sensor on the same SPI bus as the other four.
+>
+> So the barometer is probably on SPI on this card, and the I2C details were copied from the Primary Card. Check the
+> schematic to be sure.
 
 ### Sensor settings
 
@@ -103,6 +125,17 @@ page describes how the driver handles this now.
 The RN2483A is the secondary (backup) telemetry link and talks over UART. The module supports the 433 MHz and
 868 MHz bands; we use 433 MHz. Command reference:
 [RN2483 LoRa UART reference](https://ww1.microchip.com/downloads/en/DeviceDoc/40001784B.pdf).
+
+In practice it's the **command link**. At IREC 2025 the team sent pad commands through it with `lora.py`, and
+used the RFD only when the LoRa didn't answer
+([Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#check-the-lora-link)). Commands that come
+in over the LoRa run on this card, so you start on card 8. If the link drops, restarting this card over the RFD
+(`cd 8`, `restart`, about 10 seconds) sometimes brings it back; so does `lora sys get ver`.
+
+The LoRa already met the 2026 IREC radio rules, so it stays. The plan at the December 2025 PDR was two 433 MHz
+LoRa links: this one for commands, and the Primary Card's new E22 for data
+([Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)). The PDR's link budget gave
+the RN2483 a 13.2 dB margin at 10 km.
 
 ## Schematic
 
