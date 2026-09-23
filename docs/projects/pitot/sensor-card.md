@@ -45,7 +45,7 @@ Firmware
 | Microcontroller | [STM32H730VBT6](https://www.digikey.com/en/products/detail/stmicroelectronics/STM32H730VBT6/13171210) | I2C, CAN | 550 MHz |
 | 9-axis IMU | [BNO055](https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf) | I2C | Wired the same as on the Primary Card, address 0x28 |
 | Pressure sensors (×6) | [BPS130-HA100P-1SG](https://www.digikey.com/en/products/detail/bourns-inc/BPS130-HA100P-1SG/10130322) ([datasheet](https://www.bourns.com/docs/product-datasheets/bps130.pdf)) | Analog | Up to 100 psi (689.48 kPa), 5 V output |
-| ADCs | [ADS1115IDGST](https://www.digikey.com/en/products/detail/texas-instruments/ADS1115IDGST/2123284) | I2C | 16-bit, 5 V operating range |
+| ADCs | [ADS1115IDGST](https://www.digikey.com/en/products/detail/texas-instruments/ADS1115IDGST/2123284) ([datasheet](https://www.ti.com/lit/ds/symlink/ads1115.pdf)) | I2C (I2C5) | 16-bit, 5 V operating range. Configured for ±6.144 V, ~110 samples/s measured. |
 | Flash | Not listed in the old wiki | | Stores recorded data. Presumably the same W25N512GV as the UFC cards, since it uses the same UFC_Core flash driver. |
 
 ## Analog front end
@@ -56,16 +56,17 @@ the divider from adding much uncertainty to the measurement. The microcontroller
 channels 1–6.
 
 {: .check }
-> Which ADC is used isn't clear:
+> **Which ADC?** The old card description says conversions happen in the STM32's built-in ADC on channels 1–6, but
+> newer sources all point to the external **ADS1115**s:
 >
-> - The card description says conversions happen in the **STM32's built-in ADC**, on channels 1–6.
-> - The component table lists **ADS1115** external 16-bit ADCs on I2C, and the firmware test list has unit tests
->   for the ADS1115s.
+> - the component table and the firmware test list both name the ADS1115;
+> - the `UFC-2024 Pin Allocations` sheet gives the Pitot card an "I2C5 (ADC)" bus on PC11/PC10;
+> - the firmware's sensor settings notes (around the end of 2024) configure the ADS1115 for a **±6.144 V** range and
+>   measured about **110 samples/s**. The datasheet allows 860 samples/s; the notes say the I2C bus is the limit.
 >
-> Also, 5 V × 2/3 = 3.33 V, a hair over a 3.3 V ADC reference. Pressure sensors like this usually top out below
-> their supply voltage, but check the BPS130's output range in its datasheet. The April 2025 overnight test also
-> found the firmware reading the wrong ADC channels
-> ([Pitot Test Results]({{ '/docs/projects/pitot/test-results/' | relative_url }})).
+> With a ±6.144 V range the ADS1115 can read a 5 V output directly, so the 2/3 divider and the built-in-ADC wording
+> may be from an earlier revision. Check the schematic. The April 2025 overnight test also found the firmware reading
+> the wrong ADC channels ([Pitot Test Results]({{ '/docs/projects/pitot/test-results/' | relative_url }})).
 
 ## IMU
 

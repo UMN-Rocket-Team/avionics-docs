@@ -15,8 +15,9 @@ capacity.
 {: .fs-5 .fw-300 }
 
 {: .check }
-> The old wiki recorded these tests almost entirely as screenshots and photos. There are no dates, no pass/fail
-> criteria, and no written results. If you ran these tests, please add what the results were.
+> The old wiki recorded the environmental tests below almost entirely as screenshots and photos, with no dates and no
+> written results. The [verification plan](#verification-plan) gives the intended pass criteria, but nothing records
+> whether each test passed. If you ran these tests, please add the results.
 >
 > The plots are screenshots from **MAX software**, which appears to be the vendor's evaluation software for the
 > MAX17320.
@@ -27,6 +28,35 @@ capacity.
 - TOC
 {:toc}
 </details>
+
+## Verification plan
+
+How each [requirement]({{ '/docs/projects/bms/' | relative_url }}#requirements) was planned to be verified, from the
+2026 verification matrix (`2026 System Requirements Verification Matrix.xlsx`, "BMS" tab).
+
+| ID | Method | Plan |
+|:--|:--|:--|
+| EPS-1 (125 °F) | Analysis | Test to **145 °F** instead, per MIL-STD-810H Table 501.7-I, "Induced Basic Hot A2" (85–145 °F). |
+| EPS-2 (power the mission) | Analysis | With the UFC connected to the BMS, step through the mission by entering terminal commands at mission times: pad at T = 03:30:00, powered ascent at 03:30:00, unpowered ascent at 03:30:08, apogee/drogue at 03:30:42, main at 03:36:56, landed at 03:38:00. |
+| EPS-2.1 (40 Wh) | Test | Capacity test (below). Pass if more than **40 Wh** comes out before the cells reach 3.0 V. |
+| EPS-2.2 (min voltage) | Analysis | "Verified through 3S2P configuration": 3 × 2.5 V minimum cell voltage = **7.5 V**. (The requirement itself says 11.2 V; see the note on the [BMS page]({{ '/docs/projects/bms/' | relative_url }}#requirements).) |
+| EPS-3 (telemetry) | Demonstration | System test with the UFC. Pass if the UFC can track the battery's reported capacity, state of charge, temperature, current, and time to empty. |
+| EPS-3.1 (SOC at 10 Hz) | Demonstration | Pass if the UFC receives power telemetry faster than 10 Hz. |
+| EPS-3.2 (power out at 10 Hz) | Demonstration | Connect the UFC to the BMS. Pass if it can request and receive the battery current faster than 10 Hz. |
+| EPS-3.3 (CAN) | Inspection | Check that CAN is used between the BMS and the UFC. |
+| EPS-4 (charge in 4 h) | Analysis | Discharge to 0% state of charge, connect a 12 V source (the plan says through an XT30), and time how long it takes to reach 100%. Pass if it takes 4 hours or less. |
+
+**Capacity test procedure** (EPS-2.1):
+
+1. Charge the pack fully (4.2 V per cell).
+2. Let it rest for 2 hours.
+3. Connect an inline power meter and a 20 Ω power resistor to the **unprotected** pack, and start a timer. The plan
+   says "<10 W"; at a full 12.6 V the resistor dissipates 12.6² / 20 ≈ 8 W, so use one rated for at least that.
+4. Stop when a cell reaches **3.0 V**, which counts as discharged.
+5. Pass if more than 40 Wh went through the power meter.
+
+{: .warning }
+The capacity test discharges the pack without its protection. Stay with it, and stop at 3.0 V per cell.
 
 ## Test sequence
 

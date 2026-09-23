@@ -57,7 +57,7 @@ go to whatever project you've been put on.
 | SRAD / COTS | Student researched and developed (we designed it) / commercial off-the-shelf (we bought it) |
 | IREC, SAC | Intercollegiate Rocket Engineering Competition, held at the Spaceport America Cup. Older docs say "SAC". |
 | Midwest | The Midwest Rocket Competition that GYRO was built for |
-| WINGS | Our ground station software. Receives telemetry and plots it. |
+| WINGS | Our ground station software. Receives telemetry and plots it. See [WINGS Ground Station]({{ '/docs/projects/wings/' | relative_url }}). |
 | IMU | Inertial measurement unit: accelerometer and gyroscope, often with a magnetometer |
 | CAN | Controller Area Network, the two-wire bus UFC cards use to talk to each other |
 | SPI, I2C, UART | Common chip-to-chip serial buses. SPI uses a chip-select line per device, I2C uses two wires and device addresses, UART is point-to-point. |

@@ -41,11 +41,31 @@ Every packet starts with a header that includes a 64-bit timestamp
 {: .check }
 The PKT_TYPE table in the [CAN spec]({{ '/docs/projects/ufc/firmware/can-protocol/' | relative_url }}#pkt_type-values)
 uses different names (`rawPkt_t`, `bnoPkt_t`, `tempBaroPkt_t`, ...), and the telemetry names below are different
-again. Some of these are from older versions of the code. Check `packets.h` before relying on either list.
+again. Check `packets.h` before relying on either list.
+
+### Where the older names come from
+
+The team Drive has a `UFC Packets Specs (Source of truth).xlsx` from the UFC2 era (Host, Sensor, and Radio cards). Its
+packet types line up with the CAN spec's PKT_TYPE names: Raw Values (0x1) and Real Units (0x2) from the Sensor Card,
+GPS (0x4) from the Radio Card, and a Kalman filter output (0x8). Despite the file name, it isn't the source of truth
+for UFC 3.5. Its header format is different from the one described on the [Firmware]({{ '/docs/projects/ufc/firmware/' | relative_url }}#timestamps)
+page:
+
+| Field | Size | Notes |
+|:--|--:|:--|
+| Start delimiter | 4 B | Over the air only |
+| Packet type | 2 B | `uint16_t` |
+| Packet length | 2 B | Length of the data fields in bytes |
+| Timestamp | 4 B | `uint32_t`, **milliseconds** |
+| CRC | — | |
+| *data fields* | | |
+| End delimiter | 4 B | Over the air only, different from the start delimiter |
+
+The 32-bit millisecond timestamp may explain why some test logs show millisecond timestamps.
 
 ## In WINGS
 
-The [WINGS ground station](https://github.umn.edu/Rocket-Team/WINGS) reads packets using the JSON packet
+The [WINGS ground station]({{ '/docs/projects/wings/' | relative_url }}) reads packets using the JSON packet
 definitions in the UFC repo's [`WINGSpacket`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/WINGSpacket)
 folder. If you change a packet in `packets.h`, update its JSON file too.
 

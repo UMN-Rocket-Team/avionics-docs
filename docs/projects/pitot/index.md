@@ -33,6 +33,9 @@ Arming
 
 Firmware
 : [`Firmware/Pitot_Card`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/Firmware/Pitot_Card), CARD_TYPE 16
+
+Status
+: Calibrated at Collins Aerospace in 2025–26 (per the fall 2026 kickoff slides). The calibration data isn't in the old wiki or the Drive export.
 {: .facts }
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/30202/484dc91a-396d-4b18-a02d-40a45c709572" caption="Pitot tube system overview" %}
@@ -98,7 +101,7 @@ $$
 
 Above Mach 1 a shock forms in front of the probe and neither formula holds; you need the Rayleigh pitot-tube
 formula. Turning the four radial pressures into angle of attack and sideslip needs a calibration for this particular
-probe, and the old wiki doesn't include one.
+probe. The probe was calibrated at Collins Aerospace in 2025–26, but the results weren't in anything migrated here.
 
 ## Probe design
 

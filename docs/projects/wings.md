@@ -57,8 +57,8 @@ site to a minimum. Right now its scope is processing, saving, and displaying dat
 - The software lead's 2025 notes call what flew at IREC 2025 "more of a proof of concept", with the goal of turning
   it into a complete product.
 - In **summer 2025** the repo moved from the UMN Enterprise GitHub to
-  [public GitHub](https://github.com/UMN-Rocket-Team/WINGS). Links elsewhere on this site that still point to
-  `github.umn.edu/Rocket-Team/WINGS` are to the old copy.
+  [public GitHub](https://github.com/UMN-Rocket-Team/WINGS). The old copy at `github.umn.edu/Rocket-Team/WINGS`
+  is out of date.
 - For **2026–27** the software subteam is continuing WINGS back-end work and starting a **Grafana** project: a
   separate back end that serves rocket data to Grafana dashboards, with a web service so several people at the launch
   site can watch live.

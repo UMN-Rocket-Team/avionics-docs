@@ -30,7 +30,7 @@ Card-to-card link
 : Classic CAN at 1 Mbit/s over the backplane
 
 Ground station
-: [WINGS](https://github.umn.edu/Rocket-Team/WINGS)
+: [WINGS]({{ '/docs/projects/wings/' | relative_url }})
 
 Code
 : [UFC-2024 repo](https://github.umn.edu/Rocket-Team/UFC-2024), under `Firmware/`

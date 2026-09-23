@@ -23,6 +23,7 @@ details (which peripheral, which pins) are on each board's page.
 | [BMP390](#bmp390-barometerthermometer) | Barometer/thermometer | ● | ● | | | ● | ● |
 | [MAX-M10S](#max-m10s-gps) | GPS | ● | | | | ● | |
 | [RFD900](#rfd900) | 900 MHz radio | ● ? | | | | ● | |
+| [E22-400](#e22-400-lora-t22s--t33s) | 433 MHz LoRa radio | ● ? | | | | | |
 | [MEM2075 SD slot](#sd-card-slot) | Micro SD card slot | | | ● | | ● | ? |
 | [PS1440P02BT](#buzzer) | Piezo buzzer | | | ● | | ● | |
 | [REEFS207](#reefs207-servo) | Micro servo | | | | | ● | ● |
@@ -151,8 +152,13 @@ Update rate
 : Up to 20 Hz
 {: .facts }
 
-**How we wire it:** I2C at **400 kHz**, with a timing register value of `0x00B03BCD` on the STM32. One interrupt,
-**GPS_INT**. The RF input has a TVS diode for ESD protection and an RLC filter to cut out unwanted frequencies.
+**How we wire it (per the old wiki):** I2C at **400 kHz**, with a timing register value of `0x00B03BCD` on the STM32.
+One interrupt, **GPS_INT**. The RF input has a TVS diode for ESD protection and an RLC filter to cut out unwanted
+frequencies. The firmware uses UBX messages only, at 10 Hz.
+
+{: .check }
+Both pin allocation sheets in the team Drive (UFC-2024 and GYRO's Midwest 2025 sheet) put the GPS on **UART4**, with a
+TimePulse (PPS) pin on GYRO. The M10S supports both I2C and UART, so check each board's schematic.
 
 For future boards, the u-blox **SAM-M10Q** has a built-in antenna and would be easier to integrate (a suggestion from
 the GYRO revision notes).
@@ -172,10 +178,19 @@ note on the [Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relativ
 **Things to know:** in the April 2025 overnight test it ran at `TX_POWER` 20 because it was getting worryingly hot at
 30 ([details]({{ '/docs/projects/ufc/testing/results/' | relative_url }}#overnight-flash-test-2)).
 
-### E22-400T22S LoRa
+### E22-400 LoRa (T22S / T33S)
 
-410–493 MHz (default 433.125 MHz) LoRa module, 22 dBm (158 mW) max, 2.4 kbps default air data rate (62.5 kbps max),
-about 5 km range. UART with RTS/CTS. Listed as the Primary Card's radio in its spec.
+EBYTE's 410–493 MHz (default 433.125 MHz) LoRa modules, on UART with RTS/CTS. Two versions show up in our docs:
+
+| | E22-400T22S | E22-400T33S |
+|:--|:--|:--|
+| Max transmit power | 22 dBm (158 mW) | 33 dBm (2 W) |
+| Where it's named | The Primary Card spec in the old wiki | The 2026 UFC 3.5 radio trade study (top score) and ground station requirement GNDSTN-1.1 |
+| Other specs from our docs | 2.4 kbps default air data rate (62.5 kbps max), about 5 km range | |
+
+For 2026 the team moved the UFC's telemetry to 433 MHz; see the
+[Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio-trade-study-2026) for the trade study.
+Check the schematic for which version is fitted.
 
 ### RN2483A LoRa
 

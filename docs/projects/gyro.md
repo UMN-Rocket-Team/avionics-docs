@@ -32,6 +32,9 @@ Code
 
 Pinout
 : [Pinout spreadsheet](https://docs.google.com/spreadsheets/d/1Z5J-wmHlZrJ90PHBylzzkdYmuIe1y-qd6sn0RwVBkjI/edit?usp=sharing)
+
+Status
+: For 2026–27, GYRO is getting CAN bus support (fall 2026 kickoff slides).
 {: .facts }
 
 <details open markdown="block">
@@ -64,13 +67,63 @@ A lot of the base firmware comes from the [UFC]({{ '/docs/projects/ufc/' | relat
 
 ## Requirements
 
-These are the requirements for the CDH (command and data handling) and EPS (electrical power) subsystems, derived with a
-model-based systems engineering approach using the
+The CDH (command and data handling) and EPS (electrical power) requirements, derived with a model-based systems
+engineering approach using the
 [system characterization tool](https://docs.google.com/spreadsheets/d/1J1WzmcqXW74kMw2ttB3k-ih3p1dvYtJIzfMMIMCmOSo/edit?gid=567000003#gid=567000003).
-GYRO was built specifically for Midwest 2026, so the full requirements table, including parent requirements, is in the
+GYRO was built specifically for Midwest 2026; the full table with parent requirements is in the
 [Midwest requirements spreadsheet](https://docs.google.com/spreadsheets/d/164qZIYZoGh1ZgoEiZHAX8oQplVZ39T5lwZK8q8euXJw/edit?gid=1230869352#gid=1230869352).
+The text below is from the 2026 verification matrix ("Midwest CDH" tab), which lists a verification method for each
+but no plans yet.
 
-{% include figure.html src="https://github.umn.edu/Rocket-Team/Avionics/assets/30202/48a5c7be-76b5-4683-af6c-295a3eabee1d" caption="GYRO system requirements table" %}
+| ID | Requirement | Verified by |
+|:--|:--|:--|
+| CDH-1 | Determine GPS position (latitude, longitude, altitude) | Demonstration |
+| CDH-1.1 | GPS position to **1 m** absolute accuracy | Analysis |
+| CDH-2 | Collect ambient pressure data | Demonstration |
+| CDH-2.2 | Pressure from 101,325.00 to 90,811.67 Pa, to **8 Pa** uncertainty | Analysis |
+| CDH-3 | Record 3-axis acceleration | Demonstration |
+| CDH-3.1 | Measure up to **16 g** on each axis | Analysis |
+| CDH-3.2 | Measure acceleration at **100 Hz** on each axis | Demonstration |
+| CDH-3.3 | Measure roll angle to **5°** precision | Test |
+| CDH-4 | Determine velocity to **15 ft/s** accuracy | Analysis |
+| CDH-5 | CDH mass under **0.25 lb** | Inspection |
+| EPS-1 | EPS mass under **0.5 lb (227 g)** | Inspection |
+| EPS-1.1 | Power storage mass ≤ **125 g** | Inspection |
+| EPS-1.2 | Power distribution mass ≤ **100 g** | Inspection |
+| EPS-2 | Power the CDH for the whole mission | Analysis |
+| EPS-2.1 | Store at least **4 Wh** for CDH | Analysis |
+| EPS-3 | Power the actuation subsystem for the whole mission | Analysis |
+| EPS-3.1 | Store at least **1.3 Wh** for actuation | Analysis |
+
+{% include figure.html src="https://github.umn.edu/Rocket-Team/Avionics/assets/30202/48a5c7be-76b5-4683-af6c-295a3eabee1d" caption="GYRO system requirements table (image from the old wiki)" %}
+
+### Power budget
+
+From the power tab of `Midwest System Characterization.xlsx` (2026 design review):
+
+| Part | Power |
+|:--|--:|
+| STM32H730VBT6 | 1.155 W |
+| Data storage | 0.083 W |
+| Radio | 0.3 W |
+| IMU | 0.036 W |
+| BMP390 | 0.0002 W |
+| Control actuator (servo) | 0.3 W, except at startup |
+| **Total** | **1.57 W at startup, 1.87 W in every other mode** |
+
+The same sheet sizes the batteries as two 2S1P packs of 3.7 V cells: **1300 mAh (9.6 Wh)** for the flight computer
+and **200 mAh (1.5 Wh)** for the servo, about 78 g of batteries in total. Both clear their requirements (4 Wh and
+1.3 Wh). The flight computer pack carries everything except the servo (about 1.57 W), so it should last roughly
+9.6 / 1.57 ≈ 6 hours.
+
+{: .check }
+> The characterization sheet is partly a template left over from another project (a component table full of
+> spacecraft parts, and broken `#REF!` cells), so only the tables above are specific to GYRO. Also:
+>
+> - Its power table lists a **MicoAir LR900-A** radio, while the rest of the GYRO docs use an RFD900.
+> - Its mode simulation runs the pad mode at 0.3 W, which doesn't match the 1.87 W in the power table.
+> - Its telemetry calculator gives about 3.3 kbps (16 values at 5 Hz); a separate 2026 Midwest timing sheet gets
+>   about 51 kbps for BNO, altimeter, and GPS packets at 20 Hz.
 
 ## Connections
 
@@ -142,6 +195,12 @@ Either works with 5 V in and 3.3 V out, but check the datasheet before reusing t
 
 The IMU, barometer, GPS, and buzzer are wired the same way as on the UFC Primary and Interface cards; details are in the
 [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
+
+{: .check }
+The `Midwest 2025 Flight Computer Pin Allocations` sheet in the team Drive puts the **GPS on UART4** (PD1 TX, PD0 RX,
+with a TimePulse pin on PD3), not I2C as in the table above. The same sheet has the radio on UART7 with RTS/CTS
+(PE7–PE10), an I2C4 bus on PB6/PB7, the SD card on SPI2, the pyro channels on TIM13_CH1 (PA6) and TIM14_CH1 (PA7),
+and IMU reset and bootloader pins. It's labelled 2025, so check it against the v2.0 board.
 
 **Radio.** For Midwest, the RFD900 sits off the board and connects through the external radio header. Like the UFC
 Primary Card, its 5 V input goes through an 1100 mA resettable fuse and a 0 Ω jumper, because an RFD once damaged an

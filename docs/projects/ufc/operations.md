@@ -95,7 +95,9 @@ successfully sent RESET command to card 4
 
 ## Live telemetry in WINGS
 
-You need the [WINGS ground station (Vehicle Release Build, v2.0.0)](https://github.umn.edu/Rocket-Team/WINGS/releases/tag/v2.0.0).
+You need [WINGS]({{ '/docs/projects/wings/' | relative_url }}). This guide was written for v2.0.0 (the "Vehicle Release Build" on the
+[old UMN repo](https://github.umn.edu/Rocket-Team/WINGS/releases/tag/v2.0.0)); newer releases are on
+[public GitHub](https://github.com/UMN-Rocket-Team/WINGS/releases), and the setup screens may have moved.
 
 1. Set up the RFD connection in WINGS with the settings in the screenshot below.
 2. Set up whatever graphs you want. The UFC sends these packet structures:
@@ -160,8 +162,10 @@ The RFD is normally busy with live telemetry, so you have to turn that off first
 4. Once recording is confirmed, run `tele on` to turn live telemetry back on, then close PuTTY and reconnect WINGS.
 
 {: .check }
-The old guide doesn't give the serial settings for connecting PuTTY to the RFD. `rfdTurnOffTelemetry.py`
-has to open the same port, so check it for the baud rate.
+The old guide doesn't give the serial settings for connecting PuTTY to the RFD. **57600 baud** is the best guess:
+it's the SiK firmware default, the RFD test sheet in the team Drive (`RFD test.xlsx`) configures the radios at 57600
+with `TX_POWER` 20, and the old UFC2 readout procedure sets WINGS to 57600. `rfdTurnOffTelemetry.py` has to open the
+same port, so check it to be sure.
 
 {% include photo-links.html label="Screenshots" urls="https://github.umn.edu/Rocket-Team/UFC-2024/assets/26095/2699fbab-fd17-4d30-9721-b90407825b29, https://github.umn.edu/Rocket-Team/UFC-2024/assets/26095/1f748197-f5b4-413a-b925-a0614efbbe74" %}
 

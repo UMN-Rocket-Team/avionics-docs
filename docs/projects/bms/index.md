@@ -27,13 +27,16 @@ MCU
 : STM32G431KBT6
 
 Battery
-: 3S pack (the UFC's 3S3P pack)
+: 3S2P pack of INR-18650-P26A cells (about 12 V nominal)
 
 Connectors
 : XT-30 out to the UFC Power Card, 5.5 mm barrel jack for charging, 6-pin CAN to the UFC Interface Card
 
 Design files
 : [Altium 365](https://rocket-team.365.altium.com/designs/CCE0C475-3551-4580-961E-E402ACC46341?activeView=SCH&activeDocumentId=BMS20Schematic.SchDoc&variant=[No+Variations]&location=[1,76.94,-223.72,136.32]#design)
+
+Status
+: Built in 2025–26 with cell balancing and charging. Getting live battery telemetry to the UFC is a 2026–27 goal (fall 2026 kickoff slides).
 {: .facts }
 
 <details markdown="block">
@@ -52,6 +55,9 @@ Design files
 - **Charges** the pack from up to 24 V through a barrel jack, with linear charge control. The design goal is a full
   charge in under four hours.
 - **Reports** live battery telemetry to the UFC, so we get battery data in flight.
+
+The goal from the design review: "a CAN connected power storage subassembly to provide battery SOC and health
+telemetry over the rocket's CAN bus".
 
 {% include figure.html src="https://github.umn.edu/user-attachments/assets/3b509c4a-e4db-432c-a0de-3fded39e80b2" caption="BMS card diagram" %}
 
@@ -72,8 +78,14 @@ flowchart LR
 - **Its own power:** a 3.3 V switching regulator on the discharge line powers the STM32.
 
 {: .check }
-The BMS uses an **XT-30** for discharge, but the [UFC Power Card]({{ '/docs/projects/ufc/cards/power-card/' | relative_url }})
-page says the battery connects through an **XT60**. Presumably there's an adapter cable, but it isn't documented.
+> - The BMS uses an **XT-30** for discharge, but the [UFC Power Card]({{ '/docs/projects/ufc/cards/power-card/' | relative_url }})
+>   page says the battery connects through an **XT60**. Presumably there's an adapter cable, but it isn't documented.
+> - The 2026 BMS documents (requirements, design review) describe a **3S2P** pack. The older UFC pages
+>   ([Power Card]({{ '/docs/projects/ufc/cards/power-card/' | relative_url }}),
+>   [Assembly]({{ '/docs/projects/ufc/assembly/' | relative_url }})) say **3S3P**, which was the 2025 pack.
+
+**Energy check.** A 3S2P pack of 2600 mAh, 3.6 V cells stores about 3 × 3.6 V × 2 × 2.6 Ah ≈ **56 Wh** nominal, which
+clears the 40 Wh requirement (EPS-2.1) with some margin.
 
 ## Components
 
@@ -132,12 +144,94 @@ almost certainly a copy-paste mistake. Where the BMS firmware actually lives isn
 
 ## Requirements
 
-These are the requirements for the EPS (electrical power subsystem), derived with a model-based systems engineering
-approach. The BMS was developed specifically for IREC 2026, so the full requirements table, including the parent
-requirements, is in the
+The EPS (electrical power subsystem) requirements for IREC 2026, derived with a model-based systems engineering
+approach. From the team's requirements sheet (`UMNRKT Requirements.xlsx`, "BMS Requirements" tab), where all of them
+are marked **Met**. The full table with parent requirements is also in the
 [IREC 2026 requirements spreadsheet](https://docs.google.com/spreadsheets/d/1ZM7sDWcCKupetqs2eV_MjmVUnbQAa9NKSMUKOIiYPZk/edit?gid=514004948#gid=514004948).
+How each one was to be verified is on [BMS Testing]({{ '/docs/projects/bms/testing/' | relative_url }}#verification-plan).
 
-{% include figure.html src="https://github.umn.edu/user-attachments/assets/1073c27e-f64f-4e36-94f8-b1092dd7dbab" caption="BMS system requirements table" %}
+| ID | Requirement | Why | Verified by |
+|:--|:--|:--|:--|
+| EPS-1 | Operate continuously in a **125 °F** ambient temperature | Nose cone temperatures reach upwards of 125 °F in Texas | Test |
+| EPS-2 | Power all subsystems for the whole mission | | Analysis |
+| EPS-2.1 | Store **40 Wh** | Powers the UFC for about 6 hours | Test |
+| EPS-2.2 | Supply the power distribution system a minimum of **11.2 V** | The UFC Power Card needs at least 11 V to run the 3.3 V and 5 V rails | Demonstration |
+| EPS-3 | Provide power telemetry to the CDH subsystem (the UFC) | Live power use, state of charge, temperature, and health | Demonstration |
+| EPS-3.1 | Report state of charge at **≥ 10 Hz** | Go/no-go launch decisions and in-flight telemetry | Demonstration |
+| EPS-3.2 | Report the power leaving the pack at **≥ 10 Hz** | Spot a short circuit or abnormal draw | Demonstration |
+| EPS-3.3 | Talk to the CDH subsystem over **CAN** | The UFC uses CAN between boards | Demonstration |
+| EPS-4 | Charge from empty to full in **≤ 4 hours** | Long charge times would hold up pre-launch integration at IREC | Analysis |
+
+{: .check }
+> - **Minimum voltage.** The requirements sheet says EPS-2.2 is 11.2 V, but the verification matrix says 7.5 V
+>   ("verified through 3S2P configuration, min cell voltage of 2.5 V"). The [Power Card]({{ '/docs/projects/ufc/cards/power-card/' | relative_url }})
+>   page's undervoltage lockout (about 6.5 V) doesn't match "needs at least 11 V" either.
+> - **Telemetry.** EPS-3 is marked Met, but the fall 2026 kickoff lists live BMS telemetry as a goal for this year.
+
+{% include figure.html src="https://github.umn.edu/user-attachments/assets/1073c27e-f64f-4e36-94f8-b1092dd7dbab" caption="BMS system requirements table (image from the old wiki)" %}
+
+## Design review (August 2025)
+
+The BMS had its conceptual design review (CoDR) on **27 August 2025**. The slides and reviewer notes are in the team
+Drive (09-Internal Design Reviews › 2026 Battery Management System).
+
+### Concept
+
+- **Block diagram:** STM32 with an interlock/arming circuit, the BMS IC, protection circuitry, thermistors, and the
+  cell pack.
+- **Arming:** an interconnect circuit enables the STM32 when the battery is plugged into the UFC Power Card. The EN+/EN−
+  lines are high impedance and current limited.
+- **Enclosure:** acetal or aluminum, with a mounting flange on ¼-20 socket head cap screws, one outlet for power and data
+  wires, 18650 spacers holding the cells, and possibly epoxy potting.
+
+### Trade studies
+
+Each part was chosen with a weighted trade study (the method is in
+[Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}#trade-studies)). Scores are out of 1.
+
+| Choice | Options (score) | Picked |
+|:--|:--|:--|
+| BMS IC | **BQ40Z50** (0.95), MAX17320 (0.91), BQ3060 (0.76) | BQ40Z50 at review; the board uses the **MAX17320** (see below) |
+| Charger IC | MAX745, MP2759, LTC4006 (all 0.83), BQ24130 and BQ24170 (0.76), BQ2954 (0.56) | **MAX745** |
+| Cells | **INR-18650-P26A** (0.85), EVE 25P (0.79), INR18650-30Q (0.76), EVE ICR18650 (0.71) | **INR-18650-P26A**: 2600 mAh, 35 A continuous, 3.6 V nominal, 45.8 g |
+| Thermistors | **NRL1104F3950B1F** (1.00), 103AT-4-70374 and NTCLE413E2103F106A (0.95), BN35-3H103FB-50 (0.88) | **NRL1104F3950B1F**: 10 kΩ NTC epoxy bead, 1%, −40 to 125 °C |
+| N-channel MOSFETs | **CSD17551Q3A** (0.76), CSD17318Q2 (0.75), CSD17308Q3 (0.68, the BMS datasheet's suggestion), CSD17571Q2 (0.53), CSD17313Q2T (0.46) | Not recorded |
+
+A few details worth knowing:
+
+- The BMS IC criteria were weighted by pairwise comparison, with four people ranking every criterion against every
+  other and the results averaged. Thermal protection and overcurrent protection came out on top; cost and pin count at
+  the bottom.
+- 2S/3S compatibility was a criterion because the Pitot system runs on 2S and the UFC on 3S, so one chip could serve
+  both.
+- The cell trade study scored capacity and continuous discharge rate at 30% each, weight and cost at 20% each.
+- The MOSFET study sized parts for **at least twice** the expected 4 A maximum draw, with junction temperatures
+  estimated at 5 A.
+
+{: .check }
+The review slides and trade study pick the TI **BQ40Z50**, but the board as built (and as described above) uses the
+Analog Devices **MAX17320**, which came a close second (0.91 vs 0.95). The reason for the switch isn't written down.
+Which MOSFETs were fitted isn't recorded either.
+
+### Reviewer feedback
+
+From the review notes. Worth reading before the next BMS revision:
+
+- **Schematic:** keep the button; remove the 0 Ω resistors in front of the LEDs; Q5 needs to be grounded. Reversing the
+  pack polarity could blow Q4's gate, so add a Zener or other clamp diode. Replace the chemical fuse with a normal one,
+  given the tripping problems ("don't want to blow up the rocket on the pad").
+- **Pre-charge:** the pre-charge FET is there because Li-ion cells shouldn't be charged quickly when they're fully
+  depleted, and deeply discharged cells may not be chargeable at all.
+- **Thermistors:** they matter more for charging than discharging. Put them around the cells and the power
+  electronics, electrically isolated, with copper planes to conduct heat to them. They're slow, so test their response,
+  and check hot spots with an IR camera.
+- **Enclosure:** an aluminum exterior; double-sided silicone tape or Kapton to fit the cells; 18650 spacers work well
+  to make a solid brick. Protect wire exits from rubbing, check wire bend radius, and use RTV or caulk so nothing
+  can move under shock and vibration.
+- **Cell monitoring:** the BMS IC balances each parallel group and only sees group voltages, so it can't pick out a
+  single bad cell. Its lifetime monitoring may show that something looks off.
+- **Power and architecture:** look at the STM32's ultra-low-voltage features and wake-up schemes. The last discussion
+  point in the notes was keeping the power electronics external, with a handshake to the UFC.
 
 ## Testing
 
