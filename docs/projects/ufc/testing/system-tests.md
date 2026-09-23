@@ -201,7 +201,36 @@ steps need rewriting for UFC 3.5 (see [Flight Operations]({{ '/docs/projects/ufc
 ### Hot Car
 
 **Idea:** run the UFC in flight configuration inside a stationary, dark-painted car. It should get hot enough in
-there to check that sensor values and battery life stay as expected for the whole run. No procedure written yet.
+there to check that sensor values and battery life stay as expected for the whole run. No procedure written yet. The
+thermal chamber profile above has replaced it in practice.
+
+## Environmental test profiles
+
+The profiles the team presented at the December 2025 PDR for all the avionics boards. The BMS has two more (surge and
+capacity) on [BMS Testing]({{ '/docs/projects/bms/testing/' | relative_url }}#test-profiles). The same slides list a
+shake test (to validate the accelerometers and gyros) and a GPS lock test, with no profiles.
+
+| Test | Profile | Where the numbers come from |
+|:--|:--|:--|
+| Thermal | Start at **38 °C**, ramp at **25 °C/h** to **62.8 °C (145 °F)**, soak for **1 hour**, ramp back down at 25 °C/h | 38 °C is summer in Midland, Texas. 145 °F is the top of MIL-STD-810H Table 501.7-I, "Induced Basic Hot A2" (85–145 °F). |
+| Thermal vacuum | Start at **98,781 Pa**, drop at **1900 Pa/s** to **22,870 Pa**, hold for **80 s**, come back up at **173 Pa/s** | Start: St Paul air pressure. Bottom: launch site altitude + 30,000 ft + 3000 ft of margin. Hold: how long the rocket spends above 28,000 ft. Ramps: the average pressure rate on ascent and descent. |
+
+That's about 40 seconds down and 7 minutes back up in the vacuum test.
+
+A few notes from the review:
+
+- **The temperature was raised after the PDR.** The first plan went to 58 °C (the measured nose cone temperature plus
+  10 °C for the temperature rise and another 10 °C of margin). A reviewer asked whether that came from real data, and
+  the team moved to the MIL-STD-810H figure. The overview slides still say "~135 °F".
+- **Ramp rates** were picked conservatively, without analysis. MIL-STD-810H keeps ramps under 3 °C per minute to avoid
+  thermal shock, which 25 °C/h is well inside. Another action item was to check them against old UFC temperature data.
+- **What runs during the tests.** The boards run in the states they'd be in during the mission, with live data plotted
+  against limit lines. Writing proper test plans with pass/fail criteria was an action item.
+- The vacuum test stops around 30,000 ft because that's the BMP390's limit
+  ([Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#sensor-settings)).
+
+The old wiki has no results for these, apart from the BMS tests and one UFC2 heat test
+([Test Results]({{ '/docs/projects/ufc/testing/results/' | relative_url }}#ufc2-heat-test)).
 
 ## Test rocket and IREC
 

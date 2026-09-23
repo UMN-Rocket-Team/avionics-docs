@@ -53,6 +53,26 @@ The tools, fasteners, and parts that go into the UFC structure, and photos of it
 
 {% include photo-links.html label="Photo" urls="https://github.umn.edu/Rocket-Team/UFC-2024/assets/26095/563d1b0a-5682-441d-bf3c-2e4ff43c8d56" %}
 
+{: .check }
+> The IREC 2025 packing list (`Avionics Packing List - IREC 2025`, "Additional Supplies" tab) has a spare set of
+> the same fasteners, and it disagrees with this table:
+>
+> | Joins | This table | Packing list |
+> |:--|:--|:--|
+> | Top bulkhead to brackets | 4 × 12-24 × 3/8 in countersunk | 4 × **10-32 × 1/2 in** countersunk |
+> | Battery brace to top bulkhead | **3** × 12-24 × 1 in | **1** × 10-32 × 1 in button head |
+> | Special top bulkhead screw | **1** × 12-24 × 3/4 in | **3** × 10-32 × 3/4 in button head |
+> | Lock nuts, washers | 12-24 | 10-32 nuts, #10 washers |
+> | Brackets to plates, bottom bulkhead to brackets | 12-24 | 10-32, same lengths |
+> | Plates to backplane | **8** × 4-40 × 1/2 in | **16** × 4-40 × 1/2 in |
+>
+> 12-24 is an unusual size and 10-32 is a very common one, so the packing list is probably right about the thread,
+> and the battery-brace and special-screw quantities look swapped in one of the two. Check against the CAD or a real
+> structure before ordering.
+
+Before a flight, check every one of these is tight; the list of what to check is in
+[Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#ufc-pre-integration).
+
 ## Parts
 
 | Qty | Part | Design file |

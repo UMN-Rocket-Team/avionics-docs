@@ -27,6 +27,10 @@ Stack
 
 Runs on
 : Windows, macOS, and Linux
+
+Name
+: **W**INGS **I**s **N**ot a **G**round **S**tation. It started out as WinGS, the **Win**dows **G**round **S**tation, and
+  became recursive once it stopped being Windows-only.
 {: .facts }
 
 <details markdown="block">
@@ -59,9 +63,8 @@ site to a minimum. Right now its scope is processing, saving, and displaying dat
 - In **summer 2025** the repo moved from the UMN Enterprise GitHub to
   [public GitHub](https://github.com/UMN-Rocket-Team/WINGS). The old copy at `github.umn.edu/Rocket-Team/WINGS`
   is out of date.
-- For **2026–27** the software subteam is continuing WINGS back-end work and starting a **Grafana** project: a
-  separate back end that serves rocket data to Grafana dashboards, with a web service so several people at the launch
-  site can watch live.
+- For **2026–27** the software subteam is continuing WINGS back-end work and building out the
+  [Grafana setup](#grafana), so several people at the launch site can watch live.
 
 ## What it talks to
 
@@ -102,6 +105,27 @@ to plot) are in [Flight Operations]({{ '/docs/projects/ufc/operations/' | relati
 7. **Watch the flight** on the **Display** tab.
 
 There's a dark mode toggle in the top right of every tab, for better viewing indoors.
+
+**After the flight**, WINGS keeps its logs in `C:\Users\{you}\AppData\Roaming\Wings_data_logs` on Windows. Copy
+them to the team Drive.
+
+### The 2024 procedure
+
+The older, shorter version from 2024 (`2024 Wings Startup Procedure` in the Drive), for when you just need the UFC over
+an RFD. The test procedures call this the "WINGS / UFC startup procedure".
+
+**Bring:** the RFD modem, two RFD antennas, an FTDI cable, the WINGS laptop, and a way to charge it.
+
+**Before launch day:** download the newest WINGS release, open it, set up graphs for the barometer, acceleration, and
+BNO gyro, plus a GPS readout, then close it. Keep the laptop above 90% charge until launch.
+
+**At the launch site, before the rocket goes on the pad:**
+1. Turn the laptop on **without** the RFD plugged in.
+2. Open WINGS and go to the Communications screen.
+3. Plug the RFD in through the FTDI cable, and pick the new COM port in WINGS.
+4. Wait for packets from the UFC.
+5. Once packets are arriving, don't close WINGS until the rocket has probably been on the ground for at least
+   5 minutes.
 
 {: .check }
 > These steps come from notes written in 2025, before WINGS v2.1 and v2.2. At that point steps 1, 2, and 5 weren't
@@ -157,9 +181,39 @@ Requirements" tab). None of them had been marked as verified yet.
 | GNDSTN-3.9 | Show a 3D rendering of the rocket's orientation | Demonstration |
 | GNDSTN-4 | Work without an internet connection | Demonstration |
 
+GNDSTN-1.1 is because the UFC moved from the RFD900 (which flew at IREC 2025) to a 433 MHz E22 LoRa radio for 2026
+([Primary Card radio]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)). The launch-day steps above
+still describe the RFD setup.
+
+## Grafana
+
+The 2025–26 plan for GNDSTN-3.8 (several people watching at once), from the December 2025 PDR. The notes also call
+the idea UGGS, the Universal Grafana Ground Station.
+
+{% include figure.html src="/assets/images/projects/wings/wings-grafana-design.png" alt="Block diagram: radio and log files feed the WINGS back end, whose InfluxExporter writes to an InfluxDB bucket that Grafana reads, all inside one Docker Compose application" caption="WINGS + Grafana integration, design draft 1" %}
+
+- **WINGS back end.** Works as before: it reads packets from the radios (or a log file), parses them, and logs the
+  raw data to `.wings` or `.csv` files. The one addition is an **InfluxExporter** module. Once a packet is fully
+  processed, a copy goes to InfluxExporter, which converts it to InfluxDB line protocol and writes it to a local
+  database bucket through the InfluxDB v2 HTTP API.
+- **InfluxDB** (v2.7) is a time-series database: fast writes of numbers, real-time queries, and retention policies that
+  delete old data automatically.
+- **Grafana** reads from InfluxDB (it supports it out of the box) and shows dashboards of charts, gauges, and tables.
+  Dashboards can be set up beforehand or at the launch site.
+- **Docker.** WINGS, InfluxDB, and Grafana each run in their own container, started together with one Docker Compose
+  file. You need a Docker runtime installed. An installer that bundles Docker Desktop, the Compose file, and a launch
+  script was floated.
+
+**At the launch site**, it's meant to run on a closed network with no internet: one ground station laptop runs the
+whole thing, and other laptops connect to it through a local 2.4 GHz Wi-Fi access point and open Grafana in a browser,
+with viewer-only accounts. The host laptop sees both WINGS and Grafana. Testing was planned with live data, past
+flight data, and deliberately manipulated flight data.
+
 {: .check }
-GNDSTN-1.1 puts the UFC on a 433 MHz E22 LoRa radio for 2026, while the 2025 WINGS notes and the UFC flight guide use
-an RFD900. See the note on the [Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}) page.
+> Open questions from the PDR:
+> - **2.4 GHz Wi-Fi at the competition.** IREC may reserve 2.4 GHz for ground support equipment. The team asked the
+>   organisers, whose answer at the time was that they were "figuring it out". The fallback is a wired network.
+> - **Refresh rate.** Expected to get down to milliseconds, but not tested.
 
 ## History
 

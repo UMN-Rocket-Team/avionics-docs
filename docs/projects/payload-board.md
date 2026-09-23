@@ -9,8 +9,8 @@ permalink: /docs/projects/payload-board/
 # IREC 2026 Payload Control Board
 {: .no_toc }
 
-Controls the servo-driven mechanism that crushes a simulated Mars regolith sample, the payload for IREC 2026. It
-also logs IMU and barometer data for post-flight analysis.
+Runs the IREC 2026 payload: a motor-driven compressor that squeezes simulated Mars regolith into a solid puck after
+landing. It also logs IMU and barometer data for post-flight analysis.
 {: .fs-5 .fw-300 }
 
 Built for
@@ -20,7 +20,7 @@ MCU
 : STM32H730VBT6
 
 Actuator
-: REEFS207 micro servo
+: A motor and lead screw, through a PPM-controlled ESC (2025–26 PDR)
 
 Code
 : Not recorded (see below)
@@ -36,10 +36,12 @@ Status
 > and several parts were never updated:
 >
 > - The **power electronics** table was all placeholders ("X").
-> - The **current sensor** and **optical limit switches** mentioned in the purpose have no part numbers.
-> - The purpose says data is written to an **SD card**, but no SD card slot is listed.
+> - The **current sensor** and **optical limit switches** mentioned in the purpose have no part numbers. (The PDR
+>   board overview confirms there's a motor current meter and limit switch connections.)
+> - The component table listed GYRO's **REEFS207 servo** as the actuator. The PDR says the payload uses a motor
+>   through a PPM-controlled ESC. The servo row is kept below as the test stand-in.
 > - There was a leftover **radio** row with no part number that matches GYRO's RFD900 entry. The purpose doesn't
->   mention a radio.
+>   mention a radio, and neither does the PDR.
 > - The **firmware** links pointed at GYRO's firmware docs and the Midwest repo.
 > - See also the flash chip note below.
 >
@@ -54,22 +56,46 @@ Status
 
 ## Purpose
 
-The board's main job is driving the servo mechanism that compacts a 1 in³ sample of simulated Mars regolith after
-the rocket lands. It has to work out when the rocket has landed by itself, because the payload bay can't be connected
-to the UFC, so it can't use the UFC's state detection. Along the way it:
+The payload mission, from the 2025–26 PDR: a lightweight compressor that uses a lead screw and motor to turn powdered
+Martian regolith simulant into a solid puck, to look at whether in-situ resource utilization (ISRU) on Mars is
+feasible.
+
+The board's main job is driving that compressor, on a 1 in³ sample, after the rocket lands. It has to work out when the
+rocket has landed by itself, because the payload bay can't be connected to the UFC, so it can't use the UFC's state
+detection. Along the way it:
 
 - reads a BNO055 IMU (3-axis gyroscope, 3-axis accelerometer, and 3-axis magnetometer for absolute orientation) and a
   BMP390 barometer/thermometer,
 - saves the data to on-board flash, and writes it to an SD card for post-flight analysis,
+- drives the motor's ESC with a PPM signal and measures the motor's current,
 - uses **optical limit switches** to stop the crushing mechanism going past its physical travel limits. They also
   back up the current sensor.
 
+The PDR's board overview labels an STM32H7, SD card, flash, BNO055, BMP390, the motor current meter, the battery
+connection, optical limit switch connections, screw switch terminals, and the ESC's PPM output.
+
 {% include figure.html src="https://github.umn.edu/user-attachments/assets/c4e639fe-d2cf-4eda-a5c1-38d301de273f" caption="Payload Control Board diagram" %}
 
+### State detection
+
+The board has to run the compressor in the LANDED state and at no other time. The PDR describes it as combining the
+barometer's rate of change (BMP390 at 200 Hz) with the IMU's acceleration (BNO055 at 125 Hz), so that one sensor
+alone can't cause a false trigger. How it steps through the flight states isn't written down. Presumably it's based on
+the UFC's ([UFC state detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection)), since the
+verification plans below step through the same states.
+
+Two things came up at the PDR that matter more for the payload than for the UFC:
+
+- **Ejection charges.** The payload sits right next to them, so pressure spikes from the charges need filtering out.
+- **Reaching LANDED another way.** If the state detection can only reach LANDED through the nominal sequence, a missed
+  state means the payload never runs. If a backup route (like a timer) is added, the recovery team needs to know the
+  payload might start moving when they pick up the rocket, so put it in the recovery CONOPS.
 ## Requirements
 
 From the team's requirements sheet (`UMNRKT Requirements.xlsx`, "Payload System" tab), where every requirement is
-marked **Met**. The full table with parent requirements is also in the
+marked **Met**. They were already marked Met at the December 2025 PDR, where two of them were different: the sample
+size was "TBD in³", and PAYLD-1 was 125 °F ("IREC nosecones reach upwards of 125°F in the Texas summer heat"). It
+was raised to 145 °F after the review, as with the other avionics boards. The full table with parent requirements is also in the
 [IREC 2026 requirements spreadsheet](https://docs.google.com/spreadsheets/d/1ZM7sDWcCKupetqs2eV_MjmVUnbQAa9NKSMUKOIiYPZk/edit?gid=2020042343#gid=2020042343).
 
 | ID | Requirement | Why | Verified by |
@@ -129,7 +155,8 @@ The preliminary verification plans from the 2026 verification matrix ("Payload" 
 | Flash | [W25N01GW](https://www.winbond.com/resource-files/w25n01gw%20revf%20082418.pdf) (see note) | QUADSPI | NAND |
 | 9-axis IMU | [BNO055](https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf) | I2C | Address 0x28, INT1 |
 | Barometer/thermometer | [BMP390](https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bmp390-ds002.pdf) | I2C | Address 0x76, INT |
-| Servo | [REEFS207 (49Sub Micro Servo)](https://reefsrc.com/products/49sub-micro-servo-reefs207) | PPM | 3-pin, 4.8–8.4 V, 180° ± 10°, −15 to +70 °C |
+| Actuator | Motor and ESC (not recorded) | PPM | Drives the lead-screw compressor |
+| Test servo | [REEFS207 (49Sub Micro Servo)](https://reefsrc.com/products/49sub-micro-servo-reefs207) | PPM | GYRO's servo. Listed in the old wiki; the verification plan uses "the Midwest servo" to check the PPM output. |
 | LEDs | Red, green, blue, yellow (Würth 150060 series) | GPIO | |
 
 The IMU and barometer are wired the same way as on the UFC Primary Card; see the
@@ -143,6 +170,20 @@ The IMU and barometer are wired the same way as on the UFC Primary Card; see the
 > - The W25N01GW is a **1 Gbit (128 MB)** part, not 64 MB.
 > - In Winbond's naming, the **GW** suffix is the **1.8 V** version (the 3 V part is W25N01**GV**). If the board runs
 >   its flash from 3.3 V like the UFC, a W25N01GW would be the wrong part.
+
+## Changes after the PDR
+
+From the December 2025 PDR action items, all marked done:
+
+- The upstream **fuse was far oversized**. It was resized to the right current rating.
+- Finished the mechanical integration: payload mounting, battery, and motor mount CAD, and the PCB cutout size and
+  location.
+- Added silkscreen for the revision number, a box to write the serial number in, and a "QA PASSED" box for acceptance
+  testing. There had been no way to track individual boards through testing.
+- Labelled the connectors (text at least 45 mil tall) and added notch cutouts for the programmer connectors.
+
+These came from the lead's PCB layout checklist, which is in
+[Design Practices]({{ '/docs/tutorials/hardware/design-practices/' | relative_url }}#final-layout-checklist).
 
 ## Schematic
 

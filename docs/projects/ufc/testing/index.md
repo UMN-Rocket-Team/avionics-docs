@@ -41,9 +41,10 @@ mode set with switches) and haven't been updated for UFC 3.5. They're kept as wr
 Read [Legacy (UFC2)]({{ '/docs/projects/ufc/legacy/' | relative_url }}) if the card names don't make sense, and
 update the procedure when you next run it.
 
-A lot of procedures also say "run the WINGS / UFC startup procedure". That was never written down as its own
-procedure. The closest thing is [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}):
-connect to the terminal, check the cards, and set up WINGS.
+A lot of procedures also say "run the WINGS / UFC startup procedure". That's the short 2024 checklist for getting
+WINGS talking to the UFC over the RFD, now on the WINGS page as
+[The 2024 procedure]({{ '/docs/projects/wings/' | relative_url }}#the-2024-procedure). For the full version (terminal,
+card checks, and WINGS), use [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}).
 
 ## Writing up a test
 

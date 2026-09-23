@@ -67,6 +67,20 @@ permalink: /docs/team/
 
 </div>
 
+## Where things live
+
+| What | Where |
+|:--|:--|
+| Chat | Slack, [umn-rkt.slack.com](https://umn-rkt.slack.com). Join **#avionics**. |
+| Files | The team Google Drive. Ask on Slack to be added. |
+| Code | The team's GitHub organization, [z.umn.edu/rktgithub](https://z.umn.edu/rktgithub). WINGS is on [public GitHub](https://github.com/UMN-Rocket-Team/WINGS). |
+| Project management | The team Notion, [z.umn.edu/rktnotion](https://z.umn.edu/rktnotion) |
+| Board designs | [Altium 365](https://rocket-team.365.altium.com/designs) |
+| Team website | [rkt.aem.umn.edu](https://rkt.aem.umn.edu) |
+
+**Meetings** (fall 2026): Mondays at 7 PM in Akerman 211. Subteam worktimes are set each semester and posted in
+#avionics.
+
 <style>
 .hero {
   padding: 2rem 0 1.5rem;

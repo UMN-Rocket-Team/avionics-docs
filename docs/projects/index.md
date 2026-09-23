@@ -20,7 +20,8 @@ test results that go with it. Most of this was moved over from the old UMN GitHu
 | [Pitot Tube System]({{ '/docs/projects/pitot/' | relative_url }}) | A pitot-static probe in the nose cone tip plus two boards that measure static pressure, total pressure, and angle of attack. | Flies with the UFC, or standalone on its own battery |
 | [Battery Management System]({{ '/docs/projects/bms/' | relative_url }}) | Monitors, protects, balances, and charges the UFC battery pack. Reports battery data to the UFC over CAN. | IREC 2026 (UFC 3.5) |
 | [GYRO]({{ '/docs/projects/gyro/' | relative_url }}) | A standalone single-board flight computer that runs roll control. | Midwest 2026 |
-| [Payload Control Board]({{ '/docs/projects/payload-board/' | relative_url }}) | Drives the servo mechanism that crushes the simulated Mars regolith payload. | IREC 2026 |
+| [Payload Control Board]({{ '/docs/projects/payload-board/' | relative_url }}) | Runs the motor-driven compressor that squeezes simulated Mars regolith into a puck after landing. | IREC 2026 |
+| [WINGS Ground Station]({{ '/docs/projects/wings/' | relative_url }}) | Our ground station software. Talks to the UFC and commercial flight computers at once and plots everything live. | Every launch since 2022 |
 | [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}) | Datasheets, addresses, and notes for parts that show up on several boards (STM32H7, BNO055, BMP390, NAND flash, GPS, radios). | Shared |
 
 ## How they fit together
@@ -32,6 +33,41 @@ power card, so it can fly without the UFC.
 GYRO and the Payload Control Board are separate single-board computers, but they reuse a lot of UFC
 hardware: the same STM32H730 microcontroller, NAND flash, BNO055 IMU, and BMP390 barometer. GYRO's firmware
 is also built on the UFC's.
+
+On the ground, WINGS receives the UFC's radio telemetry, alongside the commercial flight computers that recovery
+flies.
+
+## This season (2026–27)
+
+From the fall 2026 first-meeting slides:
+
+| Project | Plan |
+|:--|:--|
+| UFC | The next version after 3.5. The headline item is cable routing. |
+| BMS | Live battery telemetry to the UFC |
+| GYRO | CAN bus support |
+| Payload | A new payload board |
+| Camera control | A new camera control board (only mentioned in the slide notes) |
+| WINGS | Back-end work, and a Grafana front end so several people can watch live ([Grafana]({{ '/docs/projects/wings/' | relative_url }}#grafana)) |
+
+The expected timeline:
+
+| Date | Milestone |
+|:--|:--|
+| 14 Sep 2026 | Training starts (3 weeks) |
+| 5 Oct | Design and schematics (hardware), drivers and refactoring (firmware), Simulink improvements (GNC), WINGS back end (software) |
+| 8 Oct | IREC PDR |
+| 24 Oct | IREC subscale test flight 1 |
+| 2 Nov | Layout (hardware), integrated breadboard (firmware), Grafana front end (software) |
+| 4 Dec | Avionics PDR ([what past ones covered]({{ '/docs/projects/ufc/design-history/' | relative_url }}#design-reviews)) |
+| Winter break | Order boards |
+| 19 Jan 2027 | Integration and test (I&T) |
+| 6 Feb | IREC subscale test flight 2 |
+| 20 Mar | IREC full-scale test flight |
+| 13 Apr | Functional configuration audit (FCA) |
+| 12 May | Verification and validation (V&V) |
+
+What the review and audit milestones mean is on [Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}).
 
 ## Where to start
 
@@ -49,13 +85,15 @@ go to whatever project you've been put on.
 | CARD_ID / CARD_TYPE values, CAN message types | [CAN Protocol]({{ '/docs/projects/ufc/firmware/can-protocol/' | relative_url }}) |
 | Sensor I2C addresses, interrupts, datasheets | [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}) |
 | Test procedures and which ones are finished | [Testing & Validation]({{ '/docs/projects/ufc/testing/' | relative_url }}) |
+| How the UFC decides it has launched | [State detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection) |
+| Requirements, trade studies, design reviews | [Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}) |
 
 ## Acronyms and jargon
 
 | Term | Meaning |
 |:--|:--|
 | SRAD / COTS | Student researched and developed (we designed it) / commercial off-the-shelf (we bought it) |
-| IREC, SAC | Intercollegiate Rocket Engineering Competition, held at the Spaceport America Cup. Older docs say "SAC". |
+| IREC, SAC | The International Rocket Engineering Competition (formerly "Intercollegiate"). It used to be held at the Spaceport America Cup in New Mexico, which is why older docs say "SAC", and moved to Midland, Texas, in 2025. |
 | Midwest | The Midwest Rocket Competition that GYRO was built for |
 | WINGS | Our ground station software. Receives telemetry and plots it. See [WINGS Ground Station]({{ '/docs/projects/wings/' | relative_url }}). |
 | IMU | Inertial measurement unit: accelerometer and gyroscope, often with a magnetometer |
@@ -69,6 +107,9 @@ go to whatever project you've been put on.
 | PPS | Pulse per second, a timing signal from the GPS |
 | CDH, EPS | Command and data handling / electrical power subsystem, the requirement categories our boards fall under |
 | MBSE | Model-based systems engineering, how the requirements were derived |
+| PDR, CoDR | Preliminary / conceptual design review ([Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}#design-reviews)) |
+| FCA, V&V | Functional configuration audit / verification and validation: end-of-season checks that each requirement is met |
+| PPM | Pulse-position modulation: the 1–2 ms pulse signal that drives RC servos and ESCs |
 | ECODE | The UFC firmware's error code bitfield ([Error Codes]({{ '/docs/projects/ufc/firmware/error-codes/' | relative_url }})) |
 
 ## About the migrated pages

@@ -19,6 +19,7 @@ Pitot results are on the [Pitot Test Results]({{ '/docs/projects/pitot/test-resu
 |:--|:--|:--|
 | [Overnight flash test 1](#overnight-flash-test-1) | 23 Apr 2025 | Both data cards filled their flash (about 2 h and 1 h of data). The Interface Card's flash wasn't working. |
 | [Overnight flash test 2](#overnight-flash-test-2) | 23–24 Apr 2025 | 15 h of live RFD telemetry, 3.28 million packets |
+| [UFC2 heat test](#ufc2-heat-test) | Not recorded | The RFD ran about 25 °C hotter than the chamber |
 
 The data files for both tests are in [this Drive folder](https://drive.google.com/drive/folders/1URs9cJkoubhn1YptRff1XKb_xFK0v9NZ?usp=sharing).
 
@@ -102,3 +103,18 @@ WINGS packets
 {: .check }
 The write-up for this test is just the setup and the packet count. It doesn't say whether the flash data was
 checked, or what the plots show.
+
+## UFC2 heat test
+
+A chart from the UFC2 wiki diagrams folder in the Drive, with no write-up. It plots the temperature of a sensor and of
+the RFD against the ambient temperature in a chamber, from about 34 to 52 °C.
+
+{% include figure.html src="/assets/images/projects/ufc/ufc2-heat-test.png" alt="Line chart: sensor temperature rises from about 51 to 62 °C and RFD temperature from about 63 to 75 °C as the chamber goes from 34 to 52 °C" caption="UFC heat test (UFC2 era)" %}
+
+The RFD ran roughly 23–29 °C above ambient, reaching about 75 °C with the chamber at 52 °C. The sensor ran roughly
+10–17 °C above ambient. Neither the chamber, the duration, nor which sensor was measured is recorded.
+
+{: .check }
+The chart isn't dated. It sits with the UFC2 wiki diagrams, so it's probably from 2023–24. The RFD running hot shows up
+again in [overnight flash test 2](#overnight-flash-test-2), where its transmit power was turned down from 30 to 20
+because it was "getting worryingly hot".

@@ -48,8 +48,12 @@ Status
 
 ## Overview
 
-GYRO senses the rocket's roll, runs a roll control algorithm, and drives a servo to control it. It has the same
-core parts as a UFC data card:
+The 2025–26 Midwest challenge, as the December 2025 PDR put it: use a **downward-facing camera** to record and decode a
+secret message displayed from the ground. The rocket's roll is controlled by a **servo-actuated fin tab**, and GYRO is
+the flight computer that runs it.
+
+GYRO senses the rocket's roll, runs a roll control algorithm, and drives the servo. It has the same core parts as a
+UFC data card:
 
 - **Sensors:** a BNO055 IMU (3-axis gyroscope, 3-axis accelerometer, and 3-axis magnetometer for absolute
   orientation), a BMP390 barometer/thermometer, and a low-power MAX-M10S GPS.
@@ -57,7 +61,10 @@ core parts as a UFC data card:
   radio and written to an SD card. Like the UFC cards, flash recording is triggered by detecting takeoff and landing
   (using the BNO055), and the flash can only be erased with a terminal command.
 - **Actuation:** four PWM headers for servos. One drives roll control; the other three are spares for the future.
+  Two of them can double as a UART for camera control, which came up at the PDR as a possible future use.
 - **Pyro:** two pyro channels. They aren't used for Midwest but are there for future projects.
+- **Two screw switches**, one for the computer and one for the servo, so a problem on the actuator side can't take
+  the computer down with it.
 - **Extras:** status LEDs, programmer and debug pins, a buzzer, and two outputs for external LEDs (for Midwest's roll
   control indication challenge).
 
@@ -72,28 +79,29 @@ engineering approach using the
 [system characterization tool](https://docs.google.com/spreadsheets/d/1J1WzmcqXW74kMw2ttB3k-ih3p1dvYtJIzfMMIMCmOSo/edit?gid=567000003#gid=567000003).
 GYRO was built specifically for Midwest 2026; the full table with parent requirements is in the
 [Midwest requirements spreadsheet](https://docs.google.com/spreadsheets/d/164qZIYZoGh1ZgoEiZHAX8oQplVZ39T5lwZK8q8euXJw/edit?gid=1230869352#gid=1230869352).
-The text below is from the 2026 verification matrix ("Midwest CDH" tab), which lists a verification method for each
-but no plans yet.
+The requirements come from the 2026 verification matrix ("Midwest CDH" tab), which lists a verification method for
+each but no plans yet. The reasons are from the December 2025 PDR, where every one shown was already marked **Met**
+(EPS-3 and EPS-3.1 weren't on the slides).
 
-| ID | Requirement | Verified by |
-|:--|:--|:--|
-| CDH-1 | Determine GPS position (latitude, longitude, altitude) | Demonstration |
-| CDH-1.1 | GPS position to **1 m** absolute accuracy | Analysis |
-| CDH-2 | Collect ambient pressure data | Demonstration |
-| CDH-2.2 | Pressure from 101,325.00 to 90,811.67 Pa, to **8 Pa** uncertainty | Analysis |
-| CDH-3 | Record 3-axis acceleration | Demonstration |
-| CDH-3.1 | Measure up to **16 g** on each axis | Analysis |
-| CDH-3.2 | Measure acceleration at **100 Hz** on each axis | Demonstration |
-| CDH-3.3 | Measure roll angle to **5°** precision | Test |
-| CDH-4 | Determine velocity to **15 ft/s** accuracy | Analysis |
-| CDH-5 | CDH mass under **0.25 lb** | Inspection |
-| EPS-1 | EPS mass under **0.5 lb (227 g)** | Inspection |
-| EPS-1.1 | Power storage mass ≤ **125 g** | Inspection |
-| EPS-1.2 | Power distribution mass ≤ **100 g** | Inspection |
-| EPS-2 | Power the CDH for the whole mission | Analysis |
-| EPS-2.1 | Store at least **4 Wh** for CDH | Analysis |
-| EPS-3 | Power the actuation subsystem for the whole mission | Analysis |
-| EPS-3.1 | Store at least **1.3 Wh** for actuation | Analysis |
+| ID | Requirement | Why | Verified by |
+|:--|:--|:--|:--|
+| CDH-1 | Determine GPS position (latitude, longitude, altitude) | Know where the rocket is and how high | Demonstration |
+| CDH-1.1 | GPS position to **1 m** absolute accuracy | Determine the official apogee | Analysis |
+| CDH-2 | Collect ambient pressure data | Customer defined; needed for the roll control calculations | Demonstration |
+| CDH-2.2 | Pressure from 101,325.00 to 90,811.67 Pa, to **8 Pa** uncertainty | Flights up to 3000 ft, with 3 ft altitude resolution | Analysis |
+| CDH-3 | Record 3-axis acceleration | Customer defined | Demonstration |
+| CDH-3.1 | Measure up to **16 g** on each axis | Launch vehicle simulations | Analysis |
+| CDH-3.2 | Measure acceleration at **100 Hz** on each axis | Needed to work out velocity | Demonstration |
+| CDH-3.3 | Measure roll angle to **5°** precision | Roll control feedback loop | Test |
+| CDH-4 | Determine velocity to **15 ft/s** accuracy | Fin restoring-force calculations | Analysis |
+| CDH-5 | CDH mass under **0.25 lb** | Mass budget | Inspection |
+| EPS-1 | EPS mass under **0.5 lb (227 g)** | Mass budget | Inspection |
+| EPS-1.1 | Power storage mass ≤ **125 g** | Mass budget | Inspection |
+| EPS-1.2 | Power distribution mass ≤ **100 g** | Mass budget | Inspection |
+| EPS-2 | Power the CDH for the whole mission | Run the actuation and CDH for the whole mission | Analysis |
+| EPS-2.1 | Store at least **4 Wh** for CDH | The CDH draws about 2 W, so this is 2 hours of runtime | Analysis |
+| EPS-3 | Power the actuation subsystem for the whole mission | | Analysis |
+| EPS-3.1 | Store at least **1.3 Wh** for actuation | | Analysis |
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/Avionics/assets/30202/48a5c7be-76b5-4683-af6c-295a3eabee1d" caption="GYRO system requirements table (image from the old wiki)" %}
 
@@ -115,6 +123,11 @@ The same sheet sizes the batteries as two 2S1P packs of 3.7 V cells: **1300 mAh 
 and **200 mAh (1.5 Wh)** for the servo, about 78 g of batteries in total. Both clear their requirements (4 Wh and
 1.3 Wh). The flight computer pack carries everything except the servo (about 1.57 W), so it should last roughly
 9.6 / 1.57 ≈ 6 hours.
+
+{: .check }
+> **Which batteries?** The PDR's power diagram shows **two 400 mAh 2S LiPos** (one per switch) instead. A 400 mAh 2S
+> pack holds about 7.4 V × 0.4 Ah ≈ 3 Wh, which is less than the 4 Wh EPS-2.1 asks for on the computer side, and
+> would last about 3 / 1.57 ≈ 1.9 hours. Check which packs actually flew.
 
 {: .check }
 > The characterization sheet is partly a template left over from another project (a component table full of
@@ -175,8 +188,11 @@ flowchart LR
 | LEDs | [150060VS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060VS75000/4489906) (green), [150060BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060BS75000/4489895) (blue) | | Regulator PowerGood indicators |
 
 {: .check }
-The old docs disagree on the TPS74601's dropout: the table says 1.05 V max at 1 A, the text says 225 mV max at 1 A.
-Either works with 5 V in and 3.3 V out, but check the datasheet before reusing this regulator elsewhere.
+> - **The 3.3 V regulator was replaced after the PDR.** The TPS74601 cost about $7 each, and the PDR action items
+>   swapped it for a 50–75¢ part, since this rail doesn't need to be ultra-low noise. The new part number isn't
+>   recorded, so the TPS74601 details above may be out of date. Check the schematic.
+> - The old docs disagree on the TPS74601's dropout: the table says 1.05 V max at 1 A, the text says 225 mV max at 1 A.
+>   Either works with 5 V in and 3.3 V out, but check the datasheet before reusing this regulator elsewhere.
 
 ## Components
 
@@ -190,7 +206,7 @@ Either works with 5 V in and 3.3 V out, but check the datasheet before reusing t
 | GPS | [MAX-M10S-00B](https://www.digikey.com/en/products/detail/u-blox/MAX-M10S-00B/15712906) | I2C | 400 kHz, GPS_INT |
 | Radio (off-board) | [RFD900ux](https://files.rfdesign.com.au/Files/documents/RFD900ux%20DataSheet%20V1.0.pdf) | UART, RTS/CTS | 902–928 MHz FHSS, 30 dBm (1 W) max, 64 kbps default air rate (224 kbps max), rated 40+ km |
 | Buzzer | [PS1440P02BT](https://www.digikey.com/en/products/detail/tdk-corporation/PS1440P02BT/2236828) | GPIO/PWM | Common-emitter driver |
-| Servo | [REEFS207 (49Sub Micro Servo)](https://reefsrc.com/products/49sub-micro-servo-reefs207) | PPM | 3-pin, 4.8–8.4 V, 180° ± 10°, −15 to +70 °C |
+| Servo | [REEFS207 (49Sub Micro Servo)](https://reefsrc.com/products/49sub-micro-servo-reefs207) | PPM | 3-pin, 4.8–8.4 V, 180° ± 10°, −15 to +70 °C, 0.346 N·m at 8.4 V |
 | LEDs | Red, green, blue, yellow (Würth 150060 series) | GPIO | |
 
 The IMU, barometer, GPS, and buzzer are wired the same way as on the UFC Primary and Interface cards; details are in the
@@ -234,6 +250,9 @@ Renders: [3D front ↗](https://github.umn.edu/user-attachments/assets/8c92538f-
 - The MOSFET schematic symbol had the wrong pin order, so source and drain were swapped.
 - The serial number and "QA Passed" silkscreen were moved so vias don't poke through them.
 
+**After the December 2025 PDR:** the 3.3 V regulator was swapped for a cheaper one (see [Power](#power)), the GPS
+backup battery was removed, and the connector labels were enlarged to at least 45 mil text height.
+
 **For a future revision:** consider switching the GPS to a u-blox SAM-M10Q, which has a built-in antenna and would be
 easier to integrate.
 
@@ -254,10 +273,24 @@ Midwest/
 └── README.md
 ```
 
+What the December 2025 PDR said about the control side:
+
+- **The model** has three stages: a sensor preprocessor, a torque controller, and a "torque to command" block that turns
+  the requested torque into a servo command. The slides only have screenshots of each.
+- **Tuning.** The controller has three gains: k<sub>p</sub>, k<sub>d</sub>, and a derivative filter coefficient. The
+  plan was loop shaping: adjust the gains by hand and check stability with Nyquist plots of the whole model.
+- **Getting it onto the board.** Simulink's Embedded Coder generates C headers and source files from the model, which
+  plug into the firmware project. The generated step function runs at **100 Hz**. A reviewer pointed out that generated
+  code tends to be slow, and checking the MCU actually keeps up at 100 Hz became an action item. It hadn't been tested
+  at the PDR.
+- **Later:** hardware-in-the-loop testing, with Simulink generating fake flight readings and feeding them to the real
+  board. Speedgoat sells hardware for this.
+- **Test flights:** at least two were planned for the Midwest rocket and board.
+
 {: .check }
 The old firmware page had placeholders for the system architecture, the Simulink model, testing and validation (including
-test flights), and future work. None of them were filled in. The roll model and controller in particular aren't
-documented anywhere yet.
+test flights), and future work. None of them were filled in, and the model and gains themselves still aren't documented
+outside the repo.
 
 If you're new to roll control, weeks 2 and 3 of the [GNC Crash Course]({{ '/docs/tutorials/gnc/crash-course/' | relative_url }})
 build a simplified roll model and a roll-rate controller in Simulink. That's a good primer, though it isn't GYRO's

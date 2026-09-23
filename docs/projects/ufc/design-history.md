@@ -104,6 +104,24 @@ We went with a backplane using **PCIe edge connectors** because:
 
 ## Change log
 
+### UFC1 (2019–2023)
+
+The last state of UFC1 is in two diagrams in the team Drive, both labelled "S23" (probably spring 2023):
+
+- a **Host Card** with a PIC32 and the flash chip,
+- a **Sensor Card** with a PIC24 and the accelerometers, gyroscope, magnetometer, thermometer, IMU, and barometer,
+- a **Radio Card** with a PIC24, a 900 MHz radio, a u-blox GPS, and a LoRa transmitter,
+- a **Power Card** with the battery connection and the 3.3 V and 5 V supplies,
+- and a **Comm Card**, a Teensy 4.0 that talked to the Pitot tube over SPI,
+
+all on a 98-pin interconnect. The Host Card firmware ran one main loop (transact with the cards, route packets,
+perform tasks), with a "card slot" for each card it managed. Sensor data went to storage and to a Kalman filter,
+whose output went to the Radio Card.
+
+{% include figure.html src="/assets/images/projects/ufc/ufc1-hardware-s23.jpg" alt="Block diagram: Host, Sensor, Radio, Power, and Comm cards connected to a 98-pin interconnect" caption="UFC1 hardware, spring 2023" width="80%" %}
+
+{% include figure.html src="/assets/images/projects/ufc/ufc1-host-firmware-s23.jpg" alt="Host Card firmware: a main loop of Transact, Route Packets, and Perform Tasks, with card slots for the Sensor, Radio, and Communications cards feeding Store Data and a Kalman filter" caption="UFC1 Host Card firmware, spring 2023" width="80%" %}
+
 ### UFC2 (2023–24)
 
 **Microcontrollers: PIC → STM32.** The UFC originally used PICs because a common ECE course (EE 2361: Intro to
@@ -140,6 +158,10 @@ More detail in the [PIC to STM32 document](https://docs.google.com/document/d/1l
 - GPS changed from the u-blox MAX-M8 to the MAX-M10S.
 - Debug: SWD port; a separate USART port for two-way debugging and perturbation; a dedicated GPS lock LED.
 
+**At IREC 2024** the Radio Card shorted and its microcontroller failed without anyone noticing, so the UFC flew with
+just the Host and Sensor cards. That's part of why UFC3 moved to independent cards: one broken card shouldn't take
+the rest down.
+
 ### UFC3 (2024–25)
 
 **Card size.** The UFC was always meant to fit a 4 in body tube, but the first design didn't: the backplane's
@@ -175,11 +197,53 @@ or another serial console, from WINGS, or scripted in Python with `pyserial`. It
 development, unit and system testing, flight configuration, and readout. It's also available over both radios,
 so commands can be sent remotely.
 
+**At IREC 2025** (from the recap at the next PDR), the UFC collected data from every onboard sensor and kept radio
+telemetry up through every stage of the flight. The state detection didn't detect launch, so recording was started by
+hand ([State detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection)). The recap slide lists
+"functional state detection" anyway, so read that slide with care. WINGS was picked for the team's podium presentation.
+
 ### UFC 3.5 (2025–26)
 
 - The structure was cut down from 8 cards to 4 to fit the IREC 2026 rocket, and the backplane went from 8 slots
   to 4.
-- The battery holder got smaller, with the new [BMS]({{ '/docs/projects/bms/' | relative_url }}) inside it.
+- The battery holder got smaller, with the new [BMS]({{ '/docs/projects/bms/' | relative_url }}) inside it. The BMS
+  talks to the UFC over CAN through the Interface Card.
+- The Primary Card's RFD900 was replaced with a 433 MHz E22 LoRa, because the 2026 IREC rules don't allow frequency
+  hopping ([Primary Card radio]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)).
+
+## IREC rockets
+
+The team's recent IREC rockets, from the 2025–26 PDR slides. The categories are all "30k SRAD" (student-built motor, 30,000 ft target) except 2022, where the slide doesn't say.
+
+| Year | Rocket | From the slide | UFC flown |
+|:--|:--|:--|:--|
+| 2021 | Thunderyeet | Won the category and the whole competition | Not recorded |
+| 2022 | Iridium Sandstorm | "Big", "Active Control" | Not recorded |
+| 2023 | Crimson Stratus | Won the category; Barrowman Award | Not recorded |
+| 2024 | North Star | Won the category | UFC2, without its Radio Card |
+| 2025 | Cosmic Endeavor | 3rd in the category | UFC3 |
+
+{: .check }
+The fall 2026 first-meeting slides say the team won its division in 2019 and 2024, and won both the division and the
+whole competition in **2021 and 2023**. The PDR slide above only credits 2021 with the overall win. Check which is
+right before quoting 2023.
+
+## Design reviews
+
+Every December the avionics subteam holds a **preliminary design review (PDR)** and invites alumni, industry
+engineers, and other teams to pick the designs apart. Everything from each one is in the team Drive under
+`03-Avionics IREC/Avionics PDR/<year>`: the slides, a design document sent out beforehand, the Q&A notes, and (from
+2025) an action item list saying what changed as a result. How design reviews fit into the design process is on
+[Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}#design-reviews).
+
+| Review | What came up |
+|:--|:--|
+| **December 2023** (UFC2) | Put a **sequence number** in every packet, since timestamps can't show dropped packets, and tag packets with the card that sent them. Use error-correcting codes, not just CRCs. IREC limits onboard transmitters to **200 mW**. Have a way to confirm the configuration is right on the pad, since a buzzer is hard to hear at Spaceport America. Consider a "pit" mode with the transmitters off, since teams can't always transmit on the ground. |
+| **December 2024** (UFC3) | Check the CAN bus can carry the data rate you need. A distributed design avoids one point of failure, but can copy the same bug to every card. Plan for failure modes you understand. Write a build manual. Test the state detection with faked inputs. Do an error budget for the Pitot's analog front end ([Pitot]({{ '/docs/projects/pitot/' | relative_url }}#design-review-feedback)). Add heat and shock/vibe testing. A firmware and software PDR was planned separately for the spring. |
+| **4 December 2025** (UFC 3.5, BMS, payload, GYRO, WINGS/Grafana) | The state detection's missed launch at IREC 2025, and redundant paths to LANDED ([State detection]({{ '/docs/projects/ufc/firmware/' | relative_url }}#state-detection)). The new radio and link budget ([Primary Card]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)). The BMP390's 30,000 ft limit. Test profiles ([System Tests]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#environmental-test-profiles)). Board fixes for the [BMS]({{ '/docs/projects/bms/' | relative_url }}#design-review-december-2025), [payload]({{ '/docs/projects/payload-board/' | relative_url }}#changes-after-the-pdr), and [GYRO]({{ '/docs/projects/gyro/' | relative_url }}#revisions). |
+
+The individual boards also get internal reviews (for example the BMS's
+[conceptual design review]({{ '/docs/projects/bms/' | relative_url }}#design-review-august-2025) in August 2025).
 
 ## Future work
 

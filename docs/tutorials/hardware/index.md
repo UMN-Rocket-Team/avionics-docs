@@ -262,6 +262,9 @@ You should be able to repeat the previous steps to add the capacitors.
 
 ## General Design Practices
 
+The design process, schematic and PCB conventions, and the pre-order layout checklist are on
+[Design Practices]({{ '/docs/tutorials/hardware/design-practices/' | relative_url }}).
+
 ## Selecting Components
 
 ## Data Busses

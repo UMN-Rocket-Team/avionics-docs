@@ -25,6 +25,13 @@ each one has its own sequence of tutorials, from fundamentals to team-specific t
 | [Firmware]({{ '/docs/tutorials/firmware/' | relative_url }}) | Flight computer code, RTOS, drivers |
 | [GNC]({{ '/docs/tutorials/gnc/' | relative_url }}) | Roll control, state estimation, simulation, Python setup |
 
+And two for everyone:
+
+| Tutorial | Covers |
+|:--|:--|
+| [Debugging]({{ '/docs/tutorials/debugging/' | relative_url }}) | Finding bugs on purpose: the bug triangle, Q/A notes, asking for help |
+| [Systems Engineering]({{ '/docs/tutorials/systems-engineering/' | relative_url }}) | Requirements, verification, trade studies, design reviews |
+
 ## Adding a new tutorial
 
 1. Duplicate `tutorial-template.md` inside the tutorial folder and move it to the relevant subteam folder (e.g. `docs/tutorials/hardware/`).

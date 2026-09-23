@@ -126,6 +126,6 @@ inside it. Otherwise the materials and layout are the same as the 2025 structure
 | 2025 | Redesigned to cut weight and actually fit smaller test rockets, and made easier to integrate with more ways to mount it. Switched to G10 and 7075-T6 (above). |
 | 2026 | Cut down to 4 cards, with a smaller battery holder that contains the BMS. |
 
-{% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/28321/f721b9cc-f538-4a95-aceb-379609f5813b" caption="2019–2024 structure render" %}
+{% include figure.html src="/assets/images/projects/ufc/ufc2-structure-render.jpg" alt="Render of the old UFC structure: two aluminum rails holding nine cards, with the battery pack at the top and bulkheads at the bottom" caption="2019–2024 structure render" width="60%" %}
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/26095/9824070d-98fa-4d2f-b43e-ed67a02a10cf" caption="2025 structure, angled view" %}
