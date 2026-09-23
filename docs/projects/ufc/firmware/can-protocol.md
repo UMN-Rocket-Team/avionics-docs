@@ -77,13 +77,13 @@ which are not the same thing as [UFC packets]({{ '/docs/projects/ufc/firmware/pa
 |:--|:--|:--|:--|:--|:--|
 | `0x7FF & ~Sender` | `0x00A5` | `0x00F1` | CARD_ID | CARD_TYPE | Query: "I just joined" |
 | `~(query identifier)` | `0x00A6` | `0x00F1` | CARD_ID | CARD_TYPE | Query response: "I'm here too" |
-| `Sender \| Receiver` | `0xFADE` | `0x0000` | PKT_TYPE | PKT_TYPE | Request a packet |
-| `Sender \| Receiver` | `0xCAFD` | CMD | CMD | CMD | Command, first frame |
-| `Sender \| Receiver` | `0xCAFE` | CMD | CMD | CMD | Command, middle frame |
-| `Sender \| Receiver` | `0xCAFF` | CMD | CMD | CMD | Command, last frame |
-| `Sender \| Receiver` | `0xE15A` | DATA | DATA | DATA | Data, first frame |
-| `Sender \| Receiver` | `0xE15B` | DATA | DATA | DATA | Data, middle frame |
-| `Sender \| Receiver` | `0xE15C` | DATA | DATA | DATA | Data, last frame |
+| <code>Sender &#124; Receiver</code> | `0xFADE` | `0x0000` | PKT_TYPE | PKT_TYPE | Request a packet |
+| <code>Sender &#124; Receiver</code> | `0xCAFD` | CMD | CMD | CMD | Command, first frame |
+| <code>Sender &#124; Receiver</code> | `0xCAFE` | CMD | CMD | CMD | Command, middle frame |
+| <code>Sender &#124; Receiver</code> | `0xCAFF` | CMD | CMD | CMD | Command, last frame |
+| <code>Sender &#124; Receiver</code> | `0xE15A` | DATA | DATA | DATA | Data, first frame |
+| <code>Sender &#124; Receiver</code> | `0xE15B` | DATA | DATA | DATA | Data, middle frame |
+| <code>Sender &#124; Receiver</code> | `0xE15C` | DATA | DATA | DATA | Data, last frame |
 
 **Query (`0x00A5`)** is sent once, shortly after a card powers on, and never again. It tells every other card
 this card's CARD_ID and CARD_TYPE.

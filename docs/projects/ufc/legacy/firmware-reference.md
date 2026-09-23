@@ -116,7 +116,7 @@ In practice the Sender was always a `BufferManager` and the Receiver was always 
 | Function | What it does |
 |:--|:--|
 | `UFC_ECODE putInReceiver(PacketHandle &pkt)` | Depends on the node. With a `PacketQue` Receiver, makes a child `PacketHandle` from `pkt` and puts it in the Receiver. With a `BufferManager` Receiver, copies the packet into the Receiver. A node that doesn't receive packets does nothing and returns `UFC_ECODE_FAIL`. |
-| `PacketHandle *IterateSender(UFC_ECODE *ecode)` | Steps once through the Sender and returns a pointer to the next packet's `PacketHandle`, if there is one. At the end, sets the ECODE to `UFC_ECODE_FAIL \| UFC_ECODE_FULL`. |
+| `PacketHandle *IterateSender(UFC_ECODE *ecode)` | Steps once through the Sender and returns a pointer to the next packet's `PacketHandle`, if there is one. At the end, sets the ECODE to <code>UFC_ECODE_FAIL &#124; UFC_ECODE_FULL</code>. |
 | `UFC_ECODE Act(void)` | The node's own job. Called from the card's main loop by the node manager. |
 | `UFC_ECODE Clean(void)` | Removes invalid, unused, and (if enabled) expired packets from the Sender. Called from the main loop by the node manager. |
 | `UFC_ECODE init(void)` | Initialises the node during the card's init phase: calls `init()` on every member, makes sure the node's hardware is set up, and clears the `isInitialized` lock. |

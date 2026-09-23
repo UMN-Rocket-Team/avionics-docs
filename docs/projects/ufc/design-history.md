@@ -53,7 +53,7 @@ What modular gets you: you can redesign one part of the flight computer, add fun
 existing system, or take functionality away by leaving a card out, all without redoing the whole PCB. It's
 flexible and extendable, but only worth it if you have a good reason and the people to support it.
 
-The original author's advice, which is worth taking seriously:
+The original author's advice:
 
 > If you're thinking about designing your own SRAD flight computer and can't decide between a single board and a
 > modular one, ask yourself why you're designing an SRAD flight computer. If the answer is to collect flight data,
@@ -104,7 +104,7 @@ We went with a backplane using **PCIe edge connectors** because:
 
 ## Change log
 
-### 2023–24: UFC2 {#2023-24-ufc2}
+### UFC2 (2023–24)
 
 **Microcontrollers: PIC → STM32.** The UFC originally used PICs because a common ECE course (EE 2361: Intro to
 Microcontrollers) uses the PIC24. In 2023 we switched to STM32s because:
@@ -140,7 +140,7 @@ More detail in the [PIC to STM32 document](https://docs.google.com/document/d/1l
 - GPS changed from the u-blox MAX-M8 to the MAX-M10S.
 - Debug: SWD port; a separate USART port for two-way debugging and perturbation; a dedicated GPS lock LED.
 
-### 2024–25: UFC3 {#2024-25-ufc3}
+### UFC3 (2024–25)
 
 **Card size.** The UFC was always meant to fit a 4 in body tube, but the first design didn't: the backplane's
 thickness on the back of the structure made it slightly too big. The cards shrank from 2.75 × 2.67 in to
@@ -175,7 +175,7 @@ or another serial console, from WINGS, or scripted in Python with `pyserial`. It
 development, unit and system testing, flight configuration, and readout. It's also available over both radios,
 so commands can be sent remotely.
 
-### 2025–26: UFC 3.5 {#2025-26-ufc-35}
+### UFC 3.5 (2025–26)
 
 - The structure was cut down from 8 cards to 4 to fit the IREC 2026 rocket, and the backplane went from 8 slots
   to 4.

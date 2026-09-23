@@ -15,7 +15,7 @@ Our own flight computer: a stack of cards on a shared backplane that collects se
 logs it, and sends telemetry down to our ground station, WINGS.
 {: .fs-5 .fw-300 }
 
-{% include figure.html src="https://github.com/user-attachments/assets/2fe1fe56-710c-4612-b13f-19bdb00a151a" alt="Render of the UFC 3.5 structure" caption="UFC 3.5 (IREC 2026): four cards on the backplane, with the battery holder and BMS on top." width="300px" %}
+{% include figure.html src="https://github.com/user-attachments/assets/2fe1fe56-710c-4612-b13f-19bdb00a151a" alt="Render of the UFC 3.5 structure" caption="UFC 3.5 (IREC 2026): four cards on the backplane, with the battery holder and BMS on top." width="300px"  align="right" %}
 
 Current version
 : UFC 3.5, 2025–26 season, built for IREC 2026

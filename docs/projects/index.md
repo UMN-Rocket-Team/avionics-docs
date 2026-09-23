@@ -50,6 +50,27 @@ go to whatever project you've been put on.
 | Sensor I2C addresses, interrupts, datasheets | [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}) |
 | Test procedures and which ones are finished | [Testing & Validation]({{ '/docs/projects/ufc/testing/' | relative_url }}) |
 
+## Acronyms and jargon
+
+| Term | Meaning |
+|:--|:--|
+| SRAD / COTS | Student researched and developed (we designed it) / commercial off-the-shelf (we bought it) |
+| IREC, SAC | Intercollegiate Rocket Engineering Competition, held at the Spaceport America Cup. Older docs say "SAC". |
+| Midwest | The Midwest Rocket Competition that GYRO was built for |
+| WINGS | Our ground station software. Receives telemetry and plots it. |
+| IMU | Inertial measurement unit: accelerometer and gyroscope, often with a magnetometer |
+| CAN | Controller Area Network, the two-wire bus UFC cards use to talk to each other |
+| SPI, I2C, UART | Common chip-to-chip serial buses. SPI uses a chip-select line per device, I2C uses two wires and device addresses, UART is point-to-point. |
+| QSPI / QUADSPI | SPI with four data lines, used for the flash chips |
+| PCIe | The edge-connector style on the backplane. We use the connectors, not the PCIe protocol. |
+| HAL | ST's Hardware Abstraction Layer library for STM32s |
+| STLINK | ST's programmer/debugger, which also carries the terminal UART |
+| RFD, LoRa | Our two radio types: the RFD900 (902–928 MHz) and LoRa modules (433 MHz) |
+| PPS | Pulse per second, a timing signal from the GPS |
+| CDH, EPS | Command and data handling / electrical power subsystem, the requirement categories our boards fall under |
+| MBSE | Model-based systems engineering, how the requirements were derived |
+| ECODE | The UFC firmware's error code bitfield ([Error Codes]({{ '/docs/projects/ufc/firmware/error-codes/' | relative_url }})) |
+
 ## About the migrated pages
 
 - **Images.** Most of the old wiki's images (schematics, PCB layers, photos, plots) are still hosted on the
@@ -63,6 +84,10 @@ These mark places where the old wiki contradicted itself, was left half-written,
 If you know the answer, fix the page and delete the box.
 
 ## Adding or updating a project
+
+Keep these pages up to date as often as is practical. When a design drifts from what's written here, update the
+page; the old wiki's rule was that the docs have to match the hardware, or the subteams drift apart too. Feedback
+from newly trained members is the best way to find out which pages don't make sense.
 
 1. Copy `docs/projects/project-template` into `docs/projects/`. Use `<name>.md` for a single page, or
    `<name>/index.md` if the project needs sub-pages.

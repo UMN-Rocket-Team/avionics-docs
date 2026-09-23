@@ -15,7 +15,7 @@ An all-in-one board for the UFC's battery pack: it monitors, protects, balances,
 live battery data to the UFC over CAN, including during flight.
 {: .fs-5 .fw-300 }
 
-{% include figure.html src="https://github.com/user-attachments/assets/971eabf7-cfb0-4d47-ac59-3d5d4df74588" alt="Render of the BMS board" caption="BMS board render" width="360px" %}
+{% include figure.html src="https://github.com/user-attachments/assets/971eabf7-cfb0-4d47-ac59-3d5d4df74588" alt="Render of the BMS board" caption="BMS board render" width="360px"  align="right" %}
 
 Built for
 : IREC 2026, as part of UFC 3.5

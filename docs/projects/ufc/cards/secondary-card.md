@@ -44,7 +44,7 @@ like converting raw readings into real units. Like the Primary Card, it writes t
 state detection sees a launch.
 
 Because it duplicates the Primary Card's measurements, we can test and fly one data card before the other is
-done. [Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#2024-25-ufc3) explains why the
+done. [Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425) explains why the
 cards are split this way.
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/00cd04bb-f702-4557-bdb0-c8baa5151ef2" caption="Secondary Card diagram" %}

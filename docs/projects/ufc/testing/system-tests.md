@@ -108,6 +108,7 @@ in. Check that every card detected takeoff, apogee, and landing at the right tim
 
 **In the car:**
 
+{: start="6" }
 6. Seatbelts.
 7. If you're doing this alongside the [RFD range test]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#rfd-range),
    the UFC operator should sit in the back to protect the UFC. (If you can get a baby seat for the UFC, do it.)
@@ -125,6 +126,7 @@ in. Check that every card detected takeoff, apogee, and landing at the right tim
 
 **After the test:**
 
+{: start="16" }
 16. Save the WINGS live data to a CSV.
 17. Offload the flash chip onto WINGS using jumper wires and a breakout board.
 18. Put both CSVs (phone and WINGS) in the team Google Drive.
@@ -168,6 +170,7 @@ or `readAllFlash.py` ([After the flight]({{ '/docs/projects/ufc/operations/' | r
 
 **Test:**
 
+{: start="17" }
 17. Redo steps 7–9.
 18. Violently push and stop the cart in the Akerman hallway for about 5 minutes, to get as wide a range of g-forces
     as possible.
@@ -175,6 +178,7 @@ or `readAllFlash.py` ([After the flight]({{ '/docs/projects/ufc/operations/' | r
 
 **After the test:**
 
+{: start="20" }
 20. Save the WINGS logs folder to the drive.
 21. Take out the host card and put it on a different backplane.
 22. Attach the debugger to the backplane.

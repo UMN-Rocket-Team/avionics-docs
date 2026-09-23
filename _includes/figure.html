@@ -4,6 +4,7 @@
   Usage:
     {% include figure.html src="/assets/images/projects/ufc/system-diagram.png" caption="UFC system diagram" %}
     {% include figure.html src="https://github.com/user-attachments/assets/..." caption="..." width="60%" %}
+    {% include figure.html src="..." caption="..." width="300px" align="right" %}   (floats right on wide screens)
 
   Images that are still hosted on the UMN Enterprise GitHub (github.umn.edu) need a UMN
   login, so they can't load on the public site. Those render as a link card instead.
@@ -16,7 +17,7 @@
 {%- else -%}
   {%- assign fig_url = fig_src | relative_url -%}
 {%- endif -%}
-<figure class="doc-figure">
+<figure class="doc-figure{% if include.align == "right" %} doc-figure--right{% endif %}">
 {%- if fig_src contains "github.umn.edu" %}
 <a class="umn-image" href="{{ fig_url }}" target="_blank" rel="noopener">
 <span class="umn-image-title">{{ include.caption | default: include.alt | default: "Image" }}</span>

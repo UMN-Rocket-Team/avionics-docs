@@ -20,6 +20,17 @@
   }
 }
 
+// align="right": float beside the text on wide screens, full width on phones
+@media (min-width: 50rem) {
+  .doc-figure--right {
+    float: right;
+    max-width: 38%;
+    margin: 0 0 1rem 1.5rem;
+
+    img { width: 100% !important; }
+  }
+}
+
 // Link card shown in place of an image that still lives on github.umn.edu
 .umn-image {
   display: flex;
@@ -115,3 +126,4 @@
 .tag-ok { background: #dff3e4; color: #1d5b2c; }
 .tag-partial { background: #fff3cd; color: #6b4e00; }
 .tag-none { background: $grey-lt-100; color: #5c5c5c; }
+.tag-legacy { background: #e3ecfa; color: #1f4a8a; }

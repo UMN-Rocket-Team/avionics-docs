@@ -47,7 +47,7 @@ The architecture also gives this card the job of running GNC algorithms on the c
 doesn't say whether any have been implemented.
 
 This card took over the storage role of UFC2's Host Card when the backplane switched from SPI to CAN
-([Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#2024-25-ufc3)).
+([Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425)).
 
 {% include figure.html src="https://github.umn.edu/Rocket-Team/UFC-2024/assets/22969/c50ad117-1435-4b29-8d09-80843e010366" caption="Interface Card diagram" %}
 

@@ -24,7 +24,7 @@ Flash
 : W25N512GV, 64 MB NAND over QUADSPI
 
 Radio
-: See the box below
+: RFD900 (902–928 MHz) per most of the old docs; the card spec says E22-400T22S LoRa. See the box below.
 
 Firmware
 : [`Firmware/Primary_Card`](https://github.umn.edu/Rocket-Team/UFC-2024/tree/main/Firmware/Primary_Card)

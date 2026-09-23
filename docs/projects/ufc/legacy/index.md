@@ -30,7 +30,7 @@ code that might still be hanging around.
 | Host / storage MCU | [STM32H735ZGT6](https://www.st.com/resource/en/datasheet/stm32h735zg.pdf) | STM32H730VBT6 |
 | Getting data off | Put the Host Card in readout mode with its DIP switches, then read it out through a debug board and FTDI cable into WINGS | SD card, `flash transfer`, or `readAllFlash.py` ([Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#after-the-flight)) |
 
-[Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#2024-25-ufc3) explains why things
+[Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425) explains why things
 changed.
 
 ## Pages

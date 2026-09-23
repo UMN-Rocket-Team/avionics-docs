@@ -88,6 +88,8 @@ The WINGS data files from each test are in the team Google Drive, under
 <span class="tag tag-ok">Written</span> has a full procedure.
 <span class="tag tag-partial">Partial</span> has a procedure with gaps (usually missing pass conditions or steps).
 <span class="tag tag-none">Summary only</span> has just a one-line description of what the test should do.
+<span class="tag tag-legacy">UFC2</span> means the procedure was written for the old Host/Sensor/Radio cards and needs
+adapting before you run it on UFC 3.5.
 
 ### Hardware
 
@@ -99,9 +101,9 @@ The WINGS data files from each test are in the team Google Drive, under
 | [Voltage Level Lite]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#voltage-level-lite) | Backplane rails correct with just the Power Card | <span class="tag tag-ok">Written</span> |
 | [Voltage Level]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#voltage-level) | Backplane rails correct with the full UFC | <span class="tag tag-ok">Written</span> |
 | [Current Draw]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#current-draw) | Current draw of each card | <span class="tag tag-partial">Partial</span> |
-| [Power Draw]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#power-draw) | Peak draw of the full UFC, and estimated battery life | <span class="tag tag-ok">Written</span> |
-| [Battery Life Lite]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#battery-life-lite) | Run time on one data card | <span class="tag tag-ok">Written</span> |
-| [Battery Life]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#battery-life) | Run time of the full UFC | <span class="tag tag-partial">Partial</span> |
+| [Power Draw]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#power-draw) | Peak draw of the full UFC, and estimated battery life | <span class="tag tag-ok">Written</span> <span class="tag tag-legacy">UFC2</span> |
+| [Battery Life Lite]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#battery-life-lite) | Run time on one data card | <span class="tag tag-ok">Written</span> <span class="tag tag-legacy">UFC2</span> |
+| [Battery Life]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#battery-life) | Run time of the full UFC | <span class="tag tag-partial">Partial</span> <span class="tag tag-legacy">UFC2</span> |
 | [Debug Pin Test]({{ '/docs/projects/ufc/testing/hardware-tests/' | relative_url }}#debug-pin-test) | Sensors work when driven from a Teensy/Arduino | <span class="tag tag-none">Summary only</span> |
 
 ### Sensors, radios, storage
@@ -112,13 +114,13 @@ The WINGS data files from each test are in the team Google Drive, under
 | [Sensor Compare / Validation]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#sensor-compare-and-sensor-validation) | Sensors agree across axes and cards | <span class="tag tag-ok">Written</span> |
 | [Per-sensor checks]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#per-sensor-checks) | Accelerometer, gyro, magnetometer, thermometer, GPS against a known reference | <span class="tag tag-none">Summary only</span> |
 | [Barometer]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#barometer) | Pressure readings in a vacuum chamber | <span class="tag tag-partial">Partial</span> |
-| [Pitot Sensor Validation]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#pitot-sensor-validation) | Pitot pressure sensors respond | <span class="tag tag-partial">Partial</span> |
+| [Pitot Sensor Validation]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#pitot-sensor-validation) | Pitot pressure sensors respond | <span class="tag tag-partial">Partial</span> <span class="tag tag-legacy">UFC2</span> |
 | [Live Telemetry (RFD)]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#live-telemetry-rfd) | Data rates over the RFD | Results only |
 | [RFD Range]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#rfd-range) | Radio lock at increasing distance (pass: 2+ miles) | <span class="tag tag-ok">Written</span> |
 | [LoRa Range]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#lora-range) | Same as RFD Range, with the LoRa | <span class="tag tag-none">Summary only</span> |
 | [GPS Lock]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#gps-lock) | Time to lock at different nose cone orientations | <span class="tag tag-ok">Written</span> |
 | [Antenna Configuration]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#antenna-configuration) | Best antenna placement | <span class="tag tag-none">Summary only</span> |
-| [Flash Chip]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#flash-chip) | Flash records correctly with no gaps | <span class="tag tag-ok">Written</span> |
+| [Flash Chip]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#flash-chip) | Flash records correctly with no gaps | <span class="tag tag-ok">Written</span> <span class="tag tag-legacy">UFC2</span> |
 | [SD Card]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#sd-card) | SD card records correctly; manual backup works | <span class="tag tag-none">Summary only</span> |
 | [CAN Interface]({{ '/docs/projects/ufc/testing/unit-tests/' | relative_url }}#can-interface) | No lost packets or commands between cards | <span class="tag tag-none">Summary only</span> |
 
@@ -131,7 +133,7 @@ The WINGS data files from each test are in the team Google Drive, under
 | [Overnight Flash Test]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#overnight-flash-test) | Flash fills correctly and stops when full | Results only |
 | [System Integrity]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#system-integrity) | Recovers from a power cut mid-run | <span class="tag tag-none">Summary only</span> |
 | [State Detection]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#state-detection) | Every card detects takeoff, apogee, and landing on a real flight | <span class="tag tag-none">Summary only</span> |
-| [Moving Car]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#moving-car) | Data matches a phone or COTS computer under real accelerations | <span class="tag tag-ok">Written</span> |
-| [Moving Cart]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#moving-cart) | Same, on a hand-pushed cart | <span class="tag tag-ok">Written</span> |
+| [Moving Car]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#moving-car) | Data matches a phone or COTS computer under real accelerations | <span class="tag tag-ok">Written</span> <span class="tag tag-legacy">UFC2</span> |
+| [Moving Cart]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#moving-cart) | Same, on a hand-pushed cart | <span class="tag tag-ok">Written</span> <span class="tag tag-legacy">UFC2</span> |
 | [Hot Car]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#hot-car) | Sensors and battery hold up in heat | <span class="tag tag-none">Summary only</span> |
 | [Test rocket and IREC]({{ '/docs/projects/ufc/testing/system-tests/' | relative_url }}#test-rocket-and-irec) | Everything, for real | — |

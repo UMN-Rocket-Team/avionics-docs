@@ -33,7 +33,7 @@ each one can do its job without the others.
 ```mermaid
 flowchart TB
     BAT["3S3P battery pack<br/>+ BMS (in the battery holder)"]
-    subgraph STACK["UFC stack · backplane carries 3.3 V, 5 V, and CAN"]
+    subgraph STACK["UFC stack"]
         direction LR
         PWR["<b>Power Card</b><br/>battery → 3.3 V + 5 V"]
         PRI["<b>Primary Card</b><br/>IMU, baro, GPS, radio"]
@@ -57,7 +57,7 @@ flowchart TB
 | [Interface Card]({{ '/docs/projects/ufc/cards/interface-card/' | relative_url }}) | Collects data from the other cards onto an SD card, and has connectors for systems outside the stack. | STM32H730 |
 
 The Primary and Secondary cards overlap on purpose. Having two cards that measure the same things means we
-can fully test and fly one before the other is finished. [Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#2024-25-ufc3)
+can fully test and fly one before the other is finished. [Design History]({{ '/docs/projects/ufc/design-history/' | relative_url }}#ufc3-202425)
 has the reasoning.
 
 Other boards that belong to the UFC system:
