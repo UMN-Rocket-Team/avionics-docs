@@ -8,9 +8,11 @@ url: https://UMN-Rocket-Team.github.io/avionics-docs
 # Navigation
 
 aux_links:
-  Template Repository: https://github.com/UMN-Rocket-Team/avionics-docs
+  avionics-docs: https://github.com/UMN-Rocket-Team/avionics-docs
 
 aux_links_new_tab: true
+
+logo: "/assets/images/logo.png"
 
 favicon_ico: "/assets/images/favicon.ico"
 
