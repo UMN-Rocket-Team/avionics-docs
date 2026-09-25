@@ -25,10 +25,10 @@ permalink: /docs/tutorials/hardware/
 
 Welcome to the Ultimate Hardware Guide! If you’re new here, welcome to the hardware team! If you’re a returning member, feel free to get a refresher from the guides here. 
 
-**⍰ What does the Hardware Subteam do?**
+**What does the Hardware Subteam do?**
 * This subteam is focused on the design, component selection, (slight) assembly, and debugging of PCBs. We work very closely with the firmware team to work on flight computer projects.
 
-**⍰ What are some past projects we have worked on?**
+**What are some past projects we have worked on?**
 * For many years this subteam was primarily focused on our main project, the Universal Flight Computer (UFC). In recent years we have also branched out into other projects such as payload control boards, standalone compact flight computers such as GYRO, and battery management systems.
 
 <div class="card-grid" markdown="0">
@@ -49,7 +49,7 @@ Welcome to the Ultimate Hardware Guide! If you’re new here, welcome to the har
   </a>
 </div>
 
-If you’re new, the next-next section will cover the basics of our eCAD software of choice, Altium. The following sections go more into detail about specific aspects of the software and design process, so feel free to reference those when needed.
+If you’re new, the [Altium Tutorial]({{ '/docs/tutorials/hardware/tutorial/' | relative_url }}) section will cover the basics of our eCAD software of choice, Altium. The following sections go more into detail about specific aspects of the software and design process, so feel free to reference those when needed.
  
 If you’re unfamiliar with circuit design and basic components, don’t fret! Here’s a playlist of some nice tutorials to get you up to speed: 
 [Playlist](https://www.youtube.com/playlist?list=PLah6faXAgguOeMUIxS22ZU4w5nDvCl5gs)
