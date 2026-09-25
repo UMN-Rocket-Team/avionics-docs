@@ -110,3 +110,58 @@ This is a terminal software used to send and receive data and commands from boar
 The University has a handy little website full of downloads to software like SolidWorks and MatLab. If you want any of these, visit here →  [https://software.cse.umn.edu/](https://software.cse.umn.edu/)
 
 ---
+
+<style>
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.75rem 0 2rem;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  height: 100%;
+  padding: 1.25rem 1.25rem 1.5rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 10px;
+  text-decoration: none !important;
+  color: inherit;
+  background: linear-gradient(180deg, rgba(0,0,0,0.015), rgba(0,0,0,0));
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  border-color: rgba(0,0,0,0.2);
+}
+.card-img {
+  display: block;
+  width: 100%;
+  height: 180px;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  object-fit: contain;
+  background: rgba(0,0,0,0.03);
+}
+.card-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.card p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #5c5c5c;
+}
+@media (prefers-color-scheme: dark) {
+  .card-img { background: rgba(255,255,255,0.04); }
+}
+@media (prefers-color-scheme: dark) {
+  .card { border-color: rgba(255,255,255,0.12); background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)); }
+  .card:hover { border-color: rgba(255,255,255,0.3); box-shadow: 0 6px 16px rgba(0,0,0,0.4); }
+  .card p { color: #b3b3b3; }
+}
+</style>
