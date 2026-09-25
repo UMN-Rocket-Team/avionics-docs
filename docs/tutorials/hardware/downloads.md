@@ -15,7 +15,7 @@ permalink: /docs/tutorials/hardware/downloads
 
 This page will provide a ton of different software download links that will be useful for avionics.
 
-{ .important }
+{: .important }
 > Make sure you have access to the teams' resources below!
 
 <div class="card-grid" markdown="0">
@@ -51,9 +51,6 @@ This page will provide a ton of different software download links that will be u
   </a>
 </div>
 
-<img width="512" height="512" alt="image" src= />
-
-
 <details markdown="block">
   <summary>Contents</summary>
   {: .text-delta }
@@ -68,7 +65,7 @@ This page will provide a ton of different software download links that will be u
 This is the software most important to hardware. To download Altium, first you will need to create an account and download Altium Designer from this [link](https://www.altium.com/products/downloads) 
 Make sure to use your x500 for the account.
 
-{ .note }
+{: .note }
 You may have to wait for an Altium admin (Hardware or Avionics lead) to give you access to the teams workspace before you will be able to download Altium.
 
 Once you have an account, a team member will have to permit you one of the team's licenses for Altium. When you open Altium and you don’t have a license, you will be prompted with the “License Management” window. To use your license, click on the copy you've been given and click “Use”. You should now be able to use Altium.
@@ -91,7 +88,7 @@ Once logged in, 2 new symbols will show up. One is log out and the other is “O
 
 On the left pane, click "Projects". The PCBs for the flight computer can be found under the “UFC Cards” folder. Feel free to explore the other folders and check out what has already been created.
 
-{ .important }
+{: .important }
 > It seems that any project you create in Altium will automatically also be created on the workspace. If you work on any personal projects, ensure that you log out first. Stay logged in for any team projects.
 
 **What’s the difference between the Altium application and Altium365 on your web browser?**
@@ -116,8 +113,6 @@ This is a terminal software used to send and receive data and commands from boar
 ## Other software
 
 The University has a handy little website full of downloads to software like SolidWorks and MatLab. If you want any of these, visit here →  [https://software.cse.umn.edu/](https://software.cse.umn.edu/)
-
----
 
 <style>
 .card-grid {
