@@ -36,7 +36,7 @@ This page will provide a ton of different software download links that will be u
   </a>
   <a class="card" href="mailto:moha2063@umn.edu">
     <img class="card-img" width="100%" alt="Drive Link" src="https://github.com/user-attachments/assets/fcd885e2-8293-4a07-939c-546cf4e7b810" />
-    <div class="card-title">Googel Drive</div>
+    <div class="card-title">Team Drive</div>
     <p>Email Mohamed for access. Where files, videos, data, and presentations reside.</p>
   </a>
   <a class="card" href="https://rocket-team.365.altium.com/getstarted">
@@ -44,7 +44,15 @@ This page will provide a ton of different software download links that will be u
     <div class="card-title">Altium365</div>
     <p>Our hub for all PCB projects and files.</p>
   </a>
+  <a class="card" href="https://calendar.google.com/calendar/embed?src=rkt-team%40umn.edu&ctz=America%2FChicago">
+    <img class="card-img" width="100%" alt="Calender Link" src="https://github.com/user-attachments/assets/6ed50ad2-7b94-4aa3-914f-03208dd4b36c" />
+    <div class="card-title">Team Calander</div>
+    <p>Keep up to date with all our meetings and events.</p>
+  </a>
 </div>
+
+<img width="512" height="512" alt="image" src= />
+
 
 <details markdown="block">
   <summary>Contents</summary>
