@@ -62,13 +62,48 @@ This page will provide a ton of different software download links that will be u
 
 ## Altium
 
-This is the software most important to hardware. To download Altium, first you will need to create an account and download Altium Designer from this [link](https://www.altium.com/products/downloads) 
+This is the software most important to hardware. If you're a **New Member**, the instructios below will get your student license set up. If you're a **Returning Member** with an *expired license*, click the additional instructions below before following the activation tutorial. 
+
+<details>
+  <summary>Renew expired license additional instructions</summary>
+
+  Go to [Altium Student Lab](https://www.altium.com/education/students) and log out. 
+
+  Find your cookie settings by the site link at the top of your browser. Click "Cookies and site data" and click "Manage on device site data".
+  
+  <img width="595" height="333" alt="image" src="https://github.com/user-attachments/assets/ead0fd09-f66b-4ef9-a4d7-648891cad24c" />
+
+  Delete all the cookies and click "Done".
+  
+  <img width="453" height="512" alt="image" src="https://github.com/user-attachments/assets/bfbd0744-18a6-4a30-9e05-6abe9300c6d7" />
+
+  Now continue following the instructions below to re-validate your license.
+
+  {: .note }
+  Use your same email address as last time.
+  
+</details>
+
+To activate your student license, go to [Altium Student Lab](https://www.altium.com/education/students) and click "Enroll for free". You will be prompted to enter your institution and email. 
+
+{: .important }
+> Make sure you use your **x500.edu** email as otherwise it won't work!
+
+Fill out the information the website asks of you, and you'll usually be redirected to log into the school login SSO. Afterwards, fill out your information and submit. Within a few minutes you should receive an email from Altium. Open that email and press "Click here to verify your email".
+
+It may take a while, but after verification you should receive another email.
+
+Once it arrives, click "Activate AltiumLive" to activate your license. Your license details will also be listed at the bottom of the email.
+
+<img width="630" height="129" alt="Screenshot 2026-09-27 122810" src="https://github.com/user-attachments/assets/ff38f1be-c0e1-4662-8f35-229a4ec3c411" />
+
+Feel free to follow the email directions to download the installer. Otherwise, download Altium, first you will need to create an account if you don't have one already and download [Altium Designer](https://www.altium.com/products/downloads).
 Make sure to use your x500 for the account.
 
 {: .note }
-You may have to wait for an Altium admin (Hardware or Avionics lead) to give you access to the teams workspace before you will be able to download Altium.
+You may have to wait for an Altium admin (Hardware or Avionics lead) to give you access to the teams workspace before you will be able to download Altium. Make sure to let them know and provide your email!
 
-Once you have an account, a team member will have to permit you one of the team's licenses for Altium. When you open Altium and you don’t have a license, you will be prompted with the “License Management” window. To use your license, click on the copy you've been given and click “Use”. You should now be able to use Altium.
+Once you have an account, a team member will have to permit you one of the team's licenses for Altium. When you open Altium and you don’t have a license turned on, you will be prompted with the “License Management” window. To use your license, click on the copy you've been given and click “Use”. You should now be able to use Altium.
 
 <img width="955" height="280" alt="image" src="https://github.com/user-attachments/assets/9e3af92d-0680-4e5e-a770-37acadf63eb6" />
 
@@ -86,7 +121,7 @@ It will ask for your credentials.
 
 Once logged in, 2 new symbols will show up. One is log out and the other is “Open Workspace In Web Browser”. If you click this you will be able to see all of the projects currently stored on the workspace.
 
-On the left pane, click "Projects". The PCBs for the flight computer can be found under the “UFC Cards” folder. Feel free to explore the other folders and check out what has already been created.
+On the left pane, click "Projects". The PCBs for the flight computer can be found under the `UFC Cards` folder. Feel free to explore the other folders and check out what has already been created.
 
 {: .important }
 > It seems that any project you create in Altium will automatically also be created on the workspace. If you work on any personal projects, ensure that you log out first. Stay logged in for any team projects.
