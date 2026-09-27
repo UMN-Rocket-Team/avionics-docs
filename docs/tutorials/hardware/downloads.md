@@ -100,13 +100,9 @@ Feel free to follow the email directions to download the installer. Otherwise, t
 Make sure to use your x500 for the account.
 
 {: .note }
-You may have to wait for an Altium admin (Hardware or Avionics lead) to give you access to the teams workspace before you will be able to download Altium. Make sure to let them know and provide your email!
+You may have to wait for an Altium admin (Hardware or Avionics lead) to give you access to the teams workspace before you will be able to make projects Altium. Make sure to let them know and provide your email!
 
-Once you have an account, a team member will have to permit you one of the team's licenses for Altium. When you open Altium and you don’t have a license turned on, you will be prompted with the “License Management” window. To use your license, click on the copy you've been given and click “Use”. You should now be able to use Altium.
-
-<img width="955" height="280" alt="image" src="https://github.com/user-attachments/assets/9e3af92d-0680-4e5e-a770-37acadf63eb6" />
-
-Once it's downloaded and you have a license, open up Altium. In the upper right hand corner you will notice a small cloud icon with the words “Not Connected” next to it.
+Once it's downloaded and you have a license, open up Altium. If it says your license isn't activated, ignore that for now. In the upper right hand corner you will notice a small cloud icon with the words “Not Connected” next to it.
 
 <img width="321" height="47" alt="image" src="https://github.com/user-attachments/assets/99f5d514-7475-4fb6-8838-5426ea2df97b" />
 
@@ -118,9 +114,17 @@ To log in, click on “Not Connected”. You should then see the Rocket Team wor
 
 It will ask for your credentials.
 
-Once logged in, 2 new symbols will show up. One is log out and the other is “Open Workspace In Web Browser”. If you click this you will be able to see all of the projects currently stored on the workspace.
+Once logged in, click on your profile in the top right and click "Licenses".
 
-On the left pane, click "Projects". The PCBs for the flight computer can be found under the `UFC Cards` folder. Feel free to explore the other folders and check out what has already been created.
+<img width="260" height="203" alt="Screenshot 2026-09-27 134500" src="https://github.com/user-attachments/assets/30ed88b1-99eb-4edc-affd-b8dea5ddadf8" />
+
+Under your licenses, You should see "Altium Designer Viewer" and "Altium Designer Professional". Click "Use License" for both.
+
+<img width="1301" height="197" alt="license select" src="https://github.com/user-attachments/assets/52e22354-c1bb-4869-b7dc-8836b95c0446" />
+
+Now you can officially start using Altium! The first order of business is to explore the team workspace. Click on your profile icon again and click “My Altium 365”. If you click this you will be able to see all of the projects currently stored on the workspace on a web browser.
+
+On the left pane on the website, click "Projects". The PCBs for the flight computer can be found under the `UFC Cards` folder. Feel free to explore the other folders and check out what has already been created.
 
 {: .important }
 > It seems that any project you create in Altium will automatically also be created on the workspace. If you work on any personal projects, ensure that you log out first. Stay logged in for any team projects.
