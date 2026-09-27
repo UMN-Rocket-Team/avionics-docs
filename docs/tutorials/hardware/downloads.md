@@ -37,7 +37,8 @@ This page will provide a ton of different software download links that will be u
   <a class="card" href="https://drive.google.com/drive/u/1/folders/0ADRJU9rD77WuUk9PVA" target="_blank">
     <img class="card-img" width="100%" alt="Drive Link" src="https://github.com/user-attachments/assets/fcd885e2-8293-4a07-939c-546cf4e7b810" />
     <div class="card-title">Team Drive</div>
-    <p><a href="mailto:moha2063@umn.edu" target="_blank">Email Mohamed</a> for access. Where files, videos, data, and presentations reside.</p>
+    <p>Email Mohamed for access. Where files, videos, data, and presentations reside.</p>
+    <a class="email" href="mailto:moha2063@umn.edu" target="_blank">moha2063@umn.edu</a>
   </a>
   <a class="card" href="https://rocket-team.365.altium.com/getstarted" target="_blank">
     <img class="card-img" width="100%" alt="Altium Link" src="https://github.com/user-attachments/assets/1e501850-611d-4fa6-9e8c-d3459145448c" />
