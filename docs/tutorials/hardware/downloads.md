@@ -67,20 +67,19 @@ This is the software most important to hardware. If you're a **New Member**, the
 <details>
   <summary>Renew expired license additional instructions</summary>
 
-  Go to [Altium Student Lab](https://www.altium.com/education/students) and log out. 
+  Go to [Altium Student Lab](https://www.altium.com/education/students) and log out.
 
-  Find your cookie settings by the site link at the top of your browser. Click "Cookies and site data" and click "Manage on device site data".
+  Find your cookie settings by the site link at the top of your browser. Click "Cookies and site data" and click "Manage on device site data".\
   
   <img width="595" height="333" alt="image" src="https://github.com/user-attachments/assets/ead0fd09-f66b-4ef9-a4d7-648891cad24c" />
 
-  Delete all the cookies and click "Done".
+  Delete all the cookies and click "Done".\
   
   <img width="453" height="512" alt="image" src="https://github.com/user-attachments/assets/bfbd0744-18a6-4a30-9e05-6abe9300c6d7" />
 
-  Now continue following the instructions below to re-validate your license.
+  Now continue following the instructions below to re-validate your license.\
 
-  {: .note }
-  Use your same email address as last time.
+  **Use your same email address as last time.**
   
 </details>
 
