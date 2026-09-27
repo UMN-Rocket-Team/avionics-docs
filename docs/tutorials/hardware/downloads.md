@@ -62,7 +62,7 @@ This page will provide a ton of different software download links that will be u
 
 ## Altium
 
-This is the software most important to hardware. If you're a **New Member**, the instructios below will get your student license set up. If you're a **Returning Member** with an *expired license*, click the additional instructions below before following the activation tutorial. 
+This is the software most important to hardware. If you're a **New Member**, the instructions below will get your student license set up. If you're a **Returning Member** with an *expired license*, click the additional instructions below before following the activation tutorial. 
 
 <details markdown="block">
   <summary>Renew expired license additional instructions</summary>
