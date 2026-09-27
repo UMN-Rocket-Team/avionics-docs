@@ -22,6 +22,8 @@ A breakout board is a PCB that is intended to have a single component such as a 
 {:toc}
 </details>
 
+---
+
 ## Creating Projects
 
 First we are going to start by creating the project in the workspace.
