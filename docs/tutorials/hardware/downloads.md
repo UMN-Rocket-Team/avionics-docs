@@ -118,7 +118,7 @@ Once logged in, click on your profile in the top right and click "Licenses".
 
 <img width="260" height="203" alt="Screenshot 2026-09-27 134500" src="https://github.com/user-attachments/assets/30ed88b1-99eb-4edc-affd-b8dea5ddadf8" />
 
-Under your licenses, You should see "Altium Designer Viewer" and "Altium Designer Professional". Click "Use License" for both.
+Under your licenses, you should see "Altium Designer Viewer" and "Altium Designer Professional". Click "Use License" for both.
 
 <img width="1301" height="197" alt="license select" src="https://github.com/user-attachments/assets/52e22354-c1bb-4869-b7dc-8836b95c0446" />
 
