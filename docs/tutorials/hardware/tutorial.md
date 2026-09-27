@@ -26,7 +26,7 @@ A breakout board is a PCB that is intended to have a single component such as a 
 
 ## Creating Projects
 
-First we are going to start by creating the project in the workspace.
+First we are going to start by creating the project in the [Altium365 workspace](https://rocket-team.365.altium.com/designs){:target="_blank"}.
 
 {: .note }
 Creating projects in the workspace automatically connects the project to the workspace/Altium's version control.
@@ -45,7 +45,7 @@ If you have project files that are not currently on the workspace, you can uploa
 
 <img width="176" height="144" alt="image" src="https://github.com/user-attachments/assets/776ceecc-9ce1-4de0-92b5-7ecb63176e31" />
 
-A dialog box will pop up asking for you to enter a name and select a template. Ensure you use a descriptive name, like `part#_EnglishName`, we are going to use `H3LIS200DL_100gAccelerometer`. Ensure the selected template is “PCB Project”. Feel free to add a description.
+A dialog box will pop up asking for you to enter a name and select a template. Ensure you use a descriptive name, like `part#_EnglishName`, we are going to use `H3LIS200DL_100gAccelerometer`. I would recommend adding your name after the file name for this project. Ensure the selected template is “PCB Project”. Feel free to add a description.
 
 <img width="814" height="452" alt="image" src="https://github.com/user-attachments/assets/6278ecd7-56f4-4811-baf4-1fe8dc7c5f81" />
 
@@ -238,7 +238,7 @@ Remember those faint yellow lines? They are suggesting connections between the p
 
 We have now created a physical connection between these two points!
 
-Some boards will get very complicated and require you to cross wires, but if you try to do that all on the same layer you will connect pins together that should not be. You do this by creating some wires on the bottom layer. There's two ways to do this, either click the “Bottom Layer” tab, and then the “Interactively Route Connections” button again, and you will now be routing on the bottom layer. Or you can use the “+” and “-” keys to change layers in the middle of a line. When you do this you will create something called a via. Vias are used to do exactly this, change the layer of a wire connection.
+Some boards will get very complicated and require you to cross wires, but if you try to do that all on the same layer you will connect pins together that should not be. You do this by creating some wires on the bottom layer. There's two ways to do this, either click the “Bottom Layer” tab, and then the “Interactively Route Connections” button again, and you will now be routing on the bottom layer. Or you can press ctrl + shift + scroll or ctrl + L while placing a trace to change layers. When you do this you will create something called a via. Vias are used to do exactly this, change the layer of a wire connection.
 
 ## Design Rules
 
@@ -359,15 +359,15 @@ There may be a popup that allows you to make a comment on the revision being sav
 
 There is one last step, and that is to verify that there are no issues from a manufacturers standpoint. There are 2 ways we do this, the first is through a free online manufacturing check.
 
-Start by ensuring your PCB file is selected, then go to `File` → `Fabrication Outputs` → `Gerber X2 Files`.
+Start by ensuring your **PCB file is selected**, then go to `File` → `Fabrication Outputs` → `Gerber X2 Files`.
 
-<img width="372" height="707" alt="image" src="https://github.com/user-attachments/assets/bdea5b31-2d16-4fcc-a3cd-53445490791c" />
+<img width="445" height="795" alt="Screenshot 2026-09-27 141246" src="https://github.com/user-attachments/assets/0d22a99a-dcdd-46fc-b544-e208a8fd20e4" />
 
 There will be a popup with output options for you to select. On the right there are all of the layers we have been using that you can select and generate output files for. Please match the settings in the image below.
 
 <img width="1033" height="705" alt="image" src="https://github.com/user-attachments/assets/7a9c81e9-3133-4c66-99f3-258278f3b329" />
 
-Next go to (with PCB file selected) `File` → `Fabrication Outputs` → `NC Drill Files`.
+Next go to **(with PCB file selected)** `File` → `Fabrication Outputs` → `NC Drill Files`.
 
 <img width="372" height="706" alt="image" src="https://github.com/user-attachments/assets/0e5733c3-9500-448c-808e-fae5ed7cd288" />
 
@@ -375,7 +375,7 @@ In the popup, select inches and 2:5 for the resolution, then make sure “Suppre
 
 <img width="459" height="714" alt="image" src="https://github.com/user-attachments/assets/d73c766a-65ec-4255-ba6d-d76204087e33" />
 
-Now that you’ve created the output files, open the file explorer, find the project folder on your local device, and inside it there should be a folder called `Project Outputs for "ProjectName"`. Here you can find all of the output files you just created.
+Make sure you select those CAMtastic files and save them. Now that you’ve created the output files, open the file explorer, find the project folder on your local device, and inside it there should be a folder called `Project Outputs for "ProjectName"`. Here you can find all of the output files you just created.
 
 Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) as well as the the `H3LIS200DL_Breakout_PCB.txt` and `H3LIS200DL_Breakout_PCB.gm` files.
 
