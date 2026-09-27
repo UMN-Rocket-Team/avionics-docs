@@ -9,6 +9,7 @@ permalink: /docs/tutorials/hardware/tutorial
 ---
 
 # Altium Basics Tutorial
+{: .no_toc }
 
 The purpose of this tutorial is to give new and old members alike a reference to use when designing printed circuit boards (PCBs) in Altium Designer. The example PCB this guide will be designing is an enhanced breakout board for the H3LIS200DL (a high-g 3-axis digital accelerometer).
 
@@ -64,7 +65,7 @@ To create the schematic, have your previously blank project open, and click `Fil
 
 You will then see a file named `Sheet1.ScDoc` appear underneath your project file, in the projects panel. It will also open in the display window showing you a traditional schematic. It is a good idea to immediately rename this document by right clicking `Sheet1.ScDoc` in the left pane, and clicking on rename. We will be renaming it to `H3LIS200DL_Breakout.SchDoc` Some projects may utilize multiple schematic sheets. However we will only be using 1.
 
-### Datasheets
+## Datasheets
 
 Before you can continue on the schematic, you must learn more about the components you want to use. Since this PCB is a breakout, it's going to only have 1 integrated circuit (IC), and a few passive components. 
 
