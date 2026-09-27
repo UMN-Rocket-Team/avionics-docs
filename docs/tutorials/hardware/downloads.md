@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Important Downloads
+title: Important Resources
 parent: Hardware
 grand_parent: Tutorials
 has_children: false
@@ -10,7 +10,7 @@ permalink: /docs/tutorials/hardware/downloads
 
 
 
-# Important Software Downloads
+# Important Resources And Software Downloads
 {: .no_toc }
 
 This page will provide a ton of different software download links that will be useful for avionics.
