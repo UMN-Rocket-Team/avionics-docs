@@ -78,9 +78,8 @@ This is the software most important to hardware. If you're a **New Member**, the
   <img width="453" height="512" alt="image" src="https://github.com/user-attachments/assets/bfbd0744-18a6-4a30-9e05-6abe9300c6d7" />
   <br>
   <p>Now continue following the instructions below to re-validate your license</p>
-  <br>
+  
   <p class="note">Use your same email address as last time.</p>
-
   
 </details>
 
