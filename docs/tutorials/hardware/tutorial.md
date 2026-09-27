@@ -69,7 +69,7 @@ You will then see a file named `Sheet1.ScDoc` appear underneath your project fil
 
 Before you can continue on the schematic, you must learn more about the components you want to use. Since this PCB is a breakout, it's going to only have 1 integrated circuit (IC), and a few passive components. 
 
-The first thing to do is find the datasheet to that IC (H3LIS200DL). The datasheet will tell you (almost) everything you should need to know about that component. The easiest way to do this will be to search in google something like `H3LIS200DL datasheet` or search the part on a website like [DigiKey](https://www.digikey.com/) (a components supplier) and click “datasheet”. You should find something like this:
+The first thing to do is find the datasheet to that IC (H3LIS200DL). The datasheet will tell you (almost) everything you should need to know about that component. The easiest way to do this will be to search in google something like `H3LIS200DL datasheet` or search the part on a website like [DigiKey](https://www.digikey.com/){:target="_blank"} (a components supplier) and click “datasheet”. You should find something like this:
 
 <img width="597" height="743" alt="image" src="https://github.com/user-attachments/assets/c8079c2f-595d-4e73-a529-f5f865c8772e" />
 
@@ -114,7 +114,7 @@ In this guide we will only talk about the first two for now. But preferably, you
 
 You should be able to see tabs for the Components Panel and Manufacturer Part Search along the right side of Altium. If you cannot, In the upper left click `View` → `Panels` → `Components/Manufacturer Part Search`.
 
-Altium provides the team with space on the workspace to store components. Navigate back to the [Altium365 workspace](https://rocket-team.365.altium.com/getstarted) on your web browser, then on the left panel click "Components". Here you see all of the components that came with or have been uploaded to the teams workspace.
+Altium provides the team with space on the workspace to store components. Navigate back to the [Altium365 workspace](https://rocket-team.365.altium.com/getstarted){:target="_blank"} on your web browser, then on the left panel click "Components". Here you see all of the components that came with or have been uploaded to the teams workspace.
 
 <img width="1915" height="550" alt="image" src="https://github.com/user-attachments/assets/ac26d21f-9081-406f-b004-8f3c98213886" />
 
@@ -140,7 +140,7 @@ Next we need to add the passive components. To add these we will use Manufacture
 If you’ve studied the data sheet, we know that this schematic will need a 10k resistor, 10uF ceramic capacitor, and a 100nf ceramic capacitor. In the search bar enter `10k resistor`. The standard passive component surface mount device (SMD) size for the rocket team is 1206, so we want to search for a `1/4W 1206 10k resistor`, such as the one highlighted below.
 
 {: .note }
-In recent years the team has had JLCPCB place the components on the boards as opposed to soldering them all ourselves. Depending on the project, it’ll be completely fine to use smaller sizes than 1206, though I wouldn’t recommend going smaller than 0603. For more information on standard SMD component sizes visit this [link](https://www.surfacemountprocess.com/smd-component-packages.html).
+In recent years the team has had JLCPCB place the components on the boards as opposed to soldering them all ourselves. Depending on the project, it’ll be completely fine to use smaller sizes than 1206, though I wouldn’t recommend going smaller than 0603. For more information on standard SMD component sizes visit this [link](https://www.surfacemountprocess.com/smd-component-packages.html){:target="_blank"}.
 
 <img width="1187" height="349" alt="image" src="https://github.com/user-attachments/assets/aa96e52b-29da-4d11-86af-ed6502e1b7e4" />
 
@@ -240,7 +240,7 @@ Some boards will get very complicated and require you to cross wires, but if you
 
 ## Design Rules
 
-Before we go ahead and finish all of our traces, we need to adjust some of Altium's design rules. The design rules are rules dictating things like the minimum distance between two pads, or the minimum distance between a trace and a via. These are dictated by the manufacturer. We can use JLBPCB’s rules as a guide, which can be found at [https://jlcpcb.com/capabilities/pcb-capabilities](https://jlcpcb.com/capabilities/pcb-capabilities). To edit these in Altium, click `Design` → `Rules`. The ones we are particularly interested in are under `Design Rules` → `Electrical` → `Clearance` → `Clearance`. Here you can change the minimum clearances Altium will accept.
+Before we go ahead and finish all of our traces, we need to adjust some of Altium's design rules. The design rules are rules dictating things like the minimum distance between two pads, or the minimum distance between a trace and a via. These are dictated by the manufacturer. We can use JLBPCB’s rules as a guide, which can be found at [https://jlcpcb.com/capabilities/pcb-capabilities](https://jlcpcb.com/capabilities/pcb-capabilities){:target="_blank"}. To edit these in Altium, click `Design` → `Rules`. The ones we are particularly interested in are under `Design Rules` → `Electrical` → `Clearance` → `Clearance`. Here you can change the minimum clearances Altium will accept.
 
 {: .note }
 You may not always need to change these, you can often just keep Altiums defaults, as they are very generous. But you can change these to your PCB manufacturer's minimums if you are having issues. But never go below the manufacturers minimums.
@@ -381,7 +381,7 @@ Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) 
 
 Then right click → `Send to` → `Compressed (zipped) folder`.
 
-With your zip file, you can see a preview of your board with [JLBPCB](https://jlcpcb.com/), and drag your zip file over where it says "Add gerber file"
+With your zip file, you can see a preview of your board with [JLBPCB](https://jlcpcb.com/){:target="_blank"}, and drag your zip file over where it says "Add gerber file"
 
 <img width="885" height="135" alt="image" src="https://github.com/user-attachments/assets/b837e71c-54d9-4250-87ee-6ea1a460a184" />
 
@@ -398,12 +398,12 @@ If all of it looks good, then that's it! You're done with the training!
 
 This guide is just a quick guide to getting started using Altium on the team, we encourage you to continue to practice and utilize online resources and the rest of this guide to improve your skills. Listed below are a few links that may help you in your adventures with Altium!
 
- * A video on YouTube by Robert Feranec, [Altium Designer Tutorial Step-by-step](https://www.youtube.com/watch?v=PqFtSpAXB9Q)
+ * A video on YouTube by Robert Feranec, [Altium Designer Tutorial Step-by-step](https://www.youtube.com/watch?v=PqFtSpAXB9Q){:target="_blank"}
     * A very in depth tutorial how to use Altium, long but very helpful.
 
- * [Guides from EE3102](https://drive.google.com/drive/u/2/folders/1zoEPUlK-15pITA9IwbEAqrWZzhHMu31a)
+ * [Guides from EE3102](https://drive.google.com/drive/u/2/folders/1zoEPUlK-15pITA9IwbEAqrWZzhHMu31a){:target="_blank"}
 
- * A video by Robert Feranec, [Altium Footprints Guide](https://youtu.be/wxYbIGV9_CY?si=AotVodZdm0toma9B)
+ * A video by Robert Feranec, [Altium Footprints Guide](https://youtu.be/wxYbIGV9_CY?si=AotVodZdm0toma9B){:target="_blank"}
     * Guide to creating custom footprints. Again, very long but very helpful if your project requires custom component footprints.
 
 The next section will go over the team’s design practices, which I urge you to go over.
