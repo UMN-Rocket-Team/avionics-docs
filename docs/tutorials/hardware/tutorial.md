@@ -14,13 +14,21 @@ The purpose of this tutorial is to give new and old members alike a reference to
 
 A breakout board is a PCB that is intended to have a single component such as a sensor on it, and it will generally have all the parts from its schematic needed to work along with terminals and pads to interface with it. This helps the firmware team test and breadboard with it.
 
-### Creating Projects
+<details markdown="block">
+  <summary>Contents</summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+
+## Creating Projects
 
 First we are going to start by creating the project in the workspace.
 
-ℹ️ ***Creating projects in the workspace automatically connects the project to the workspace/Altium's version control***
+{: .note }
+Creating projects in the workspace automatically connects the project to the workspace/Altium's version control.
 
-While you’re in the workspace, navigate to Projects > New Member Training. In the breakouts folder, you will see a button saying “+ New”, click this.
+While you’re in the workspace, navigate to `Projects` → `New Member Training`. In the breakouts folder, you will see a button saying "+ New", click this.
 
 <img width="298" height="84" alt="image" src="https://github.com/user-attachments/assets/7c148826-57be-4735-90b1-cc6e610c0939" />
 
@@ -30,11 +38,11 @@ You will be given 3 options,
 * Create Project
 * Create Folder
 
-If you have project files that are not currently on the workspace, you can upload them with the “Upload Project” button, but for now we are going to click “Create Project”.
+If you have project files that are not currently on the workspace, you can upload them with the "Upload Project" button, but for now we are going to click "Create Project".
 
 <img width="176" height="144" alt="image" src="https://github.com/user-attachments/assets/776ceecc-9ce1-4de0-92b5-7ecb63176e31" />
 
-A dialog box will pop up asking for you to enter a name and select a template. Ensure you use a descriptive name, like part#_EnglishName, we are going to use “H3LIS200DL_100gAccelerometer”. Ensure the selected template is “PCB Project”. Feel free to add a description.
+A dialog box will pop up asking for you to enter a name and select a template. Ensure you use a descriptive name, like `part#_EnglishName`, we are going to use `H3LIS200DL_100gAccelerometer`. Ensure the selected template is “PCB Project”. Feel free to add a description.
 
 <img width="814" height="452" alt="image" src="https://github.com/user-attachments/assets/6278ecd7-56f4-4811-baf4-1fe8dc7c5f81" />
 
@@ -42,25 +50,25 @@ You can now click create and your new project should be visible.
 
 <img width="659" height="358" alt="image" src="https://github.com/user-attachments/assets/97928f43-4a78-4d72-a487-2a140930301a" />
 
-With the project created, open Altium, then click File > Open Project. Click on the “Rocket Team” button on the right hand side of the pane to ensure you are looking at the workspace. Here you can open anything from the workspace, whether it was newly created or an older project.
+With the project created, open Altium, then click `File` → `Open Project`. Click on the “Rocket Team” button on the right hand side of the pane to ensure you are looking at the workspace. Here you can open anything from the workspace, whether it was newly created or an older project.
 
 <img width="1055" height="617" alt="image" src="https://github.com/user-attachments/assets/5ce52e9d-ee50-40f0-8d1a-4fd0665fb078" />
 
-### Creating Schematics
+## Creating Schematics
 
-We can now create the breakout schematic. In simple terms, the schematics are graphical representations of an electrical circuit. They are not what the real circuit would look like, but rather are meant to be easily human readable. Altium also uses the schematic to understand how you want your PCB connected electrically. There is no one way to make a schematic, but the Hardware Subteams preferred style can be found in the [General Design Practices](#general-design-practices) page. For simpler projects this layout may not be necessary.
+We can now create the breakout schematic. In simple terms, the schematics are graphical representations of an electrical circuit. They are not what the real circuit would look like, but rather are meant to be easily human readable. Altium also uses the schematic to understand how you want your PCB connected electrically. There is no one way to make a schematic, but the Hardware Subteams preferred style can be found in the [General Design Practices]({{ '/docs/tutorials/hardware/design_practices' | relative_url }}) page. For simpler projects this layout may not be necessary.
 
-To create the schematic, have your previously blank project open, and click File > New > Schematic.
+To create the schematic, have your previously blank project open, and click `File` → `New` → `Schematic`.
 
 <img width="444" height="493" alt="image" src="https://github.com/user-attachments/assets/46acdf92-2a2c-4ec4-9c8e-3ac73e79e17c" />
 
-You will then see a file named “Sheet1.ScDoc” appear underneath your project file, in the projects panel. It will also open in the display window showing you a traditional schematic. It is a good idea to immediately rename this document by right clicking “Sheet1.ScDoc” in the left pane, and clicking on rename. We will be renaming it to “H3LIS200DL_Breakout.SchDoc” Some projects may utilize multiple schematic sheets. However we will only be using 1.
+You will then see a file named `Sheet1.ScDoc` appear underneath your project file, in the projects panel. It will also open in the display window showing you a traditional schematic. It is a good idea to immediately rename this document by right clicking `Sheet1.ScDoc` in the left pane, and clicking on rename. We will be renaming it to `H3LIS200DL_Breakout.SchDoc` Some projects may utilize multiple schematic sheets. However we will only be using 1.
 
 ### Datasheets
 
 Before you can continue on the schematic, you must learn more about the components you want to use. Since this PCB is a breakout, it's going to only have 1 integrated circuit (IC), and a few passive components. 
 
-The first thing to do is find the datasheet to that IC (H3LIS200DL). The datasheet will tell you (almost) everything you should need to know about that component. The easiest way to do this will be to search in google something like “H3LIS200DL datasheet” or search the part on a website like [DigiKey](https://www.digikey.com/) (a components supplier) and click “datasheet”. You should find something like this:
+The first thing to do is find the datasheet to that IC (H3LIS200DL). The datasheet will tell you (almost) everything you should need to know about that component. The easiest way to do this will be to search in google something like `H3LIS200DL datasheet` or search the part on a website like [DigiKey](https://www.digikey.com/) (a components supplier) and click “datasheet”. You should find something like this:
 
 <img width="597" height="743" alt="image" src="https://github.com/user-attachments/assets/c8079c2f-595d-4e73-a529-f5f865c8772e" />
 
@@ -73,7 +81,8 @@ In order to properly wire and use a component, you will need to refer to the dat
 
 </details>
 
-ℹ️ ***Quick tip! The table of contents is almost always hyperlinked to bring you straight to the page it refers to.***
+{: .note }
+Quick tip! The table of contents is almost always hyperlinked to bring you straight to the page it refers to.
 
 As you can see it seems the IC requires capacitors, and it shows how to connect the wires. Keep note that the dots above intersecting lines means that the wires connect, while lines that don’t have a dot or curve over are not connected to each other.
 
@@ -86,11 +95,12 @@ Some pins will be the same no matter what the implementation will be, like pins 
 
 </details>
 
-As you can see, this table labels the power and grounds, and provides brief descriptions of the data pins. You might notice it also lists terms such as I²C, SPI, and stuff like SDO and SCL. If you’re unfamiliar with these data bus terms, I would suggest checking out the [Data Busses](#data-busses) page later. The main takeaway from this table is that now you know the basic functions of each pin.
+As you can see, this table labels the power and grounds, and provides brief descriptions of the data pins. You might notice it also lists terms such as I²C, SPI, and stuff like SDO and SCL. If you’re unfamiliar with these data bus terms, I would suggest checking out the [Data Busses]({{ '/docs/tutorials/hardware/data_busses' | relative_url }}) page later. The main takeaway from this table is that now you know the basic functions of each pin.
 
-ℹ️ ***Sometimes in components such as regulators where you have to configure it to a specific mode, there will be separate tables for what parts and wiring are needed to configure it to your specific use.***
+{: .note }
+Sometimes in components such as regulators where you have to configure it to a specific mode, there will be separate tables for what parts and wiring are needed to configure it to your specific use.
 
-### Components
+## Components
 
 There are a total of 4 different ways to attain a component. In order of preference, these are:
 
@@ -99,9 +109,9 @@ There are a total of 4 different ways to attain a component. In order of prefere
 * Importing from 3rd party
 * Custom Creation
 
-In this guide we will only talk about the first two for now. But preferably, you use the Components Panel and Manufacturer Part Search first, and only if necessary import or create a custom component. If you want more detail about component selection and importing/creating component layouts, you can refer to [Selecting Components](#selecting-components).
+In this guide we will only talk about the first two for now. But preferably, you use the Components Panel and Manufacturer Part Search first, and only if necessary import or create a custom component. If you want more detail about component selection and importing/creating component layouts, you can refer to [Selecting Components]({{ '/docs/tutorials/hardware/selecting_components' | relative_url }}).
 
-You should be able to see tabs for the Components Panel and Manufacturer Part Search along the right side of Altium. If you cannot, In the upper left click View → Panels → Components/Manufacturer Part Search.
+You should be able to see tabs for the Components Panel and Manufacturer Part Search along the right side of Altium. If you cannot, In the upper left click `View` → `Panels` → `Components/Manufacturer Part Search`.
 
 Altium provides the team with space on the workspace to store components. Navigate back to the [Altium365 workspace](https://rocket-team.365.altium.com/getstarted) on your web browser, then on the left panel click "Components". Here you see all of the components that came with or have been uploaded to the teams workspace.
 
@@ -111,24 +121,25 @@ Going back to Altium, the components you were just looking at can be accessed by
 
 <img width="428" height="975" alt="image" src="https://github.com/user-attachments/assets/47301ef7-290a-41c1-9d24-b5b46fd5fb63" />
 
-In the search bar, type enter "H3LIS200DL". When it pops up, you can either click and drag it onto the schematic, or right click and press "place".
+In the search bar, type enter `H3LIS200DL`. When it pops up, you can either click and drag it onto the schematic, or right click and press "place".
 
-With the component placed, you should be able to see in the upper left, there is a "U?". That is the designator. The designator gets printed to the actual PCB and is used to help you determine which components go where. Designators start with a single letter which changes depending on what kind of components it is. For an IC, "U" is common. To see the other designators the team uses, refer to the [General Design Practices](#general-design-practices) page. Normally a number will be in place of the question mark, but we leave it as a question mark to later let Altium do the numbering for us.
+With the component placed, you should be able to see in the upper left, there is a "U?". That is the designator. The designator gets printed to the actual PCB and is used to help you determine which components go where. Designators start with a single letter which changes depending on what kind of components it is. For an IC, "U" is common. To see the other designators the team uses, refer to the [General Design Practices]({{ '/docs/tutorials/hardware/design_practices' | relative_url }}) page. Normally a number will be in place of the question mark, but we leave it as a question mark to later let Altium do the numbering for us.
 
 In the bottom left is the component value. In this case it is just the part number of the IC.
 
 
 <img width="349" height="416" alt="image" src="https://github.com/user-attachments/assets/4d9fe4d4-0234-4f31-b971-7f6b3d42cbbf" />
 
-If you double click on the component, its property panel will open and you can modify its details here. Notice that the description box is used for an english description of the component. The team's standards for the components panel can be found in the [General Design Practices](#general-design-practices) page as well.
+If you double click on the component, its property panel will open and you can modify its details here. Notice that the description box is used for an english description of the component. The team's standards for the components panel can be found in the [General Design Practices]({{ '/docs/tutorials/hardware/design_practices' | relative_url }}) page as well.
 
 <img width="487" height="276" alt="image" src="https://github.com/user-attachments/assets/443bf95d-b620-4e15-8716-b3dc1f45fcb4" />
 
 Next we need to add the passive components. To add these we will use Manufacturer Part Search. This is a database of components that Altium provides. The team usually uses this for generic passives such as resistors and capacitors, though not always.
 
-If you’ve studied the data sheet, we know that this schematic will need a 10k resistor, 10uF ceramic capacitor, and a 100nf ceramic capacitor. In the search bar enter “10k resistor”. The standard passive component surface mount device (SMD) size for the rocket team is 1206, so we want to search for a 1/4W 1206 10k resistor, such as the one highlighted below.
+If you’ve studied the data sheet, we know that this schematic will need a 10k resistor, 10uF ceramic capacitor, and a 100nf ceramic capacitor. In the search bar enter `10k resistor`. The standard passive component surface mount device (SMD) size for the rocket team is 1206, so we want to search for a `1/4W 1206 10k resistor`, such as the one highlighted below.
 
-ℹ️ ***In recent years the team has had JLCPCB place the components on the boards as opposed to soldering them all ourselves. Depending on the project, it’ll be completely fine to use smaller sizes than 1206, though I wouldn’t recommend going smaller than 0603. For more information on standard SMD component sizes visit this [link](https://www.surfacemountprocess.com/smd-component-packages.html).***
+{: .note }
+In recent years the team has had JLCPCB place the components on the boards as opposed to soldering them all ourselves. Depending on the project, it’ll be completely fine to use smaller sizes than 1206, though I wouldn’t recommend going smaller than 0603. For more information on standard SMD component sizes visit this [link](https://www.surfacemountprocess.com/smd-component-packages.html).
 
 <img width="1187" height="349" alt="image" src="https://github.com/user-attachments/assets/aa96e52b-29da-4d11-86af-ed6502e1b7e4" />
 
@@ -140,7 +151,7 @@ You should be able to repeat the previous steps to add the capacitors.
 
 <img width="972" height="523" alt="image" src="https://github.com/user-attachments/assets/3166e216-5993-407f-95fd-1c7b0f9436cb" />
 
-### Schematic Wiring
+## Schematic Wiring
 
 Now we can finally wire up the components. You can move components around the sheet by clicking and dragging over the component, then grabbing and moving them around. While they are selected you can rotate them by hitting the spacebar. Position them approximately like the previous image.
 
@@ -156,7 +167,7 @@ We now need to tell Altium where the power and ground pins are. In the toolbar a
 
 <img width="395" height="295" alt="image" src="https://github.com/user-attachments/assets/3b585008-7500-42cb-8b6f-054516ff90ed" />
 
-However VCC is not that descriptive, so once you've placed one, you can double click it to open the properties, and there you can rename it to "+3.3".
+However VCC is not that descriptive, so once you've placed one, you can double click it to open the properties, and there you can rename it to `+3.3`.
 
 <img width="396" height="287" alt="image" src="https://github.com/user-attachments/assets/854e7ced-8a3b-4957-901c-64d991f932dd" />
 
@@ -164,11 +175,11 @@ Your circuit should now look like the image below:
 
 <img width="660" height="392" alt="image" src="https://github.com/user-attachments/assets/377b2b89-e641-492b-884d-4dcc175849fd" />
 
-Finally, we need to add some off-board connectors. We will do this by using a 6 pin header (4 pins for SPI, 1 for VCC, 1 for GND). Go into components and search for “6 Pin Header”, add this to the schematic. We are going to connect the remaining pins to this header by using something called a net label. You can place these by right clicking on the wire symbol, and selecting “Net Label”. You can attach these to any pins or existing wires, then double click them to change the “Net Name”. Any wires with the same net label attached to them are considered connected by Altium. It’s essentially wiring without the wires. Spaghetti’s good, but not when your wires look like it, so please use these to organize. Assign Net Labels to match the image below.
+Finally, we need to add some off-board connectors. We will do this by using a 6 pin header (4 pins for SPI, 1 for VCC, 1 for GND). Go into components and search for `6 Pin Header`, add this to the schematic. We are going to connect the remaining pins to this header by using something called a net label. You can place these by right clicking on the wire symbol, and selecting “Net Label”. You can attach these to any pins or existing wires, then double click them to change the “Net Name”. Any wires with the same net label attached to them are considered connected by Altium. It’s essentially wiring without the wires. Spaghetti’s good, but not when your wires look like it, so please use these to organize. Assign Net Labels to match the image below.
 
 <img width="916" height="439" alt="image" src="https://github.com/user-attachments/assets/27e6fc42-39fe-4c55-8dc3-b52df6c3d09f" />
 
-Nearly there! Now we need to annotate all of our components. This means numbering the designators we talked about before. Remember Altium can number these automatically as long as they follow the correct format (Letter?), if any do not look like that, make sure to fix them. To Annotate, click Tools > Annotation > Annotate Schematic.
+Nearly there! Now we need to annotate all of our components. This means numbering the designators we talked about before. Remember Altium can number these automatically as long as they follow the correct format (Letter?), if any do not look like that, make sure to fix them. To Annotate, click `Tools` → `Annotation` → `Annotate Schematic`.
 
 <img width="543" height="439" alt="image" src="https://github.com/user-attachments/assets/e71118df-be7e-4bc6-95c5-fde31b1652f2" />
 
@@ -176,7 +187,7 @@ There should then be a popup. On this window, click “Update Changes List”, t
 
 <img width="958" height="453" alt="image" src="https://github.com/user-attachments/assets/44f079dd-d76e-4432-92ef-2520abf8e708" />
 
-Finally we need to validate our schematic. To do this, click Project → Validate PCB Project ProjectName.
+Finally we need to validate our schematic. To do this, click `Project` → `Validate PCB Project "ProjectName"`.
 
 <img width="384" height="551" alt="image" src="https://github.com/user-attachments/assets/90cff6fd-db7c-497e-97e7-6bc345cebf3a" />
 
@@ -184,25 +195,25 @@ Look at the bottom of the screen in the messages panel for any errors. If you’
 
 <img width="745" height="81" alt="image" src="https://github.com/user-attachments/assets/bdf06d8a-ad8a-4109-94ba-9ab49f1a8a34" />
 
-### Creating the PCB
+## Creating the PCB
 
-We can finally start working on the PCB! Like with the schematic, you will have to create a PCB document. File → New → PCB. Rename it to something useful like “H3LIS200DL_Breakout_PCB”.
+We can finally start working on the PCB! Like with the schematic, you will have to create a PCB document. `File` → `New` → `PCB`. Rename it to something useful like `H3LIS200DL_Breakout_PCB`.
 
 <img width="446" height="358" alt="image" src="https://github.com/user-attachments/assets/571a50e6-1f4a-413d-96d4-56e6a7d67ad3" />
 
-Instead of schematic symbols, the PCB requires what's called footprints. Footprints are the physical pads that the components connect to on the PCB. As with the schematic symbols, some footprints are in Altium natively and others are not. You can also create custom footprints as well (find details on how to in the [Selecting Components](#selecting-components) page). Components from the Components panel and Manufacturer Part Search should have their footprints already attached!
+Instead of schematic symbols, the PCB requires what's called footprints. Footprints are the physical pads that the components connect to on the PCB. As with the schematic symbols, some footprints are in Altium natively and others are not. You can also create custom footprints as well (find details on how to in the [Selecting Components]({{ '/docs/tutorials/hardware/selecting_components' | relative_url }}) page). Components from the Components panel and Manufacturer Part Search should have their footprints already attached!
 
 We can now update the PCB based off of the schematic. You can also make changes to the schematic after you’ve edited the PCB file, and update the PCB file again with any changes. But in this process, Altium likes to create something called rooms. We do not use rooms so we can disable them to avoid accidentally adding them when updating the PCB.
 
-Click Project → Project Options → Class Generation, then uncheck the checkboxes underneath “Generate Rooms”. Click “OK”.
+Click `Project` → `Project Options` → `Class Generation`, then uncheck the checkboxes underneath “Generate Rooms”. Click “OK”.
 
 <img width="1029" height="597" alt="image" src="https://github.com/user-attachments/assets/14faa624-3858-4be5-8287-6e14190e5128" />
 
-From the schematic, click Design > Update PCB Document FileName. A popup will appear showing you the changes that will be made. Click Validate and Execute.
+From the schematic, click `Design` → `Update PCB Document FileName`. A popup will appear showing you the changes that will be made. Click "Validate and Execute".
 
 <img width="1267" height="692" alt="image" src="https://github.com/user-attachments/assets/7205194c-e611-450e-9d35-f47f1b9dd531" />
 
-Your footprints should now appear on the PCB document! It might look straight out of the matrix or something, but don’t worry it’s actually quite simple! You can move around your footprints by dragging them around, just like on the schematic. Take note of the yellow lines connecting components. These lines show you what's connected to what in the schematic. Unfortunately you will have to use your brain to think, so use those brain cells to place components in a way that avoids these lines crossing as much as possible in order to make your job easier later.
+Your footprints should now appear on the PCB document! It might look straight out of the matrix or something, but don’t worry it’s actually quite simple! You can move around your footprints by dragging them around, just like on the schematic. Take note of the yellow lines connecting components. These lines show you what's connected to what in the schematic. Unfortunately some thinking is required, so use those brain cells to place components in a way that avoids these lines crossing as much as possible in order to make your job easier later. 
 
 <img width="645" height="530" alt="image" src="https://github.com/user-attachments/assets/d5f98bfd-308f-4ec9-a254-8ad51baca982" />
 
@@ -212,7 +223,7 @@ Before we begin routing, notice the tabs at the bottom of the display window.
 
 These are the board layers. They are all color coded and used for different purposes. The 2 important layers for routing are the Top and Bottom Layers. These are the copper layers of the board and represent the wire connections. If you look at the components already placed, you'll notice the footprint pads are red, this is because these are on the “Top Layer”. It is also possible to have components on the “Bottom Layer”, but that is uncommon unless you’re really pressed for space. Some boards have 4 of these copper layers, useful when there are a lot of things that need to be connected, but we are fine with just 2.
 
-### PCB Routing
+## PCB Routing
 
 To begin routing click the line symbol in the middle of the toolbar.
 
@@ -226,19 +237,21 @@ We have now created a physical connection between these two points!
 
 Some boards will get very complicated and require you to cross wires, but if you try to do that all on the same layer you will connect pins together that should not be. You do this by creating some wires on the bottom layer. There's two ways to do this, either click the “Bottom Layer” tab, and then the “Interactively Route Connections” button again, and you will now be routing on the bottom layer. Or you can use the “+” and “-” keys to change layers in the middle of a line. When you do this you will create something called a via. Vias are used to do exactly this, change the layer of a wire connection.
 
-### Design Rules
+## Design Rules
 
-Before we go ahead and finish all of our traces, we need to adjust some of Altium's design rules. The design rules are rules dictating things like the minimum distance between two pads, or the minimum distance between a trace and a via. These are dictated by the manufacturer. We can use JLBPCB’s rules as a guide, which can be found at https://jlcpcb.com/capabilities/pcb-capabilities. To edit these in Altium, click Design → Rules. The ones we are particularly interested in are under Design Rules > Electrical > Clearance > Clearance. Here you can change the minimum clearances Altium will accept.
+Before we go ahead and finish all of our traces, we need to adjust some of Altium's design rules. The design rules are rules dictating things like the minimum distance between two pads, or the minimum distance between a trace and a via. These are dictated by the manufacturer. We can use JLBPCB’s rules as a guide, which can be found at [https://jlcpcb.com/capabilities/pcb-capabilities](https://jlcpcb.com/capabilities/pcb-capabilities). To edit these in Altium, click `Design` → `Rules`. The ones we are particularly interested in are under `Design Rules` → `Electrical` → `Clearance` → `Clearance`. Here you can change the minimum clearances Altium will accept.
 
-ℹ️ ***You may not always need to change these, you can often just keep Altiums defaults, as they are very generous. But you can change these to your PCB manufacturer's minimums if you are having issues. But never go below the manufacturers minimums.***
+{: .note }
+You may not always need to change these, you can often just keep Altiums defaults, as they are very generous. But you can change these to your PCB manufacturer's minimums if you are having issues. But never go below the manufacturers minimums.
 
 I have set them up like this (in accordance to JLBPBs rules)
 
-⚠️ **Ensure your units are displayed in mm, by looking at the bottom left of the editor, you will see grid coordinates in the unit you are in. You change change them to mm by going to View → Toggle Units**
+{: .important }
+> Ensure your units are displayed in mm, by looking at the bottom left of the editor, you will see grid coordinates in the unit you are in. You change change them to mm by going to `View` → `Toggle Units`.
 
 <img width="1330" height="541" alt="image" src="https://github.com/user-attachments/assets/63a1a808-06e5-4522-ad21-c6e4f6be198e" />
 
-There's another rule we want to change that is separated from the ones we just modified. In the rules window search bar, search for "sliver". Once you open every subsection you should find a rule for "MinimumSolderMaskSliver". Change this value to .18mm.
+There's another rule we want to change that is separated from the ones we just modified. In the rules window search bar, search for "sliver". Once you open every subsection you should find a rule for "MinimumSolderMaskSliver". Change this value to `.18mm`.
 
 <img width="608" height="445" alt="image" src="https://github.com/user-attachments/assets/f1c309f1-f985-4305-a1f2-d2f90aeb5c42" />
 
@@ -251,30 +264,31 @@ Now you should be able to proceed through and complete all of the connections. I
 
 With our components laid out how we want them, we can now define the edges of our board. Note that in some instances this is the first thing you do, such as for the flight computer where the boards must have defined dimensions. On other projects, the dimensions will depend on the components needed, which is the case for this project.
 
-### Test Points
+## Test Points
 
 While not being used for this project, this section will briefly describe test pins and pads. Altium also lets the user place pins/pads by hand instead of just with footprints. This is useful for test points. 
 
 Test points allow hardware to debug the PCBs more easily while soldering, and firmware to debug it during firmware development. We use pins for firmware, as this provides a solid connection for a device called a Saleae. For hardware, we can use pads as we only need them for a multimeter contact. 
 
-ℹ️ ***Often for devices using the STM32 we use STLink test points, a preset component. However if you are making boards such as this breakout, manually creating test points is very useful.***
+{: .note }
+Often for devices using the STM32 we use STLink test points, a preset component. However if you are making boards such as this breakout, manually creating test points is very useful.
 
 
 To make one (again it's not needed in this project, but for demonstration purposes), in the hotbar, if you right click on via, you can select a pad. Place one of these down where it's needed then double click it to open the properties.
 
 <img width="411" height="291" alt="image" src="https://github.com/user-attachments/assets/85acd5ce-177a-4e1d-a21c-05e002c0875e" />
 
-Here you will set the designator to "TEST", and the net to whatever net you intend to connect to this point. You'll also notice a "Template" option, which allows you to use various different pins and pads. You can view the team's test point standards in the [General Design Practices](#general-design-practices) page. You then connect the test point up with a trace just as you did previously.
+Here you will set the designator to `TEST`, and the net to whatever net you intend to connect to this point. You'll also notice a "Template" option, which allows you to use various different pins and pads. You can view the team's test point standards in the [General Design Practices]({{ '/docs/tutorials/hardware/design_practices' | relative_url }}) page. You then connect the test point up with a trace just as you did previously.
 
-### Defining Board Shapes
+## Defining Board Shapes
 
-To change the board shape, click View → Board Planning Mode. You’ll notice the previously black area turn green. You are now editing the shape of the board. Since our board is already a square, you can click Design → Edit Board Shape. Drag in the edges using the white mouse points until the board fits your components more ideally, leaving a bit of extra space on the bottom (we will get to this in a minute). It should now look something like this:
+To change the board shape, click `View` → `Board Planning Mode`. You’ll notice the previously black area turn green. You are now editing the shape of the board. Since our board is already a square, you can click `Design` → `Edit Board Shape`. Drag in the edges using the white mouse points until the board fits your components more ideally, leaving a bit of extra space on the bottom (we will get to this in a minute). It should now look something like this:
 
 <img width="752" height="614" alt="image" src="https://github.com/user-attachments/assets/8eed6391-7809-4f62-857a-04f398a20f17" />
 
-You can go back to the layout mode by clicking View → 2D Layout Mode.
+You can go back to the layout mode by clicking `View` → `2D Layout Mode`.
 
-### Silkscreens
+## Silkscreens
 
 Next we want to add text to the board. For this project, it would be helpful for the users of this breakout to have the header pins clearly labeled to avoid having to look at our documentation every time they want to use the breakout. To do this we are going to use the yellow layer called the “Top Overlay” in Altium. This is also known as the silkscreen layer, and is used for adding drawings or text to the board.
 
@@ -282,7 +296,7 @@ To add the labels, click “Top Overlay” to make sure you are editing the corr
 
 <img width="437" height="69" alt="image" src="https://github.com/user-attachments/assets/a54874b0-b80b-4203-9b6a-9ed9d496b0bc" />
 
-Then place it near the VCC pin on the header. Double click the text to open its properties panel. First, change the Font Type to TrueType. Change the text to “VCC”, then edit the Text Height to something reasonable like 1.524mm.
+Then place it near the VCC pin on the header. Double click the text to open its properties panel. First, change the Font Type to TrueType. Change the text to “VCC”, then edit the Text Height to something reasonable like `1.524mm`.
 
 <img width="426" height="312" alt="image" src="https://github.com/user-attachments/assets/5e943c58-00e4-4509-86e1-d4e8d4abfa61" />
 
@@ -290,23 +304,24 @@ Continue to add text near the rest of the header pins labeling them with their r
 
 <img width="589" height="545" alt="image" src="https://github.com/user-attachments/assets/bfee53ab-078b-4634-b314-f88acb630218" />
 
-Next, you need to label the PCB as a whole. For example, since we are working on a breakout for the H3LIS200DL accelerometer, labeling the PCB as "H3LIS200DL" will be sufficient. These labels are usually put on the backside of the board. To do this, again you will use the "Place String" button, but this time change the "Top Overlay" to "Bottom Overlay", then set the "Mirror" checkbox to checked so that the text will be the right way around when reading it from the back.
+Next, you need to label the PCB as a whole. For example, since we are working on a breakout for the H3LIS200DL accelerometer, labeling the PCB as `H3LIS200DL` will be sufficient. These labels are usually put on the backside of the board. To do this, again you will use the "Place String" button, but this time change the "Top Overlay" to "Bottom Overlay", then set the "Mirror" checkbox to checked so that the text will be the right way around when reading it from the back.
 
 <img width="895" height="804" alt="image" src="https://github.com/user-attachments/assets/f9c722d6-3aff-4942-905f-684df6aa04ed" />
 
-ℹ️ Remember the bottom overlay is on the, well, bottom. This means it won't interfere with anything exclusively placed on the top of the board, such as the top overlay or the top layer! The team's silkscreen standards can be found in the [General Design Practices](#general-design-practices) page. 
+{: .note }
+Remember the bottom overlay is on the, well, bottom. This means it won't interfere with anything exclusively placed on the top of the board, such as the top overlay or the top layer! The team's silkscreen standards can be found in the [General Design Practices]({{ '/docs/tutorials/hardware/design_practices' | relative_url }}) page. 
 
-### Ground Planes
+## Ground Planes
 
 Remember those ground connections we left unconnected? Now that we have a more defined board shape, we are going to finally connect those up. But we are going to do it by using something called a ground plane, that is, the whole bottom copper layer of the board will be a ground connection. The team often uses both power and ground planes on their PCBs.
 
-In the top toolbar, click Tools → Polygon Pour → Polygon Manager
+In the top toolbar, click `Tools` → `Polygon Pour` → `Polygon Manager`.
 
 <img width="553" height="363" alt="image" src="https://github.com/user-attachments/assets/e59cca70-e3ec-49b2-8af1-ca6117f66161" />
 
 You should now be in the polygon manager window. Here you can manage all of the "polygons" on your PCB. Polygons are basically just big shapes (polygons) of copper (just like the traces) that you can connect any electrical signals to, usually power and ground. In our case, we will just use a ground plane for now.
 
-Click the button farthest on the right that says New polygon from > board outline. Now in the settings for that polygon in the right hand panel, set the Net to be GND, make sure the layer is the blue layer (known in Altium as the "Bottom Layer"), and name it whatever you want, I will just use GND. In the center screen, check the "Locked" checkbox. This will prevent the plane from being accidentally moved around. Then click apply.
+Click the button farthest on the right that says New polygon from board outline. Now in the settings for that polygon in the right hand panel, set the Net to be GND, make sure the layer is the blue layer (known in Altium as the "Bottom Layer"), and name it whatever you want, I will just use GND. In the center screen, check the "Locked" checkbox. This will prevent the plane from being accidentally moved around. Then click apply.
 
 <img width="1248" height="349" alt="image" src="https://github.com/user-attachments/assets/9703d2b9-b21f-4809-a1b5-63b29de35908" />
 
@@ -324,9 +339,9 @@ This ground plane will connect to anything that is either on the layer it’s on
 
 <img width="435" height="389" alt="image" src="https://github.com/user-attachments/assets/64004f0a-49a7-4f42-bd89-710dc8075b01" />
 
-### Design Rule Check
+## Design Rule Check
 
-That's it for the design process! Remember the rules we set earlier? We must now go through and verify there are no errors and all of the rules are followed. This is done by clicking Tools → Design Rule Check > Run Design Rule Check.
+That's it for the design process! Remember the rules we set earlier? We must now go through and verify there are no errors and all of the rules are followed. This is done by clicking `Tools` → `Design Rule Check` → `Run Design Rule Check`.
 
 A design rule verification report will appear with any errors or rule violations. Altium might ragebait you as you’re forced to endlessly conform to the design rules, but don’t take it personally. You will have to work through any errors and try to fix these violations. You can view where the rule violation occurs by clicking the blue link of the rule.
 
@@ -334,13 +349,14 @@ A design rule verification report will appear with any errors or rule violations
 
 When you are happy with the final result, ensure you click “Save to Server” next to the project name. This will save changes to the project to the workspace
 
-ℹ️ ***There may be a popup that allows you to make a comment on the revision being saved to the server. On larger projects where you are saving more often, I highly recommend adding to the comment notes on the changes made.***
+{: .note }
+There may be a popup that allows you to make a comment on the revision being saved to the server. On larger projects where you are saving more often, I highly recommend adding to the comment notes on the changes made.
 
-### Generating Output Files
+## Generating Output Files
 
 There is one last step, and that is to verify that there are no issues from a manufacturers standpoint. There are 2 ways we do this, the first is through a free online manufacturing check.
 
-Start by ensuring your PCB file is selected, then go to File → Fabrication Outputs → Gerber X2 Files.
+Start by ensuring your PCB file is selected, then go to `File` → `Fabrication Outputs` → `Gerber X2 Files`.
 
 <img width="372" height="707" alt="image" src="https://github.com/user-attachments/assets/bdea5b31-2d16-4fcc-a3cd-53445490791c" />
 
@@ -348,7 +364,7 @@ There will be a popup with output options for you to select. On the right there 
 
 <img width="1033" height="705" alt="image" src="https://github.com/user-attachments/assets/7a9c81e9-3133-4c66-99f3-258278f3b329" />
 
-Next go to (with PCB file selected) File → Fabrication Outputs → NC Drill Files.
+Next go to (with PCB file selected) `File` → `Fabrication Outputs` → `NC Drill Files`.
 
 <img width="372" height="706" alt="image" src="https://github.com/user-attachments/assets/0e5733c3-9500-448c-808e-fae5ed7cd288" />
 
@@ -356,34 +372,37 @@ In the popup, select inches and 2:5 for the resolution, then make sure “Suppre
 
 <img width="459" height="714" alt="image" src="https://github.com/user-attachments/assets/d73c766a-65ec-4255-ba6d-d76204087e33" />
 
-Now that you’ve created the output files, open the file explorer, find the project folder on your local device, and inside it there should be a folder called “Project Outputs for projectname”. Here you can find all of the output files you just created.
+Now that you’ve created the output files, open the file explorer, find the project folder on your local device, and inside it there should be a folder called `Project Outputs for "ProjectName"`. Here you can find all of the output files you just created.
 
-Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) as well as the the “H3LIS200DL_Breakout_PCB.TXT” and "H3LIS200DL_Breakout_PCB.GM" files.
+Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) as well as the the `H3LIS200DL_Breakout_PCB.txt` and `H3LIS200DL_Breakout_PCB.gm` files.
 
 <img width="761" height="431" alt="image" src="https://github.com/user-attachments/assets/ae18a9ba-61cb-4c5e-857b-3375ef348732" />
 
-Then right click → Send to → Compressed (zipped) folder.
+Then right click → `Send to` → `Compressed (zipped) folder`.
 
 With your zip file, you can see a preview of your board with [JLBPCB](https://jlcpcb.com/), and drag your zip file over where it says "Add gerber file"
 
 <img width="885" height="135" alt="image" src="https://github.com/user-attachments/assets/b837e71c-54d9-4250-87ee-6ea1a460a184" />
 
-After it uploads, JLB will then show you a preview of your board, take a look over this and verify it appears correctly by checking things like all of the holes showing up, the silkscreens showing up and not overlapping, all of the pins and pads where they are supposed to be, etc.
+After it uploads, JLC will then show you a preview of your board, take a look over this and verify it appears correctly by checking things like all of the holes showing up, the silkscreens showing up and not overlapping, all of the pins and pads where they are supposed to be, etc.
 
 <img width="906" height="234" alt="image" src="https://github.com/user-attachments/assets/18ff757d-18b1-428c-b361-0013700bc4d6" />
 
 If all of it looks good, then that's it! You're done with the training!
 
-⚠️ **Don't forget to Save to Server when you are done with everything!**
+{: .important }
+> Don't forget to Save to Server when you are done with everything!
 
-### Other Resources
+## Other Resources
 
 This guide is just a quick guide to getting started using Altium on the team, we encourage you to continue to practice and utilize online resources and the rest of this guide to improve your skills. Listed below are a few links that may help you in your adventures with Altium!
 
-A video on YouTube by Robert Feranec, with a very in depth tutorial how to use Altium, long but very helpful: https://www.youtube.com/watch?v=PqFtSpAXB9Q
+ * A video on YouTube by Robert Feranec, [Altium Designer Tutorial Step-by-step](https://www.youtube.com/watch?v=PqFtSpAXB9Q)
+    * A very in depth tutorial how to use Altium, long but very helpful.
 
-Guides from EE3102: https://drive.google.com/drive/u/2/folders/1zoEPUlK-15pITA9IwbEAqrWZzhHMu31a
+ * [Guides from EE3102](https://drive.google.com/drive/u/2/folders/1zoEPUlK-15pITA9IwbEAqrWZzhHMu31a)
 
-Guide to creating custom footprints. Again, very long but very helpful if your project requires custom component footprints https://youtu.be/wxYbIGV9_CY?si=AotVodZdm0toma9B
+ * A video by Robert Feranec, [Altium Footprints Guide](https://youtu.be/wxYbIGV9_CY?si=AotVodZdm0toma9B)
+    * Guide to creating custom footprints. Again, very long but very helpful if your project requires custom component footprints.
 
 The next section will go over the team’s design practices, which I urge you to go over.
