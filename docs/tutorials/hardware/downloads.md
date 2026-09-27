@@ -148,6 +148,12 @@ This driver is needed to communicate between the boards and your computer. It is
 
 This is a terminal software used to send and receive data and commands from boards. Find it here, [link pending]
 
+## Altium MCAD Codesigner
+
+This is a SolidWorks plugin that allows us to import Altium PCB projects into SolidWorks. To download it, go [here](https://www.altium.com/products/downloads){:target="_blank"} and find "MCAD CODESIGNER PLUGINS". Select the SolidWorks plugin version and select your version of SolidWorks, then click download.
+
+<img width="1223" height="298" alt="image" src="https://github.com/user-attachments/assets/6a1f96aa-4fc1-4778-aaa2-8925da670391" />
+
 ## Other software
 
 The University has a handy little website full of downloads to software like SolidWorks and MatLab. If you want any of these, visit here →  [https://software.cse.umn.edu/](https://software.cse.umn.edu/){:target="_blank"}
