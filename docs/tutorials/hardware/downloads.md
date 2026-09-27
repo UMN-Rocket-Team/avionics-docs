@@ -79,8 +79,7 @@ This is the software most important to hardware. If you're a **New Member**, the
   <br>
   <p>Now continue following the instructions below to re-validate your license</p>
   <br>
-  {: .note }
-  > Use your same email address as last time.
+  <p class="note">Use your same email address as last time.</p>
 
   
 </details>
