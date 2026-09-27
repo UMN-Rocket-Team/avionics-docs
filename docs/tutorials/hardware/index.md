@@ -49,8 +49,8 @@ Welcome to The Ultimate Hardware Guide! If you’re new here, welcome to the har
   </a>
 </div>
 
-If you’re new, the [Altium Tutorial]({{ '/docs/tutorials/hardware/tutorial' | relative_url }}) section will cover the basics of our eCAD software of choice, Altium. The following sections go more into detail about specific aspects of the software and design process, so feel free to reference those when needed.
-
+If you’re new, the [Important Resources]({{ '/docs/tutorials/hardware/downloads' | relative_url }}) section will get you started with all the software you need. The [Altium Tutorial]({{ '/docs/tutorials/hardware/tutorial' | relative_url }}) section will cover the basics of our eCAD software of choice, Altium. The following sections go more into detail about specific aspects of the software and design process, so feel free to reference those when needed.
+	
 **"What if I know nothing about electronics and circuits?"**
  * Some resources that can aid you can be found [here](https://www.youtube.com/playlist?list=PLah6faXAgguOeMUIxS22ZU4w5nDvCl5gs){:target="_blank"}.
  * While some help will be offered during the training period and throughout the year, you are *expected* to learn more deeply about these topics on your own time.
