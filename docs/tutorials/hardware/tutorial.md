@@ -247,7 +247,7 @@ Before we go ahead and finish all of our traces, we need to adjust some of Altiu
 {: .note }
 You may not always need to change these, you can often just keep Altiums defaults, as they are very generous. But you can change these to your PCB manufacturer's minimums if you are having issues. But never go below the manufacturers minimums.
 
-I have set them up like this (in accordance to JLBPBs rules)
+I have set them up like this (in accordance to JLCPBs rules)
 
 {: .important }
 > Ensure your units are displayed in mm, by looking at the bottom left of the editor, you will see grid coordinates in the unit you are in. You change change them to mm by going to `View` → `Toggle Units`.
@@ -383,7 +383,7 @@ Select all of the CAMtastic files (except for the CAMtastic Aperture Data file) 
 
 Then right click → `Send to` → `Compressed (zipped) folder`.
 
-With your zip file, you can see a preview of your board with [JLBPCB](https://jlcpcb.com/){:target="_blank"}, and drag your zip file over where it says "Add gerber file"
+With your zip file, you can see a preview of your board with [JLCPCB](https://jlcpcb.com/){:target="_blank"}, and drag your zip file over where it says "Add gerber file"
 
 <img width="885" height="135" alt="image" src="https://github.com/user-attachments/assets/b837e71c-54d9-4250-87ee-6ea1a460a184" />
 
