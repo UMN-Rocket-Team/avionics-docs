@@ -23,7 +23,7 @@ permalink: /docs/tutorials/hardware/
 
 ## Introduction
 
-Welcome to the Ultimate Hardware Guide! If you’re new here, welcome to the hardware team! If you’re a returning member, feel free to get a refresher from the guides here. 
+Welcome to The Ultimate Hardware Guide! If you’re new here, welcome to the hardware team! If you’re a returning member, feel free to get a refresher from the guides here. 
 
 **What does the Hardware Subteam do?**
 * This subteam is focused on the design, component selection, (slight) assembly, and debugging of PCBs. We work very closely with the firmware team to work on flight computer projects.
@@ -52,7 +52,7 @@ Welcome to the Ultimate Hardware Guide! If you’re new here, welcome to the har
 If you’re new, the [Altium Tutorial]({{ '/docs/tutorials/hardware/tutorial' | relative_url }}) section will cover the basics of our eCAD software of choice, Altium. The following sections go more into detail about specific aspects of the software and design process, so feel free to reference those when needed.
 
 **"What if I know nothing about electronics and circuits?"**
- * Some resources that can aid you can be found [here](https://www.youtube.com/playlist?list=PLah6faXAgguOeMUIxS22ZU4w5nDvCl5gs).
+ * Some resources that can aid you can be found [here](https://www.youtube.com/playlist?list=PLah6faXAgguOeMUIxS22ZU4w5nDvCl5gs){:target="_blank"}.
  * While some help will be offered during the training period and throughout the year, you are *expected* to learn more deeply about these topics on your own time.
  * Do not be afraid to *ask for help* when you need it. Everybody has to start somewhere, and more experienced members will be there to answer your questions.
  
