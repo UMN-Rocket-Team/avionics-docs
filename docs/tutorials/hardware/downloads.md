@@ -19,32 +19,32 @@ This page will provide a ton of different software download links that will be u
 > Make sure you have access to the teams' resources below!
 
 <div class="card-grid" markdown="0">
-  <a class="card" href="https://umn-rkt.slack.com/">
+  <a class="card" href="https://umn-rkt.slack.com/" target="_blank">
     <img class="card-img" width="100%" alt="Slack Link" src="https://github.com/user-attachments/assets/ea0a9d8f-0dcd-4527-8b79-06fd260a2ff7" />
     <div class="card-title">Slack</div>
     <p>Our primary communication platform. Where all updates and events are announced.</p>
   </a>
-  <a class="card" href="http://z.umn.edu/rktnotion">
+  <a class="card" href="http://z.umn.edu/rktnotion" target="_blank">
     <img class="card-img" width="100%" alt="Notion Link" src="https://github.com/user-attachments/assets/dd605b45-77ca-4cfb-a858-8025c0813efd" />
     <div class="card-title">Notion</div>
     <p>The team's timeline and project tracking manager.</p>
   </a>
-  <a class="card" href="http://z.umn.edu/rktgithub">
+  <a class="card" href="http://z.umn.edu/rktgithub" target="_blank">
     <img class="card-img" width="100%" alt="Github Link" src="https://github.com/user-attachments/assets/bbf61472-be51-487e-a20f-316720ee4c65" />
     <div class="card-title">Github</div>
     <p>Where all the project files, documentation, and repos are stored.</p>
   </a>
-  <a class="card" href="mailto:moha2063@umn.edu">
+  <a class="card" href="mailto:moha2063@umn.edu" target="_blank">
     <img class="card-img" width="100%" alt="Drive Link" src="https://github.com/user-attachments/assets/fcd885e2-8293-4a07-939c-546cf4e7b810" />
     <div class="card-title">Team Drive</div>
     <p>Email Mohamed for access. Where files, videos, data, and presentations reside.</p>
   </a>
-  <a class="card" href="https://rocket-team.365.altium.com/getstarted">
+  <a class="card" href="https://rocket-team.365.altium.com/getstarted" target="_blank">
     <img class="card-img" width="100%" alt="Altium Link" src="https://github.com/user-attachments/assets/1e501850-611d-4fa6-9e8c-d3459145448c" />
     <div class="card-title">Altium365</div>
     <p>Our hub for all PCB projects and files.</p>
   </a>
-  <a class="card" href="https://calendar.google.com/calendar/embed?src=rkt-team%40umn.edu&ctz=America%2FChicago">
+  <a class="card" href="https://calendar.google.com/calendar/embed?src=rkt-team%40umn.edu&ctz=America%2FChicago" target="_blank">
     <img class="card-img" width="100%" alt="Calender Link" src="https://github.com/user-attachments/assets/6ed50ad2-7b94-4aa3-914f-03208dd4b36c" />
     <div class="card-title">Team Calander</div>
     <p>Keep up to date with all our meetings and events.</p>
