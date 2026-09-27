@@ -96,7 +96,7 @@ Once it arrives, click "Activate AltiumLive" to activate your license. Your lice
 
 <img width="630" height="129" alt="Screenshot 2026-09-27 122810" src="https://github.com/user-attachments/assets/ff38f1be-c0e1-4662-8f35-229a4ec3c411" />
 
-Feel free to follow the email directions to download the installer. Otherwise, download Altium, first you will need to create an account if you don't have one already and download [Altium Designer](https://www.altium.com/products/downloads){:target="_blank"}.
+Feel free to follow the email directions to download the installer. Otherwise, to download Altium, first you will need to create an account if you don't have one already and download [Altium Designer](https://www.altium.com/products/downloads){:target="_blank"}.
 Make sure to use your x500 for the account.
 
 {: .note }
