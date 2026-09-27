@@ -66,7 +66,7 @@ This is the software most important to hardware. If you're a **New Member**, the
 
 <details markdown="block">
   <summary>Renew expired license additional instructions</summary>
-  <br>
+  
   <p>Go to <a href="https://www.altium.com/education/students">Altium Student Lab</a> and log out.</p>
 
   <p>Find your cookie settings by the site link at the top of your browser. Click "Cookies and site data" and click "Manage on device site data".</p>
@@ -80,7 +80,7 @@ This is the software most important to hardware. If you're a **New Member**, the
   <p>Now continue following the instructions below to re-validate your license</p>
   <br>
   {: .note }
-  Use your same email address as last time.
+  > Use your same email address as last time.
 
   
 </details>
