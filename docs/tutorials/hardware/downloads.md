@@ -67,7 +67,7 @@ This is the software most important to hardware. If you're a **New Member**, the
 <details markdown="block">
   <summary>Renew expired license additional instructions</summary>
   
-  <p>Go to <a href="https://www.altium.com/education/students">Altium Student Lab</a> and log out.</p>
+  <p>Go to <a href="https://www.altium.com/education/students" target="_blank">Altium Student Lab</a> and log out.</p>
 
   <p>Find your cookie settings by the site link at the top of your browser. Click "Cookies and site data" and click "Manage on device site data".</p>
   
@@ -83,7 +83,7 @@ This is the software most important to hardware. If you're a **New Member**, the
   
 </details>
 
-To activate your student license, go to [Altium Student Lab](https://www.altium.com/education/students) and click "Enroll for free". You will be prompted to enter your institution and email. 
+To activate your student license, go to [Altium Student Lab](https://www.altium.com/education/students){:target="_blank"} and click "Enroll for free". You will be prompted to enter your institution and email. 
 
 {: .important }
 > Make sure you use your **x500.edu** email as otherwise it won't work!
@@ -96,7 +96,7 @@ Once it arrives, click "Activate AltiumLive" to activate your license. Your lice
 
 <img width="630" height="129" alt="Screenshot 2026-09-27 122810" src="https://github.com/user-attachments/assets/ff38f1be-c0e1-4662-8f35-229a4ec3c411" />
 
-Feel free to follow the email directions to download the installer. Otherwise, download Altium, first you will need to create an account if you don't have one already and download [Altium Designer](https://www.altium.com/products/downloads).
+Feel free to follow the email directions to download the installer. Otherwise, download Altium, first you will need to create an account if you don't have one already and download [Altium Designer](https://www.altium.com/products/downloads){:target="_blank"}.
 Make sure to use your x500 for the account.
 
 {: .note }
@@ -126,19 +126,19 @@ On the left pane, click "Projects". The PCBs for the flight computer can be foun
 > It seems that any project you create in Altium will automatically also be created on the workspace. If you work on any personal projects, ensure that you log out first. Stay logged in for any team projects.
 
 **What’s the difference between the Altium application and Altium365 on your web browser?**
-* [Altium365](https://rocket-team.365.altium.com/getstarted) is like the Google Drive of Altium, and it makes it easy to view and organize team files. Altium is used to actually edit those files.
+* [Altium365](https://rocket-team.365.altium.com/getstarted){:target="_blank"} is like the Google Drive of Altium, and it makes it easy to view and organize team files. Altium is used to actually edit those files.
 
 ## STM32 CubeIDE
 
 Our primary choice of microcontroller is the STM32, and CubeIDE is used to program the chip. CubeIDE also conveniently labels all the possible operation modes for the pins, making our lives much easier for routing and pinouts. (Trust me, you’ll be in the trenches trying to use the datasheet for this…)
 
-To download, go to this [link](https://www.st.com/en/development-tools/stm32cubeide.html) and scroll down to the “Get Software” section. Select your OS and version 1.13.2 and click download.
+To download, go to this [link](https://www.st.com/en/development-tools/stm32cubeide.html){:target="_blank"} and scroll down to the “Get Software” section. Select your OS and version 1.13.2 and click download.
 
 <img width="1091" height="241" alt="Screenshot 2026-08-27 124612" src="https://github.com/user-attachments/assets/dbf36c81-cd27-40e0-8fd3-1c92ee921389" />
 
 ## STLink Driver
 
-This driver is needed to communicate between the boards and your computer. It is available [here.](https://www.st.com/en/development-tools/stsw-link009.html)
+This driver is needed to communicate between the boards and your computer. It is available [here.](https://www.st.com/en/development-tools/stsw-link009.html){:target="_blank"}
 
 ## PuTTY
 
@@ -146,7 +146,7 @@ This is a terminal software used to send and receive data and commands from boar
 
 ## Other software
 
-The University has a handy little website full of downloads to software like SolidWorks and MatLab. If you want any of these, visit here →  [https://software.cse.umn.edu/](https://software.cse.umn.edu/)
+The University has a handy little website full of downloads to software like SolidWorks and MatLab. If you want any of these, visit here →  [https://software.cse.umn.edu/](https://software.cse.umn.edu/){:target="_blank"}
 
 <style>
 .card-grid {
