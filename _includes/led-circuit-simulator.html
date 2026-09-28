@@ -1,0 +1,53 @@
+<link rel="stylesheet" href="{{ '/assets/css/led-circuit-simulator.css' | relative_url }}">
+<div id="led-circuit-simulator" class="led-circuit-simulator">
+  <div class="led-circuit-header">
+    <div>
+      <h3>LED Circuit Simulator</h3>
+      <p>Explore how resistance affects LED current and brightness.</p>
+    </div>
+  </div>
+
+  <div class="led-circuit-viz-wrap">
+    <canvas id="led-circuit-viz" aria-label="Interactive LED circuit diagram"></canvas>
+  </div>
+
+  <div class="led-circuit-hud" aria-live="polite">
+    <div>
+      <span>Current</span>
+      <strong id="led-circuit-current">5.9 mA</strong>
+    </div>
+    <div>
+      <span>LED Status</span>
+      <strong id="led-circuit-status">Active</strong>
+    </div>
+    <div>
+      <span>Brightness</span>
+      <strong id="led-circuit-brightness">45%</strong>
+    </div>
+  </div>
+
+  <div class="led-circuit-controls">
+    <div class="led-circuit-control">
+      <label>Power Switch</label>
+      <div class="led-circuit-segmented" role="group" aria-label="Power Switch">
+        <button type="button" data-led-switch="Off" aria-pressed="false">Off</button>
+        <button type="button" data-led-switch="On" aria-pressed="true" class="is-selected">On</button>
+      </div>
+    </div>
+
+    <div class="led-circuit-control">
+      <div class="led-circuit-label-row">
+        <label for="led-circuit-resistance">Resistance (Ohms)</label>
+        <strong id="led-circuit-resistance-value">220 Ω</strong>
+      </div>
+      <input id="led-circuit-resistance" type="range" min="10" max="1000" step="10" value="220">
+    </div>
+
+    <div class="led-circuit-actions">
+      <button id="led-circuit-play" type="button" aria-pressed="true">⏸ Pause</button>
+      <button id="led-circuit-reset" type="button">Reset</button>
+    </div>
+  </div>
+</div>
+
+<script src="{{ '/assets/js/led-circuit-simulator.js' | relative_url }}" defer></script>
