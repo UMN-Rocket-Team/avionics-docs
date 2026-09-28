@@ -19,7 +19,7 @@ In this first challenge we'll be setting up a simple circuit on a breadboard usi
 
 Here is a picture of the internal connections on the breadboard:
 
-![Challenge1-1](/assets/images/firmware/challenge1-1.png)
+<img width="873" height="391" alt="Screenshot 2026-09-28 at 6 14 52 PM" src="https://github.com/user-attachments/assets/f98ab1bf-860e-4f31-808a-53f36049ca27" />
 
 *   **Rails (Red/Blue lines):** Used for power and ground.
 *   **Terminal Strips (Middle rows):** Connect components vertically.
@@ -62,7 +62,8 @@ Ohm's Law states that the voltage V across a resistor equals the current I that 
 
 We will be using resistors look like this:
 
-![Challenge1-2](/assets/images/firmware/challenge1-2.png)
+<img width="876" height="432" alt="Screenshot 2026-09-28 at 6 15 36 PM" src="https://github.com/user-attachments/assets/adb38c24-c3d6-45ad-b52f-4d67262720a6" />
+
 
 As you can see, resistors have colored bands that indicate their value. Most of our resistors use **4 colored bands** so let's focus on those. Using the above image as a reference, let's imagine we want to get a 1500Ω resistor. The resistor value is split into three components: the base value, multiplier, and tolerance. The base value is the digit(s) before the zeros. In this case, they are 1 and 5, so we will look for brown, then green bands. Next is the multiplier. Since we want 1500, we must multiply 15 by 100 (multiplier = 100), so the third band should be red. Finally, the last band is the error tolerance. If it is gold, for example, it means that the real resistance may be between 1500 ±5%, so somewhere between 1425Ω and 1575Ω.
 
@@ -82,7 +83,8 @@ The positive side of the LED should connect to the positive side of the power su
 ### Lighting LED on a breadboard
 An LED lights up when there is current going through it, so we need a source of power. Let's start by grabbing our development boards. We'll be using the STMicro NUCLEO-L476RG board, which have both 3.3V and 5V pins. There's actually more than one of each, but these ones are the ones that we'll be using.
 
-![Challenge1-3](/assets/images/firmware/challenge1-3.png) 
+<img width="553" height="645" alt="Screenshot 2026-09-28 at 6 16 02 PM" src="https://github.com/user-attachments/assets/36272fab-8fe1-43ae-9dea-4f65600e3670" />
+
 
 #### Test it out: LED Simulator
 As you now know, LEDs cannot be connected directly to power, otherwise they will burn! So we will be using resistors. And yes, the resistance value will influence on how bright your LED will shine. If your LED is connected to a resistor that is too low, it will still burn, and if it is too high, you will barely see it lighting up.
@@ -91,7 +93,8 @@ As you now know, LEDs cannot be connected directly to power, otherwise they will
 
 So what is the ideal value? Each color of LED has a different current limit, but it usually varies between 10 and 30 mA. Considering that we want to use the 3.3V power supply pin, if you do the math, resistors that have the multiplier band around the color brown should work. In this activity, let's use one that looks like this. Can you figure out what is its resistance?
 
-![Challenge1-4](/assets/images/firmware/challenge1-4.png)
+<img width="702" height="525" alt="Screenshot 2026-09-28 at 6 16 35 PM" src="https://github.com/user-attachments/assets/866e5404-ccb4-4e0c-8f73-2046afd123ba" />
+
 
 [image source](https://www.adafruit.com/product/2780)
 
@@ -106,7 +109,9 @@ Ok, now that we have all the materials we need, it's time to connect things toge
 
 Top View | Side View | Circuit Diagram
 :-------------------------:|:-------------------------:|:-------------------------:
-![Challenge1-5](/assets/images/firmware/challenge1-5.png) | ![Challenge1-6](/assets/images/firmware/challenge1-6.png) | ![Challenge1-7](/assets/images/firmware/challenge1-7.png)
+<img width="391" height="564" alt="Screenshot 2026-09-28 at 6 17 04 PM" src="https://github.com/user-attachments/assets/ff21203f-e62b-4584-b1cb-dbde0f837dbe" /> 
+| <img width="374" height="567" alt="Screenshot 2026-09-28 at 6 17 30 PM" src="https://github.com/user-attachments/assets/56a48c03-ded0-44bd-bca6-8d01b8f976dd" /> 
+| <img width="433" height="583" alt="Screenshot 2026-09-28 at 6 17 55 PM" src="https://github.com/user-attachments/assets/4254013f-23dd-419d-9c18-6161e9f81331" />
 
 Finally, connect the dev board to your computer and voilà! The LED is on!
 
@@ -121,7 +126,10 @@ Ok, now that you were able to turn the LED on, how about we control **when** to 
 
 Button Off | Button On | Circuit Diagram
 :-------------------------:|:-------------------------:|:-------------------------:
-![Challenge1-8](/assets/images/firmware/challenge1-8.png) | ![Challenge1-9](/assets/images/firmware/challenge1-9.png) | ![Challenge1-10](/assets/images/firmware/challenge1-10.png)
+<img width="410" height="578" alt="Screenshot 2026-09-28 at 6 18 19 PM" src="https://github.com/user-attachments/assets/f225056a-58cb-47ac-bc58-268b05be60a9" />
+| <img width="384" height="580" alt="Screenshot 2026-09-28 at 6 19 09 PM" src="https://github.com/user-attachments/assets/0a497c2b-7888-4f08-b2d3-713753ed88d5" />
+| <img width="414" height="590" alt="Screenshot 2026-09-28 at 6 19 38 PM" src="https://github.com/user-attachments/assets/1a48afb0-c2a3-482e-83cf-96bf55308ab2" />
+
 
 <hr>
 
