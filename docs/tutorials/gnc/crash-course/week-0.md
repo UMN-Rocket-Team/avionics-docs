@@ -78,23 +78,42 @@ git --version
 - [ ] Fill out the Firmware/GNC work-times when2meet (link in the GNC channel)
 - [ ] Complete the **MATLAB Onramp** and **Simulink Onramp** at [matlab.mathworks.com](https://matlab.mathworks.com) (~3 hours total)
 - [ ] Clone the repo
-- [ ] Switch to the **`CrashCourse`** branch
 - [ ] Commit and push `CC/<x500>/README.md` to the remote (just your name for now; you'll add to it as you push scripts)
 - [ ] Download your assigned flight log (you'll use it in [Week 1]({{ '/docs/tutorials/gnc/crash-course/week-1/' | relative_url }}))
 
-### Switching to the `CrashCourse` branch
-
-**GitHub Desktop:** click **Current Branch** at the top, then pick `CrashCourse` (it may be under
-*Other branches* or listed as `origin/CrashCourse`).
+### `CrashCourse` repo
+Follow the command line instructions or github deskop instructions below. You have to be added to the github for either to work, so message the GNC or Avionics lead if you have not yet.
 
 **Command line:**
-
 ```bash
-git fetch
-git switch CrashCourse
+git clone git@github.com:UMN-Rocket-Team/GNC-CrashCourse.git <directory-location>
+git add <directory-location>/CC/<yourx500>/README.txt
+git commit -m "Add README"
+git push origin main
 ```
 
-Then create your folder and `README.md`, commit, and push to remote.
+**GitHub Desktop:**
+1. Clone the repository
+  - Open GitHub Desktop
+  - Go to File → Clone Repository
+  - Select URL
+  - Enter: `git@github.com:UMN-Rocket-Team/GNC-CrashCourse.git`
+2. Choose where you want the repo stored locally
+  - Click Clone
+  - Add your README
+  - Open the cloned `GNC-CrashCourse` folder.
+  - Navigate to: `CC/<yourx500>/`
+  - Create or add your `README.txt` there.
+3. Commit your changes
+  - Return to GitHub Desktop.
+  - Your `README.txt` should appear under Changes.
+  - Make sure it is checked.
+  - In the bottom-left commit message box, enter: `Add README`
+  - Click Commit to main.
+4. Push to GitHub
+  - Click Push origin at the top of GitHub Desktop.
+  - Your README should now be on the `main` branch.
+
 
 ## Supplemental reading
 
