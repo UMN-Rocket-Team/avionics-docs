@@ -70,7 +70,8 @@ As you can see, resistors have colored bands that indicate their value. Most of 
 ### LEDs
 A light emitting diode (LED) emits light when current is flowing through it. Diodes have a positive (+) and a negative (-) side, which means that current can only flow one direction through it. This is called **polarity**. To differentiate + from -, there are some visual cues shown in the image below.
 
-![Challenge1-11](/assets/images/firmware/challenge1-11.png)
+<img width="1179" height="725" alt="Screenshot 2026-09-28 at 7 05 45 PM" src="https://github.com/user-attachments/assets/1d258f8f-bb57-4800-9d28-aca34a46d7ea" />
+
 
 <a href="https://learn.illuminations.mit.edu/chapter/blink">image source</a>
 
