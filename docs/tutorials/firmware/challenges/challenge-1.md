@@ -109,9 +109,7 @@ Ok, now that we have all the materials we need, it's time to connect things toge
 
 Top View | Side View | Circuit Diagram
 :-------------------------:|:-------------------------:|:-------------------------:
-<img width="391" height="564" alt="Screenshot 2026-09-28 at 6 17 04 PM" src="https://github.com/user-attachments/assets/ff21203f-e62b-4584-b1cb-dbde0f837dbe" /> 
-| <img width="374" height="567" alt="Screenshot 2026-09-28 at 6 17 30 PM" src="https://github.com/user-attachments/assets/56a48c03-ded0-44bd-bca6-8d01b8f976dd" /> 
-| <img width="433" height="583" alt="Screenshot 2026-09-28 at 6 17 55 PM" src="https://github.com/user-attachments/assets/4254013f-23dd-419d-9c18-6161e9f81331" />
+<img width="391" height="564" alt="Screenshot 2026-09-28 at 6 17 04 PM" src="https://github.com/user-attachments/assets/ff21203f-e62b-4584-b1cb-dbde0f837dbe" /> | <img width="374" height="567" alt="Screenshot 2026-09-28 at 6 17 30 PM" src="https://github.com/user-attachments/assets/56a48c03-ded0-44bd-bca6-8d01b8f976dd" /> | <img width="433" height="583" alt="Screenshot 2026-09-28 at 6 17 55 PM" src="https://github.com/user-attachments/assets/4254013f-23dd-419d-9c18-6161e9f81331" />
 
 Finally, connect the dev board to your computer and voilà! The LED is on!
 
@@ -126,9 +124,7 @@ Ok, now that you were able to turn the LED on, how about we control **when** to 
 
 Button Off | Button On | Circuit Diagram
 :-------------------------:|:-------------------------:|:-------------------------:
-<img width="410" height="578" alt="Screenshot 2026-09-28 at 6 18 19 PM" src="https://github.com/user-attachments/assets/f225056a-58cb-47ac-bc58-268b05be60a9" />
-| <img width="384" height="580" alt="Screenshot 2026-09-28 at 6 19 09 PM" src="https://github.com/user-attachments/assets/0a497c2b-7888-4f08-b2d3-713753ed88d5" />
-| <img width="414" height="590" alt="Screenshot 2026-09-28 at 6 19 38 PM" src="https://github.com/user-attachments/assets/1a48afb0-c2a3-482e-83cf-96bf55308ab2" />
+<img width="410" height="578" alt="Screenshot" src="https://github.com/user-attachments/assets/f225056a-58cb-47ac-bc58-268b05be60a9" /> | <img width="384" height="580" alt="Screenshot" src="https://github.com/user-attachments/assets/0a497c2b-7888-4f08-b2d3-713753ed88d5" /> | <img width="414" height="590" alt="Screenshot" src="https://github.com/user-attachments/assets/1a48afb0-c2a3-482e-83cf-96bf55308ab2" />
 
 
 <hr>
