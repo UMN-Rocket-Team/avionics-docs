@@ -110,5 +110,5 @@ git push origin <branch>
 ```
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-  <a href="/docs/tutorials/firmware/challenges/challenge-5/" class="btn btn-outline">&#10094; Previous: Challenge 5</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-5/" class="btn btn-outline">&#10094; Previous: Challenge 5</a>
 </div>

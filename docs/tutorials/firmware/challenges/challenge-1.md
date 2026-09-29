@@ -131,5 +131,5 @@ Button Off | Button On | Circuit Diagram
 <hr>
 
 <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
-  <a href="/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-primary">Next: Challenge 2 &#10095;</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-primary">Next: Challenge 2 &#10095;</a>
 </div>

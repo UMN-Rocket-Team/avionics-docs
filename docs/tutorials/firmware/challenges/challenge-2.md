@@ -197,6 +197,6 @@ And voilà! The LED is controlled by the user button!
 <hr>
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-  <a href="/docs/tutorials/firmware/challenges/challenge-1/" class="btn btn-outline">&#10094; Previous: Challenge 1</a>
-  <a href="/docs/tutorials/firmware/challenges/challenge-3/" class="btn btn-primary">Next: Challenge 3 &#10095;</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-1/" class="btn btn-outline">&#10094; Previous: Challenge 1</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-3/" class="btn btn-primary">Next: Challenge 3 &#10095;</a>
 </div>

@@ -326,6 +326,6 @@ We're only seeing the COPI line broadcasting data. The CIPO line is for a periph
 <hr>
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-  <a href="/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-outline">&#10094; Previous: Challenge 2</a>
-  <a href="/docs/tutorials/firmware/challenges/challenge-4/" class="btn btn-primary">Next: Challenge 4 &#10095;</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-outline">&#10094; Previous: Challenge 2</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-4/" class="btn btn-primary">Next: Challenge 4 &#10095;</a>
 </div>

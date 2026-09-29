@@ -183,6 +183,6 @@ We can see the whoami variable has updated to 0x44. So that means that it worked
 <hr>
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
-  <a href="/docs/tutorials/firmware/challenges/challenge-3/" class="btn btn-outline">&#10094; Previous: Challenge 3</a>
-  <a href="/docs/tutorials/firmware/challenges/challenge-5/" class="btn btn-primary">Next: Challenge 5 &#10095;</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-3/" class="btn btn-outline">&#10094; Previous: Challenge 3</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-5/" class="btn btn-primary">Next: Challenge 5 &#10095;</a>
 </div>
