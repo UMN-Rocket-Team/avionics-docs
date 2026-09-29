@@ -55,7 +55,7 @@ Give the project a name, and make sure to select C++ as targeted language. That'
 
 <img width="445" height="494" alt="Screenshot 2026-09-28 at 7 09 47 PM" src="https://github.com/user-attachments/assets/78df84b2-2041-4afe-8b8a-a69470ca987a" />
 
-It might ask if you want to initialise all peripherals in default mode, and sure. I don't even know what that means but I just click yes.
+It might ask if you want to initialize all peripherals in default mode, and sure. I don't even know what that means but I just click yes.
 
 Then it's going to pop up the ioc configuration.
 
@@ -88,9 +88,9 @@ The file we'll be editing is the main.c file.
 Yikes! That allman swirly brace, and that 2 space indent. It's fine, what we're looking at is the main() function of the entire program. When the NUCLEO board is programmed, this function will run every time you supply power to the board (and right after you program it). So to restart a program, you can simply unplug and plug in the board. The NUCLEO boards also have a RESET button, it's the black button on the right labelled RESET. Pressing this button will also run the main() function.
 
 It looks like the main() function does four things:
-- initialises the HAL
-- initialises the system clock
-- initialises GPIO pins
+- initializes the HAL
+- initializes the system clock
+- initializes GPIO pins
 - enters a loop that never ends
 
 What do these things mean?
@@ -101,7 +101,7 @@ What do these things mean?
 
 
 Here we can see that everything is 80MHz, so basically the clock on this microcontroller runs at 80MHz. Most PCs these days are 2.4GHz or more, so slightly more than our little computer here.
-- The GPIO pins are what we're going to be using. Let's take a closer look at the GPIO initialisation code.
+- The GPIO pins are what we're going to be using. Let's take a closer look at the GPIO initialization code.
 
 <img width="569" height="670" alt="Screenshot 2026-09-28 at 7 13 03 PM" src="https://github.com/user-attachments/assets/cb0cc7fd-dbdb-48fb-b1bc-870ee7d03ba3" />
 
@@ -116,7 +116,7 @@ So here we can see that we've enabled two clocks, GPIOC and GPIOA. We're also wr
 LD2_GPIO_Port is set to GPIOA, and LD2_Pin is set to GPIO_PIN_5. That means A5 (specifically PA5, but the P is dropped in the code).\
 Here we can also see the B1_Pin and port are bounded to PC13, that's the blue user button on the board. We'll see these pins both be set up in MX_GPIO_Init.
 
-Now it's time to set up our LED pin (not to be confused with the internal LED pin). We'll need to initialise whichever pin we are connecting to the LED.\
+Now it's time to set up our LED pin (not to be confused with the internal LED pin). We'll need to initialize whichever pin we are connecting to the LED.\
 I'll do my code example with PC10, that's the top left pin on the board (not including the top top of the board. That part can actually snap off as it is just a programmer, but please DO NOT SNAP IT OFF we need it).
 
 So I want to set up PC10 just like they do with PA5.
@@ -134,7 +134,7 @@ Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPI
 <img width="486" height="630" alt="Screenshot 2026-09-28 at 7 14 15 PM" src="https://github.com/user-attachments/assets/ab85e147-b2fc-485a-ac66-8ce6146bd234" />
 
 
-Alright so we've successfully initialised our LED pin. Now how do we actually turn it on and off?
+Alright so we've successfully initialized our LED pin. Now how do we actually turn it on and off?
 
 Let's go back to the main function and start editing that infinite loop.
 
@@ -166,7 +166,7 @@ It might take a second to compile the program, there should be information on th
 
 #### Ayo this LED is NOT on
 - Ensure that the program compiled and uploaded itself to the STM. The console will tell you if something went wrong.
-- Make sure that you initialised and activated the right pin. Consult the chart and check the code and the pin to make sure they match
+- Make sure that you initialized and activated the right pin. Consult the chart and check the code and the pin to make sure they match
 - Make sure your pin isn't used by anything else. You can check the ioc file to see if something else is allocated to the pin you chose
 - Make sure your circuit still works by plugging the wire into the 3.3V pin instead of the GPIO one. If it turns on then it still works, otherwise the breadboard may be set up incorrectly.
 - Don't be afraid to ask for help!

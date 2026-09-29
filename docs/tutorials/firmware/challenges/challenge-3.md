@@ -74,7 +74,7 @@ Now let's address the new SPI functions. Somewhere in your code you'll find this
 <img width="445" height="516" alt="Screenshot 2026-09-28 at 10 28 54 PM" src="https://github.com/user-attachments/assets/a33331b8-f4b2-47f6-9a59-1d7d5153648b" />
 
 
-It's the start of an initialisation of SPI, but it is incomplete. We'll have to initialise the pins ourselves (actually some pins are initialised in the msp file, but I am chosing to ignore msp files and functions because I have yet to find a compelling argument for their existence). But I want to go into what some of these settings do first. You can control click any of the fields or values to see what other options exist for them, that's generally a good way to understand what their function is.
+It's the start of an initialization of SPI, but it is incomplete. We'll have to initialize the pins ourselves (actually some pins are initialized in the msp file, but I am chosing to ignore msp files and functions because I have yet to find a compelling argument for their existence). But I want to go into what some of these settings do first. You can control click any of the fields or values to see what other options exist for them, that's generally a good way to understand what their function is.
 - The Instance is what protocol your using. It's SPI2 because we picked SPI2 on the ioc.
 - The Mode is one of MASTER or SLAVE, controller or peripheral. Because we want our board to be the SPI controller, it is set to SPI_MODE_MASTER
 - The direction has to do with the two data lines. We want dedicated COPI and CIPO lines, so we set it to SPI_DIRECTION_2LINES. Other forms exist that use a single data line for both COPI and CIPO, or do other funky stuff.
@@ -115,9 +115,9 @@ It's the start of an initialisation of SPI, but it is incomplete. We'll have to 
 - CRCPolynomial? What is this a lesson in error correcting curves? Galois died in a GUN DUEL at age 20 I literally outlived him what do you mean I have to learn about finite fields of prime powers.
 - NSSPMode is something more to do with the NSS thing that I don't understand
 
-TLDR: We didn't change anything except the DataSize is now 8bit instead of 4. Now we have to actually do the pin initialisations.
+TLDR: We didn't change anything except the DataSize is now 8bit instead of 4. Now we have to actually do the pin initializations.
 
-The pins get initialised in much the same way as we did for the GPIO. Only now, instead of GPIO_MODE_OUTPUT_PP, we need to tell HAL that we want these pins used for specific SPI purposes. Let's start with the CLK, that's pin B10.
+The pins get initialized in much the same way as we did for the GPIO. Only now, instead of GPIO_MODE_OUTPUT_PP, we need to tell HAL that we want these pins used for specific SPI purposes. Let's start with the CLK, that's pin B10.
 
 <img width="460" height="221" alt="Screenshot 2026-09-28 at 10 30 06 PM" src="https://github.com/user-attachments/assets/7141ff60-b82c-4226-b3fc-e7396a638809" />
 

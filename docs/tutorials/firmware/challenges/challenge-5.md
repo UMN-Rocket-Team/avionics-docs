@@ -84,13 +84,13 @@ The other thing we don't have access to is this Error_Handler() function, which 
 
 <img width="566" height="340" alt="Screenshot 2026-09-28 at 11 19 42 PM" src="https://github.com/user-attachments/assets/3e4a5b3e-7e0c-42ba-ad90-c560c9a19fb1" />
 
-There are also a few other things we want to do in the initialisation sequence that have to do with the sensor itself. This is where it really helps to comb through the datasheet. Luckily someone else has already done that work for us, but when it comes to making new drivers this is something that you'll just have to figure out. We'll be changing the values of CTRL registers on the sensor, specifically CTRL2, CTRL1, CTRL3, and CTRL6. The relevant page numbers on the datasheet are 38, 36, 39, and 42.
+There are also a few other things we want to do in the initialization sequence that have to do with the sensor itself. This is where it really helps to comb through the datasheet. Luckily someone else has already done that work for us, but when it comes to making new drivers this is something that you'll just have to figure out. We'll be changing the values of CTRL registers on the sensor, specifically CTRL2, CTRL1, CTRL3, and CTRL6. The relevant page numbers on the datasheet are 38, 36, 39, and 42.
 
 <img width="1098" height="304" alt="Screenshot 2026-09-28 at 11 20 00 PM" src="https://github.com/user-attachments/assets/f0aca60b-7cfd-4b2d-ae30-27b8679a64d5" />
 
 Yeah this code is a little complex. But for the most part it is just a series of writeRegister commands to enable different settings on the sensor. There is that loop section, which keeps track of the "boot process" status. We enable the "boot bit" in CTRL2 (the most significant bit) and wait for the boot process to be complete (which is indicated by the boot bit being set back to 0). So that's what the loop does. We also have a maximum read attempts of 10000 to avoid getting into an endless loop. It's important to have timeout cases for any looping code, because we never want to get stuck in an endless loop as it will essentially crash the entire flight computer. I'd encourage you to read more about these configuration settings in the datasheet of the sensor.
 
-The deinit function is much simpler. We just disable the SPI2 clock, deinit SPI, and deinitialise all the pins with HAL_GPIO_DeInit.
+The deinit function is much simpler. We just disable the SPI2 clock, deinit SPI, and deinitialize all the pins with HAL_GPIO_DeInit.
 
 <img width="420" height="155" alt="Screenshot 2026-09-28 at 11 20 21 PM" src="https://github.com/user-attachments/assets/8bd3569d-37e3-4e2a-a93d-38cc01880bdd" />
 
@@ -122,7 +122,7 @@ We're finally ready to throw everything together to create our readAccel functio
 
 <img width="462" height="157" alt="Screenshot 2026-09-28 at 11 22 12 PM" src="https://github.com/user-attachments/assets/84165883-95d0-4ca1-8ba3-207f593f1625" />
 
-There we go! We should make sure this builds. For some reason the compiler is getting mad at my readRegister function spiInput[1] = {regAddress | 0x80} so I altered it slightly.
+There we go! We should make sure this builds. For some reason the compiler is getting mad at my readRegister function `spiInput[1] = {regAddress | 0x80}` so I altered it slightly.
 
 <img width="677" height="195" alt="Screenshot 2026-09-28 at 11 23 36 PM" src="https://github.com/user-attachments/assets/e3148284-32f1-4983-8cf0-a8affedc817d" />
 
@@ -136,7 +136,7 @@ Then I've just removed the readRegister function from before as well as the MX_S
 
 <img width="619" height="710" alt="Screenshot 2026-09-28 at 11 24 26 PM" src="https://github.com/user-attachments/assets/e378170f-d89a-4a46-bfec-bfe72a4e2974" />
 
-Actually it makes sense to move this HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET) call to inside the Sensor_Driver::init() function. So I will also do that.
+Actually it makes sense to move the `HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET)` call to inside `Sensor_Driver::init()`. So I will also do that.
 
 <img width="826" height="782" alt="Screenshot 2026-09-28 at 11 24 47 PM" src="https://github.com/user-attachments/assets/a45160b3-3519-4425-b710-2236d6829970" />
 
@@ -148,7 +148,7 @@ I've run the debugger once again and put a breakpoint on the readAccel function:
 
 And a simple way to test the functionality is just by using the "Resume" button and shaking the sensor in real time while you do this. The result of the "accel" variable in the variables tab should be changing. And if you don't move the sensor, the values should be at or around zero. It's not the best method of testing, but without the interface tools of the UFC codebase we are limited in what tools we have.
 
-Another way of doing tests is by using the saleae to see if the spi lines are acting correctly.
+Another way of doing tests is by using the Saleae to see if the spi lines are acting correctly.
 
 <img width="1103" height="567" alt="Screenshot 2026-09-28 at 11 25 11 PM" src="https://github.com/user-attachments/assets/3ea1d2b2-d1e8-42ba-a23e-ae2ae93cc243" />
 
