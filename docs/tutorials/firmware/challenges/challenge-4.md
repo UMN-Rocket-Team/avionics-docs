@@ -19,6 +19,7 @@ For this challenge we will be focusing on the [Low G Accelerometer](https://www.
 Okay! The first thing to do is set up the hardware. You'll need a breakout for the sensor like this:
 
 <img width="465" height="785" alt="Screenshot 2026-09-28 at 10 57 50 PM" src="https://github.com/user-attachments/assets/0abba9cc-84f0-4b41-b661-4b4e826bc206" />
+
 <img width="270" height="300" alt="Screenshot 2026-09-28 at 10 58 19 PM" src="https://github.com/user-attachments/assets/87495181-a41b-4733-823a-1bcf6d3bbf6f" />
 
 There are a lot of pin connections here, but we only have to worry about six of them.
@@ -35,6 +36,7 @@ There are a lot of pin connections here, but we only have to worry about six of 
 We'll need to connect these wires to the corresponding ones on the STM32.
 
 <img width="460" height="640" alt="Screenshot 2026-09-28 at 10 58 42 PM" src="https://github.com/user-attachments/assets/cf005385-8232-4d00-b8f3-dfd494f19ca4" />
+
 <img width="986" height="805" alt="Screenshot 2026-09-28 at 10 59 03 PM" src="https://github.com/user-attachments/assets/7fb2ffa7-508c-4fd5-b65a-9b45c56737e2" />
 
 I'm also going to connect some header pins so that we can use the Saleae on this circuit.
