@@ -31,17 +31,19 @@ The basic idea is that the clock line pulses up and down very fast as the data i
 
 We need to enable SPI on our project. Lets go back to our ioc file. It's near the bottom of the Project Explorer if you closed it.
 
-![Challenge3-1](/assets/images/firmware/challenge3-1.png)
+<img width="877" height="633" alt="Screenshot 2026-09-28 at 10 23 23 PM" src="https://github.com/user-attachments/assets/6fe01118-8b49-4dee-a1a0-519b9a5e0008" />
+
 
 But oh no, what's this? There are THREE different SPIs? Don't worry, the number just refers to the pins that will be used. Lets just go with SPI2 (I originally thought SPI2 was used for the devboard last year but it turns out we used SPI3, so the COB SPI labels on the wood board will not be particularly helpful, sorry about that). Select "Full-Duplex Master"
 
-![Challenge3-2](/assets/images/firmware/challenge3-2.png)
+<img width="874" height="610" alt="Screenshot 2026-09-28 at 10 23 47 PM" src="https://github.com/user-attachments/assets/0f61bcf2-5021-4aa6-a80e-5e7a0313a890" />
+
 
 What does full duplex master mean? Full duplex means that both devices connected can send data to each other at the same time. Master refers to the Master->Slave relationship of SPI. Though we call it Controller->Peripheral these days, you still may see the terms Master and Slave for the two devices. We set up the NUCLEO board as the controller of the SPI communication.
 
 Let's look at what pins were allocated for SPI2.
 
-![Challenge3-3](/assets/images/firmware/challenge3-3.png)
+<img width="619" height="595" alt="Screenshot 2026-09-28 at 10 24 12 PM" src="https://github.com/user-attachments/assets/50efcc1b-31b1-4089-bd9d-bb4d243de17e" />
 
 Here we can see that:
 - PB10 became the SPI2_SCK, that's the clock
@@ -52,11 +54,11 @@ But where's the Chip Select pin? STM didn't allocate it for us, so we'll have to
 
 I think we're good to save now. We can generate the code. Btw if you ever want to apply code generation at any time use this button
 
-![Challenge3-4](/assets/images/firmware/challenge3-4.png)
+<img width="878" height="45" alt="Screenshot 2026-09-28 at 10 26 40 PM" src="https://github.com/user-attachments/assets/933dc737-0e49-4f7f-ad8e-37b047d32110" />
 
 We'll notice some new variables and functions in our project... But before we address them, I want to address something else
 
-![Challenge3-5](/assets/images/firmware/challenge3-5.png)
+<img width="456" height="522" alt="Screenshot 2026-09-28 at 10 24 33 PM" src="https://github.com/user-attachments/assets/de78b580-80ab-4cce-b8ae-87371ed068ce" />
 
 Generating the code got rid of my extra clock enables. Sure it added GPIOB enable, but my D and H were removed. That's because I didn't put them inside the
 ```
@@ -65,11 +67,12 @@ Generating the code got rid of my extra clock enables. Sure it added GPIOB enabl
 ```
 tags. Any code that you put outside of those comments will get removed after code generation, so make sure to patch up stuff that may have been removed. Luckily, in the UFC codebase we never use code generation, so you won't be having this problem regularly.
 
-![Challenge3-6](/assets/images/firmware/challenge3-6.png)
+<img width="453" height="552" alt="Screenshot 2026-09-28 at 10 27 06 PM" src="https://github.com/user-attachments/assets/c7995997-f546-4ebf-a7c8-b8e676c51cf4" />
 
 Now let's address the new SPI functions. Somewhere in your code you'll find this function
 
-![Challenge3-7](/assets/images/firmware/challenge3-7.png)
+<img width="445" height="516" alt="Screenshot 2026-09-28 at 10 28 54 PM" src="https://github.com/user-attachments/assets/a33331b8-f4b2-47f6-9a59-1d7d5153648b" />
+
 
 It's the start of an initialisation of SPI, but it is incomplete. We'll have to initialise the pins ourselves (actually some pins are initialised in the msp file, but I am chosing to ignore msp files and functions because I have yet to find a compelling argument for their existence). But I want to go into what some of these settings do first. You can control click any of the fields or values to see what other options exist for them, that's generally a good way to understand what their function is.
 - The Instance is what protocol your using. It's SPI2 because we picked SPI2 on the ioc.
@@ -77,7 +80,7 @@ It's the start of an initialisation of SPI, but it is incomplete. We'll have to 
 - The direction has to do with the two data lines. We want dedicated COPI and CIPO lines, so we set it to SPI_DIRECTION_2LINES. Other forms exist that use a single data line for both COPI and CIPO, or do other funky stuff.
 - The DataSize is how many bits of data are sent at a time. It's set to 4BIT right now, but I think it will be more natural to change it to 8BIT, then we can count our reps in bytes instead of in half-bytes.
 
-   ![Challenge3-8](/assets/images/firmware/challenge3-8.png)
+   <img width="555" height="660" alt="Screenshot 2026-09-28 at 10 29 30 PM" src="https://github.com/user-attachments/assets/091187fc-66ac-4c5d-a497-7f9520e7dfd6" />
 
 - The CLKPolarity refers to the default state of the clock. If set to LOW, then the clock line is LOW when nothing is happening, if it's HIGH then the clock will be HIGH when it's not doing anything
 - The CLKPhase determines whether bits are read on the rising or falling edge of the clock. The clock is a line that will go up and down rapidly, while the data lines will go up and down synced with the clock. But you can choose to sync on the rising (first) edge of the clock, or the falling (second) edge. They are not labelled RISING and FALLING though, because if you have your CLKPolarity set to HIGH, then they would have to be reversed, with 1EDGE referring to FALLING and 2EDGE with RISING. But for now, 1EDGE means on the RISING edge, and that's generally what we want.
@@ -116,137 +119,137 @@ TLDR: We didn't change anything except the DataSize is now 8bit instead of 4. No
 
 The pins get initialised in much the same way as we did for the GPIO. Only now, instead of GPIO_MODE_OUTPUT_PP, we need to tell HAL that we want these pins used for specific SPI purposes. Let's start with the CLK, that's pin B10.
 
-![Challenge3-9](/assets/images/firmware/challenge3-9.png)
+<img width="460" height="221" alt="Screenshot 2026-09-28 at 10 30 06 PM" src="https://github.com/user-attachments/assets/7141ff60-b82c-4226-b3fc-e7396a638809" />
 
 But what to set the Mode to? For this we'll have to consult, [The Datasheet](https://www.st.com/resource/en/datasheet/stm32l476rg.pdf#page=88). Get used to the look of it, because you'll be seeing many more like it doing firmware. I've linked you straight to page 88 of the datasheet for the STM32L476xx series. There's only one in this series which is the STM32L476RG, which is what we're using. But what's this table on page 88. This is the Alternate Functions table. It tells you which pins support which "alternate functions". What that means is that only certain pins can be SPI clocks, and only certain pins can be COPI and CIPO. This table will tell you which pins can do what. Thing is, we already know what pins we're using. It's PB10, PC2, PC3, and some other GPIO pin for the Chip Select. But we are still going to use the table here to tell us exactly what Mode these pins allow. The Mode field itself only accepts values of GPIO_MODE, as can be seen in the struct declaration (CTRL+Click the .Mode)
 
-![Challenge3-10](/assets/images/firmware/challenge3-10.png)
+<img width="972" height="335" alt="Screenshot 2026-09-28 at 10 30 40 PM" src="https://github.com/user-attachments/assets/11c45423-4f14-4739-a2f0-64db204f2854" />
 
 But there's something else here that we've never seen before. A field called Alternate. That's the one we want. We can set the Mode to GPIO_MODE_AF_PP, this means we want to use this pin for an Alternate Function (AF) and we want it to be push/pull, like our LED pin. Then we can set the GPIO_InitStruct.Alternate field:
 
-![Challenge3-11](/assets/images/firmware/challenge3-11.png)
+<img width="479" height="198" alt="Screenshot 2026-09-28 at 10 31 04 PM" src="https://github.com/user-attachments/assets/9a783bcb-f25f-4ec4-af82-93e9d90c36c5" />
 
 So let's look at the datasheet for PB10:
 
-![Challenge3-12](/assets/images/firmware/challenge3-12.png)
+<img width="948" height="647" alt="Screenshot 2026-09-28 at 10 31 33 PM" src="https://github.com/user-attachments/assets/4632ff23-ef36-48eb-be7f-f89e8d3d550a" />
 
 We can see under AF5 it is registered as SPI2_CLK, exactly what we need. So we set the Alternate field to GPIO_AF5_SPI2. It will know to make it a clock because this pin cannot support COPI or CIPO.
 
-![Challenge3-13](/assets/images/firmware/challenge3-13.png)
+<img width="392" height="163" alt="Screenshot 2026-09-28 at 10 32 06 PM" src="https://github.com/user-attachments/assets/0c5a00ca-05b2-4f34-ba67-b12439ca1463" />
 
 Addendum: The speed. This is a clock going at presumably 40MHz, which is pretty fast for a line to go up and down. Are we sure we shouldn't bump up the speed to at least a GPIO_SPEED_FREQ_MEDIUM? [Here](https://community.st.com/t5/stm32-mcus-products/i-would-like-to-know-about-the-4-gpio-speed-settings-on-the/td-p/56124) is a post with a table displaying the speed (in MHz and in ns) guarenteed by the different speed settings. Now granted, this is for a different chip, but the table is a bit startling. It indicates that even on speed 10 (10 equates to GPIO_SPEED_FREQ_HIGH), if the voltage difference is too high, it might not be able to keep up with 40MHz. Only speed 11 (GPIO_SPEED_FREQ_VERY_HIGH) is able to keep guarentee that it will be able to do it. Instead of making the frequency extremely high, my solution is just to increase the BaudRatePrescaler to slow down that SPI clock. This will make it much easier to see on the logic analyzer later, and we'll be able to keep our speed at GPIO_SPEED_FREQ_LOW. I'll set the BaudRatePrescaler to SPI_BAUDRATEPRESCALER_256 to really slow this clock down. Remember that the SPI clock frequency is the main clock frequency / BaudRatePrescaler. So, by setting it to 256, that should make the SPI clock run at 80/256, or 0.3125MHz, 312.5KHz. Easily within the range of every voltage difference of GPIO_SPEED_FREQ_LOW.
 
-![Challenge3-14](/assets/images/firmware/challenge3-14.png)
+<img width="491" height="291" alt="Screenshot 2026-09-28 at 10 32 40 PM" src="https://github.com/user-attachments/assets/1eded40d-f959-4461-a5d3-c47f08051367" />
 
 And that's the clock set up. We can repeat similar steps for the COPI and CIPO pins, they'll all be using GPIO_AF5_SPI2 as well.
 
-![Challenge3-15](/assets/images/firmware/challenge3-15.png)
+<img width="409" height="396" alt="Screenshot 2026-09-28 at 10 33 03 PM" src="https://github.com/user-attachments/assets/39f7a98b-bf59-4450-a078-3bba3cd845c7" />
+
 
 Okay now let's pick our Chip Select pin. It can be any GPIO enabled pin, but for historical reasons I will choose PA11, as that's one used in development when we only had these devboards last year. We're going to set this one up as a normal GPIO pin, because HAL SPI does not have internal support for chip selects, we will manually be toggling them off and on. I'm choosing A11 for this.
 
-![Challenge3-16](/assets/images/firmware/challenge3-16.png)
+<img width="412" height="483" alt="Screenshot 2026-09-28 at 10 33 35 PM" src="https://github.com/user-attachments/assets/413ed0af-082a-4cd3-813f-1afd7f122c7a" />
 
 We're almost done, there's just one last thing to do. Remember how we had to enable the clocks for the GPIO pins to work? Well SPI has its own clock within the microcontroller, so if we want anything to happen we have to enable that too.
 
-![Challenge3-17](/assets/images/firmware/challenge3-17.png)
-And that's all the initialisation! Make sure that the project builds by clicking the "build" button.
+<img width="506" height="609" alt="Screenshot 2026-09-28 at 10 34 00 PM" src="https://github.com/user-attachments/assets/a60c2998-52a2-4560-9195-b42c720da32f" />
 
-![Challenge3-18](/assets/images/firmware/challenge3-18.png)
+And that's all the initialization! Make sure that the project builds by clicking the "build" button.
+
+<img width="950" height="54" alt="Screenshot 2026-09-28 at 10 35 15 PM" src="https://github.com/user-attachments/assets/feb1c050-a81d-4ee3-ab10-08c735eb44d5" />
 
 Fix any compile errors, don't be afraid to ask for help!
 
 Alright now let's try actually sending a byte of data over SPI. We're not actually going to be sending it to a peripheral device, but rather, we're going to capture the output using a very fancy oscilloscope called a logic analyzer.
 
-![Challenge3-19](/assets/images/firmware/challenge3-19.png)
+<img width="698" height="657" alt="Screenshot 2026-09-28 at 10 35 41 PM" src="https://github.com/user-attachments/assets/a64453fa-5dd1-40a6-9571-4c951516725a" />
 
 
-Setting up the Saleae can be a little bit tricky, and there's more [software](https://www.saleae.com/pages/downloads) we have to get. This software 
+Setting up the Saleae can be a little bit tricky, and there's more [software](https://www.Saleae.com/pages/downloads) we have to get. This software 
 is a lot more modern and pleasant to use than STM's IDE though, so that's a plus.
 
 After getting the software and opening it, you'll be greeted by this screen:
 
-![Challenge3-20](/assets/images/firmware/challenge3-20.png)
+<img width="934" height="627" alt="Screenshot 2026-09-28 at 10 36 28 PM" src="https://github.com/user-attachments/assets/24c368fd-0a7c-4f77-9b0d-8a301e632ce9" />
 
 The Saleae uses a micro USB to USB-A cable. When you plug it in to your computer with the Saleae software running, it should show a green light after around 10 seconds.
 
-![Challenge3-21](/assets/images/firmware/challenge3-21.png)
+<img width="568" height="655" alt="Screenshot 2026-09-28 at 10 37 42 PM" src="https://github.com/user-attachments/assets/860faace-b86d-4b28-a7f0-dabe15e605d3" />
 
 And the software should update too:
 
-![Challenge3-22](/assets/images/firmware/challenge3-22.png)
+<img width="1024" height="687" alt="Screenshot 2026-09-28 at 10 38 47 PM" src="https://github.com/user-attachments/assets/dc180431-294a-49e0-b13e-0ebf4f2f0f75" />
 
 By clicking on Devices on the right sidebar, we can see and reconfigure the Saleae's probes:
 
-![Challenge3-23](/assets/images/firmware/challenge3-23.png)
+<img width="1025" height="682" alt="Screenshot 2026-09-28 at 10 39 10 PM" src="https://github.com/user-attachments/assets/20729387-a385-4eee-b1bf-62a3f0bb19cd" />
 
-Here we can see that it has configured probes 0 and 1 to be both digital and analog. But before we reconfigure them, we should actually plug the probes into the saleae.
+Here we can see that it has configured probes 0 and 1 to be both digital and analog. But before we reconfigure them, we should actually plug the probes into the Saleae.
 
-![Challenge3-24](/assets/images/firmware/challenge3-24.png)
+<img width="608" height="623" alt="Screenshot 2026-09-28 at 10 39 35 PM" src="https://github.com/user-attachments/assets/c8ee439f-e9c5-4251-be3e-e6a2067d0ecb" />
 
-Now it may seem obvious where this goes, but it's important to get this part right. The saleae probes have only one orientation that it will work in. Specifically, this one I have with the yellow, green, blue, and purple probes MUST go into slots 4, 5, 6, and 7 of the saleae. Additionally the black GND (ground) wires must be at the BOTTOM, like this:
+Now it may seem obvious where this goes, but it's important to get this part right. The Saleae probes have only one orientation that it will work in. Specifically, this one I have with the yellow, green, blue, and purple probes MUST go into slots 4, 5, 6, and 7 of the Saleae. Additionally the black GND (ground) wires must be at the BOTTOM, like this:
 
-![Challenge3-25](/assets/images/firmware/challenge3-25.png)
+<img width="597" height="521" alt="Screenshot 2026-09-28 at 10 39 57 PM" src="https://github.com/user-attachments/assets/c709d156-42cb-4470-90a8-7e8830e1427e" />
 
-These number labels are on the back of the saleae:
+These number labels are on the back of the Saleae:
 
-![Challenge3-26](/assets/images/firmware/challenge3-26.png)
+<img width="611" height="656" alt="Screenshot 2026-09-28 at 10 40 21 PM" src="https://github.com/user-attachments/assets/c8386784-d624-49e0-a571-e15553476eee" />
 
-There is another set of probes that are black, brown, red, and orange. Those would go in slots 0, 1, 2, and 3. Here's what the saleae looks like with all its probes attached:
+There is another set of probes that are black, brown, red, and orange. Those would go in slots 0, 1, 2, and 3. Here's what the Saleae looks like with all its probes attached:
 
-![Challenge3-27](/assets/images/firmware/challenge3-27.png)
+<img width="608" height="447" alt="Screenshot 2026-09-28 at 10 40 40 PM" src="https://github.com/user-attachments/assets/013de83a-5748-4679-af66-f4bf03c358f8" />
 
 We will only need four of these for SPI though, because SPI only uses four wires.\
 Now we can configure the Saleae software. I'm going to turn on the 4, 5, 6, and 7 probes as DIGITAL.
 
-![Challenge3-28](/assets/images/firmware/challenge3-28.png)
+<img width="977" height="655" alt="Screenshot 2026-09-28 at 10 41 20 PM" src="https://github.com/user-attachments/assets/a0a8a427-b538-476e-ba45-1b20e531a878" />
 
-I'm also going to set the MS/s to 20. This is Megasamples per second, how often the saleae polls the pin it is connected to. 50 is very fast and not necessary. Additionally, sometimes the saleae is unable to keep up if the rate is too high and just stops recording. So we'll set it to 20 to avoid that issue.
+I'm also going to set the MS/s to 20. This is Megasamples per second, how often the Saleae polls the pin it is connected to. 50 is very fast and not necessary. Additionally, sometimes the Saleae is unable to keep up if the rate is too high and just stops recording. So we'll set it to 20 to avoid that issue.
 
-![Challenge3-29](/assets/images/firmware/challenge3-29.png)
+<img width="979" height="657" alt="Screenshot 2026-09-28 at 10 41 42 PM" src="https://github.com/user-attachments/assets/b5633c47-d6f6-4513-b6cc-25a77405c5d9" />
 
 I want to rename these channels as well to reflect what we'll be using them for.
 
-![Challenge3-30](/assets/images/firmware/challenge3-30.png)
-
+<img width="979" height="655" alt="Screenshot 2026-09-28 at 10 42 08 PM" src="https://github.com/user-attachments/assets/7483143e-f3f1-4ace-8e4a-36abb911f8ca" />
 
 Then we can set the trigger settings: Enable Trigger on the right and set the Pattern and Channel to CLK:
 
-![Challenge3-31](/assets/images/firmware/challenge3-31.png)
-
+<img width="979" height="656" alt="Screenshot 2026-09-28 at 10 42 33 PM" src="https://github.com/user-attachments/assets/56e99876-df14-48e2-9e0c-2adb2d184898" />
 
 The trigger setting tells the Saleae when to start recording. Basically when it notices the CLK line change it will start recording and stop after 1 second (configurable by "Capture duration after trigger"). I chose the CLK line because the CS line will go up when the STM starts up, and that would trigger the recording when we don't want it to.
 
 The last thing we can do with the Saleae is set up an analyzer. The analyzer tab is right below the Devices one on the right sidebar.
 
-![Challenge3-32](/assets/images/firmware/challenge3-32.png)
+<img width="978" height="658" alt="Screenshot 2026-09-28 at 10 43 03 PM" src="https://github.com/user-attachments/assets/651c93f4-2480-4cae-95b8-bef145d631ee" />
 
 Click on the plus to make a new analyzer. We want the SPI analyzer.
 
-![Challenge3-33](/assets/images/firmware/challenge3-33.png)
+<img width="977" height="655" alt="Screenshot 2026-09-28 at 10 43 24 PM" src="https://github.com/user-attachments/assets/93a29edb-8a98-4326-af5c-220fe0a0b374" />
 
 Then a window will pop up allowing you to configure the settings. The only things we want to change is the channels for each line. Set the accordingly
 
-![Challenge3-34](/assets/images/firmware/challenge3-34.png)
+<img width="978" height="655" alt="Screenshot 2026-09-28 at 10 43 51 PM" src="https://github.com/user-attachments/assets/d215dfc2-d96e-441c-9611-bc56043fa93e" />
 
-Now we can record whenenver by hitting the blue play button:
+Now we can record whenever by hitting the blue play button:
 
-![Challenge3-35](/assets/images/firmware/challenge3-35.png)
+<img width="977" height="656" alt="Screenshot 2026-09-28 at 10 44 23 PM" src="https://github.com/user-attachments/assets/16239f30-80c2-46e1-a1b1-b65646e509e1" />
 
 We still have to connect the physical probes to the correct pins on the STM. Remember what pins were used for which purposes:
-- PA11: Chip select (chosen by me), yellow saleae wire
-- PB10: Clock (SPI2), green saleae wire
-- PC3: COPI (SPI2), blue saleae wire
-- PC2: CIPO (SPI2), purple saleae wire
+- PA11: Chip select (chosen by me), yellow Saleae wire
+- PB10: Clock (SPI2), green Saleae wire
+- PC3: COPI (SPI2), blue Saleae wire
+- PC2: CIPO (SPI2), purple Saleae wire
 
-So now we just have to find those pins and connect the appropriate saleae wires to them.
+So now we just have to find those pins and connect the appropriate Saleae wires to them.
 
-![Challenge3-36](/assets/images/firmware/challenge3-36.png)
+<img width="610" height="637" alt="Screenshot 2026-09-28 at 10 45 02 PM" src="https://github.com/user-attachments/assets/1484e150-7d4e-4574-8448-2558992b75f1" />
 
 And we need to find a GND pin to connect the Saleae GND to. I chose this one:
 
-![Challenge3-37](/assets/images/firmware/challenge3-37.png)
+<img width="607" height="674" alt="Screenshot 2026-09-28 at 10 45 21 PM" src="https://github.com/user-attachments/assets/211a26f1-2254-4586-b5c5-458083457924" />
 
-Our saleae setup is complete!
+Our Saleae setup is complete!
 
 #### Now how do we do a SPI communication?
 In the SPI protocol, the chip select is held LOW to activate the peripheral. Then the clock moves rapidly while data is transferred on either the CIPO or COPI lines.
@@ -255,18 +258,18 @@ In the code, that involves manually setting the chip select pin LOW and then cal
 
 Before we set the chip select pin LOW though, it needs to be HIGH. So before the while() loop I will add this line of code:
 
-![Challenge3-38](/assets/images/firmware/challenge3-38.png)
+<img width="635" height="388" alt="Screenshot 2026-09-28 at 10 45 51 PM" src="https://github.com/user-attachments/assets/ea056075-bfc0-400a-bd97-0b3a8f8384c2" />
 
 And then we can transmit with SPI in the while loop:
 
-![Challenge3-39](/assets/images/firmware/challenge3-39.png)
+<img width="713" height="412" alt="Screenshot 2026-09-28 at 10 46 10 PM" src="https://github.com/user-attachments/assets/6a9706aa-5baf-44f3-860e-649743a9fc1e" />
 
 So what's happening here?\
 First, I'm making an array of four bytes.\
 Then I'm setting the chip select LOW.\
 Then I'm calling the magic function, let's take a look at this more (ctrl + click it!)
 
-![Challenge3-40](/assets/images/firmware/challenge3-40.png)
+<img width="1208" height="526" alt="Screenshot 2026-09-28 at 10 46 36 PM" src="https://github.com/user-attachments/assets/07895a9b-0afd-4c14-a8f9-cb4678d34820" />
 
 We are going to go into how it works, because it's a little bit out of the scope of this tutorial and not necessary to know how to use it.\
 Instead we're focused on what arguments it requires and what they do.
@@ -281,47 +284,47 @@ The last argument is a timeout in milliseconds. It dictates how long the SPI tra
 
 After the Transmit function I put the chip select back to HIGH and wait 1 millisecond before doing another SPI transmission.
 
-Now lets run the code and see if the SPI data can be seen on the saleae.
+Now lets run the code and see if the SPI data can be seen on the Saleae.
 
 The sequence of events is:
 - Program the STM board
-- Start recording on the saleae (blue play button)
+- Start recording on the Saleae (blue play button)
 - Wait 1 second
 
-![Challenge3-41](/assets/images/firmware/challenge3-41.png)
+<img width="1030" height="690" alt="Screenshot 2026-09-28 at 10 47 12 PM" src="https://github.com/user-attachments/assets/b0a48c45-1fb2-4c04-8bd6-5be3eddba786" />
 
 You should see something like this. If you don't, then there could be a myriad of reasons why. Here are a few.
 - Check your Saleae connections and ensure they are connected to the same pins that you set up in your code.
-- Make sure the saleae's probes are set up in the correct place
+- Make sure the Saleae's probes are set up in the correct place
 - Make sure the Saleae has a ground connection
 - Make sure the HAL_SPI_Transmit() function is within the while(1) loop in your code.
 - Don't be afraid to ask for help!
 
 Let's zoom in on this capture (scroll wheel):
 
-![Challenge3-42](/assets/images/firmware/challenge3-42.png)
+<img width="1028" height="689" alt="Screenshot 2026-09-28 at 10 47 38 PM" src="https://github.com/user-attachments/assets/d8d6d84f-7ee2-4af1-9b43-4705e484b836" />
 
 At this zoom level, we can see one of these transmissions taking place every 2ms. But we only put a delay for 1ms, what gives?\
 Ctrl+Clicking on the HAL_Delay() function will give us the answer.
 
-![Challenge3-43](/assets/images/firmware/challenge3-43.png)
+<img width="552" height="343" alt="Screenshot 2026-09-28 at 10 48 05 PM" src="https://github.com/user-attachments/assets/94fc5f06-4e8c-4685-b7d6-c82b6cd1915e" />
 
 The function is putting extra time on our delay "to guaranty minimum wait". I don't even know what this is, why they spelled guarantee like that, or what the purpose of this is. I'm going to comment it out.
 
-![Challenge3-44](/assets/images/firmware/challenge3-44.png)
+<img width="538" height="344" alt="Screenshot 2026-09-28 at 10 48 25 PM" src="https://github.com/user-attachments/assets/0881b8af-3aea-4403-8f13-92cc663a6781" />
 
-Now we can reprogram the STM and rerun the saleae
+Now we can reprogram the STM and rerun the Saleae
 
-![Challenge3-45](/assets/images/firmware/challenge3-45.png)
+<img width="992" height="661" alt="Screenshot 2026-09-28 at 10 48 53 PM" src="https://github.com/user-attachments/assets/a37f8c11-94f9-44a2-974c-99e9e6f2d301" />
 
 That looks better. Finally we can zoom in on one of these transmissions and verify that the correct data was being sent.
 
-![Challenge3-46](/assets/images/firmware/challenge3-46.png)
+<img width="990" height="665" alt="Screenshot 2026-09-28 at 10 49 18 PM" src="https://github.com/user-attachments/assets/232aed04-dea6-431a-bd47-ae94f43c330f" />
 
 **0xA71021C5**
 
 #### Some notes on SPI
-We're only seeing the COPI line broadcasting data. The CIPO line is for a peripheral response, and we have not connected a peripheral to the STM. So we're essentially just screaming 0xA71021C5 into the void with no one to hear it (except the saleae). In the next tutorial we are going to hook these SPI lines up to a peripheral device and start having two way communication.
+We're only seeing the COPI line broadcasting data. The CIPO line is for a peripheral response, and we have not connected a peripheral to the STM. So we're essentially just screaming 0xA71021C5 into the void with no one to hear it (except the Saleae). In the next tutorial we are going to hook these SPI lines up to a peripheral device and start having two way communication.
 
 <hr>
 
