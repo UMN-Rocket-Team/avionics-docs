@@ -22,10 +22,9 @@ GPIO stands for "General Purpose Input/Output". It just means that the pin doesn
 
 The GPIO pins on the STM are identified by their **PORT** (letter) and **PIN** (number). The PORT refers to a bank of (i think up to 16) pins. So an example is like pin A11, which is port A and pin 11.
 
-Here's a picture labelling all of the pins on the NUCLEO-L476RG board because I guess STM didn't feel the need to put the labels on the board itself, we also have a physical wood board with this same picture:
+Here's a picture labeling all of the pins on the NUCLEO-L476RG board because I guess STM didn't feel the need to put the labels on the board itself, we also have a physical wood board with this same picture:
 
 <img width="574" height="464" alt="Screenshot 2026-09-28 at 7 08 01 PM" src="https://github.com/user-attachments/assets/0d61949e-d562-44c4-aa24-b951cbf136ee" />
-
 
 So whatever pin you decide to use, note down the LETTER and the NUMBER, like for example the top left blue pin is labelled PC10, disregard the P, it's just C10.
 
@@ -35,51 +34,108 @@ In order to put programs on the NUCLEO board, we have to do it through [STM's ID
 All of my screenshots are in dark theme, which you can enable by doing Window >> Preferences >> Appearance. And Enable theming and switch it to Dark theme.
 
 To create a project for the NUCLEO board, go to File >> New >> STM32 Project.\
-After like 20 seconds, it'll pop up this wizard:\
-Click the Board Selector
 
-<img width="837" height="631" alt="Screenshot 2026-09-28 at 7 08 30 PM" src="https://github.com/user-attachments/assets/2db98595-ea0b-438f-8bd4-85385bc4a14f" />
+<img width="687" height="651" alt="Screenshot 2026-09-30 at 12 11 40 AM" src="https://github.com/user-attachments/assets/88696961-b372-4779-95ca-418e7cd763c5" />
 
+Click "STM32CubeIDE Empty Project" and then hit "Next >".
 
-Then type NUCLEO-L476RG into the Commercial Part Number
+<img width="598" height="456" alt="Screenshot 2026-09-30 at 12 17 05 AM" src="https://github.com/user-attachments/assets/08ba3aa3-9cef-4409-8dbe-fafd0c4d3ade" />
 
-<img width="839" height="634" alt="Screenshot 2026-09-28 at 7 08 55 PM" src="https://github.com/user-attachments/assets/8bb5790a-904d-4496-a79e-879647e7db33" />
+Click the "Board Selector"
 
+<img width="1207" height="537" alt="Screenshot 2026-09-30 at 12 19 51 AM" src="https://github.com/user-attachments/assets/de5979ec-88b8-43c8-b486-01f9eaafa29f" />
 
-Make sure to click on the NUCLEO-L476RG to select it. Then the "Next >" button will become available.
+Then type "NUCLEO-L476RG" into the "Board Name Filter"
 
-<img width="839" height="633" alt="Screenshot 2026-09-28 at 7 09 26 PM" src="https://github.com/user-attachments/assets/b2bad6d2-451f-457d-a229-3c820a545554" />
+<img width="1210" height="533" alt="Screenshot 2026-09-30 at 12 22 28 AM" src="https://github.com/user-attachments/assets/dd33a3b3-030c-4c36-af4c-33317b79944f" />
 
+Make sure to click on NUCLEO-L476RG to select it. Then the "Next >" button will become available.
+
+<img width="1214" height="538" alt="Screenshot 2026-09-30 at 12 23 44 AM" src="https://github.com/user-attachments/assets/fb2faad2-b228-449d-9b88-64a1c3edd23e" />
 
 Give the project a name, and make sure to select C++ as targeted language. That's the language used in the UFC codebase, so we might as well use it here too.
 
-<img width="445" height="494" alt="Screenshot 2026-09-28 at 7 09 47 PM" src="https://github.com/user-attachments/assets/78df84b2-2041-4afe-8b8a-a69470ca987a" />
+<img width="500" height="534" alt="Screenshot 2026-09-30 at 12 24 50 AM" src="https://github.com/user-attachments/assets/54c46611-ccdd-42c5-8cf4-9b76b9d9c6b6" />
 
-It might ask if you want to initialize all peripherals in default mode, and sure. I don't even know what that means but I just click yes.
+I hope you enjoyed what you just did because we will be doing the same thing again but in [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html#st-get-software). 
+Once, you have CubeMX downloaded. Click "Access to MCU Selector". 
+
+<img width="1277" height="748" alt="Screenshot 2026-09-30 at 12 25 40 AM" src="https://github.com/user-attachments/assets/7bb0c775-485c-4ba2-828c-e7967da4c240" />
+
+Click the "Board Selector"
+
+<img width="1406" height="818" alt="Screenshot 2026-09-30 at 12 27 03 AM" src="https://github.com/user-attachments/assets/a94fdd70-e1c7-433f-8951-d54f077a00c3" />
+
+Then type "NUCLEO-L476RG" into the "Commercial Part Number"
+
+<img width="1409" height="818" alt="Screenshot 2026-09-30 at 12 28 00 AM" src="https://github.com/user-attachments/assets/9b098e31-a389-41a2-8ec7-58c7d97b6643" />
+
+Click on the NUCLEO-L476RG to select it and then click "Start Project"
+
+<img width="1409" height="818" alt="Screenshot 2026-09-30 at 12 29 48 AM" src="https://github.com/user-attachments/assets/af056f0a-630c-4855-86a9-0013b1de0ef1" />
+
+<img width="1410" height="817" alt="Screenshot 2026-09-30 at 12 30 28 AM" src="https://github.com/user-attachments/assets/9b9bf3ac-5452-46e7-859e-163d32aa1a7a" />
+
+"Board Project Options" will show up. The default settings are fine so just click "OK".
+
+<img width="459" height="480" alt="Screenshot 2026-09-30 at 12 31 52 AM" src="https://github.com/user-attachments/assets/57086137-3d29-4e36-ae1e-e6b86633ab3e" />
 
 Then it's going to pop up the ioc configuration.
 
-<img width="841" height="585" alt="Screenshot 2026-09-28 at 7 10 27 PM" src="https://github.com/user-attachments/assets/7c03eb0f-4ca2-48fb-8f3d-df0555fc1460" />
-
+<img width="1279" height="749" alt="Screenshot 2026-09-30 at 12 32 23 AM" src="https://github.com/user-attachments/assets/a42844c0-50e4-469d-bddf-896c82341eef" />
 
 We can go ahead and go to Connectivity >> USART2 and disable it (we won't be needing it for this project)
 
-<img width="838" height="583" alt="Screenshot 2026-09-28 at 7 10 47 PM" src="https://github.com/user-attachments/assets/2d9ef354-dff5-4496-896f-a779276f2a32" />
-
+<img width="1279" height="746" alt="Screenshot 2026-09-30 at 12 34 59 AM" src="https://github.com/user-attachments/assets/32745d53-9072-4572-9ac5-f2094d0bb6b7" />
 
 Hey while we're here though, we can take a look at some of the pin allocations. So remember when I said that all the pins that started with P were good for GPIO. Well it looks like that was once again a lie! This diagram shows us that some of the pins are allocated for certain tasks.
 
-<img width="540" height="521" alt="Screenshot 2026-09-28 at 7 11 11 PM" src="https://github.com/user-attachments/assets/16fa47d4-aacc-4fab-8502-a7f0dc99a4be" />
+<img width="601" height="537" alt="Screenshot 2026-09-30 at 12 36 49 AM" src="https://github.com/user-attachments/assets/05ad4ef9-3d89-456b-a573-7eb6a00a3fb9" />
 
+We can choose to deallocate some of these pins. For example, all the ones labelled in <span style="color: #F8D548;">yellow 🟨</span> have their functionality already disabled. So we are safe to deallocate them. To do so, click on the pin and double click the thing that it is selected to.
 
-We can choose to deallocate some of these pins. For example, all the ones labelled in <span style="color:Yellow;">yellow 🟨</span> have their functionality already disabled. So we are safe to deallocate them. To do so, click on the pin and double click the thing that it is selected to.
+<img width="604" height="530" alt="Screenshot 2026-09-30 at 12 37 36 AM" src="https://github.com/user-attachments/assets/dc90284f-77e7-4b88-a060-7bfe8557234e" />
 
-<img width="543" height="519" alt="Screenshot 2026-09-28 at 7 11 30 PM" src="https://github.com/user-attachments/assets/1e41cc2d-d6fe-48f3-b15a-212543d92b83" />
+Some of the pins are <span style="color: #D32D7D;">magenta 🟪</span> though. That means they are actively being used. PC13 is used to detect when the blue user button is being pressed (something we'll use later in the code). PA5 is bound to the internal LED (on the board a little below the RESET button). PC14 and PC15 are used for an external clock which is a literal crystal that just happens to vibrate at exactly 32Khz (plz fact check idk anything about the crystal and I can't even verify if it exists on the boards we use). And finally PA13 and PA14 are used for Serial Wire debugging. This is used for the debugger in STM, and we want to eventually use that so we should keep these pins allocated. Make sure not to connect the LED to any pins that are already being used. So you can't use PC13, PC14, PC15, PA5, PA13, or PA14. Luckily there are still dozens to choose from.
 
+It's not going to let you generate code without giving the project a name, so let's go do that. Click on "Project Manager".
+<img width="1279" height="749" alt="Screenshot 2026-09-30 at 12 40 05 AM" src="https://github.com/user-attachments/assets/4745bedd-f8c3-422f-80a9-a30de673e23f" />
 
-Some of the pins are <span style="color:Green;">green 🟩</span> though. That means they are actively being used. PC13 is used to detect when the blue user button is being pressed (something we'll use later in the code). PA5 is bound to the internal LED (on the board a little below the RESET button). PC14 and PC15 are used for an external clock which is a literal crystal that just happens to vibrate at exactly 32Khz (plz fact check idk anything about the crystal and i can't even verify if it exists on the boards we use). And finally PA13 and PA14 are used for Serial Wire debugging. This is used for the debugger in STM, and we want to eventually use that so we should keep these pins allocated. Make sure not to connect the LED to any pins that are already being used. So you can't use PC13, PC14, PC15, PA5, PA13, or PA14. Luckily there are still dozens to choose from.
+Name the project. Click on "Browse" to choose a project location. Make sure to switch the "Toolchain / IDE" to "STM32CubeIDE".
+<img width="1284" height="752" alt="Screenshot 2026-09-30 at 12 45 20 AM" src="https://github.com/user-attachments/assets/cc8524bc-f16b-460b-be3c-9e7e55bec65a" />
 
-Then click CTRL+S to save. It'll ask you if you want to generate code. And we do! It might make you login for this.
+We can finally generate code!
+
+<img width="1278" height="747" alt="Screenshot 2026-09-30 at 12 47 05 AM" src="https://github.com/user-attachments/assets/c6bacf15-82da-44b8-91b4-b1f36e4da314" />
+
+There's going to be multiple successive popups.
+We're going to want to accept this one because we need the Firmware packages.
+
+<img width="1031" height="150" alt="Screenshot 2026-09-30 at 12 47 50 AM" src="https://github.com/user-attachments/assets/10caf826-8f42-4352-a318-b4526dc34790" />
+
+It'll ask you if you want to enable notifications. Choose based on your preference. 
+
+<img width="380" height="194" alt="Screenshot 2026-09-30 at 12 48 44 AM" src="https://github.com/user-attachments/assets/c71da829-357f-4fd6-864b-815cf342187e" />
+
+Read the license agreement (or not) and select "I agree".
+
+<img width="610" height="430" alt="Screenshot 2026-09-30 at 12 49 07 AM" src="https://github.com/user-attachments/assets/0c3515de-ae22-48f9-a8db-3bdbb495119e" />
+
+Our code has successfully been generated. Yay!
+
+<img width="377" height="178" alt="Screenshot 2026-09-30 at 12 50 17 AM" src="https://github.com/user-attachments/assets/88446431-51e7-4500-84f6-61d202fd9bd3" />
+
+We can open the project once code generation is complete. This will open up CubeIDE.
+
+<img width="377" height="178" alt="Screenshot 2026-09-30 at 12 50 17 AM" src="https://github.com/user-attachments/assets/829e0053-df73-4b6b-944a-0abe71f5d1bc" />
+
+It will ask you one additional question. Click "YES" to import.
+
+<img width="551" height="163" alt="Screenshot 2026-09-30 at 2 08 22 AM" src="https://github.com/user-attachments/assets/8d8967d2-3135-4750-be48-e4ecc5b1dbef" />
+
+The project has been successfully imported! Nice!
+
+<img width="583" height="149" alt="Screenshot 2026-09-30 at 2 08 59 AM" src="https://github.com/user-attachments/assets/aff77750-7240-45d7-81d1-4502db6a8d60" />
 
 The file we'll be editing is the main.c file.
 
