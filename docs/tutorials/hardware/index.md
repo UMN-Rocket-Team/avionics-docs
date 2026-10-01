@@ -28,6 +28,10 @@ Welcome to The Ultimate Hardware Guide! If you’re new here, welcome to the har
 **What does the Hardware Subteam do?**
 * This subteam is focused on the design, component selection, (slight) assembly, and debugging of PCBs. We work very closely with the firmware team to work on flight computer projects.
 
+**When are the worktimes for Fall Semester 2026?**
+ * Mondays from 5:30-7pm
+ * Thursdays from 7-9pm
+
 **What are some past projects we have worked on?**
 * For many years this subteam was primarily focused on our main project, the Universal Flight Computer (UFC). In recent years we have also branched out into other projects such as payload control boards, standalone compact flight computers such as GYRO, and battery management systems.
 
