@@ -1,3 +1,12 @@
+---
+layout: default
+title: Backend
+parent: Software
+has_children: false
+nav_order: 1
+permalink: /docs/tutorials/software/backend
+---
+
 # Rust Intro
 The goal with this exercise is to learn the basic syntaxes of Rust and putting them together to build a Magic 8 Ball program that outputs a text response from a question and exits when the phrase "Goodbye" is sent to stdin.
 

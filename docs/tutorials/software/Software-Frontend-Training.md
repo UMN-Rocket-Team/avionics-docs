@@ -1,3 +1,12 @@
+---
+layout: default
+title: Frontend
+parent: Software
+has_children: false
+nav_order: 1
+permalink: /docs/tutorials/software/frontend/
+---
+
 # Software Training Tutorials
 
 ## Installation & Setup
