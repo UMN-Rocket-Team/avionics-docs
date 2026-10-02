@@ -27,7 +27,24 @@ Now that you have completed your firmware challenges, it is time to upload your 
 ## The Workflow: Step-by-Step
 
 ### 1. Switch to the Target Branch
-In firmware development, we **never push directly to `main`**. All work happens on dedicated feature or tutorial branches.
+In firmware development, we **never push directly to `main`**. All work happens on dedicated feature branches.
+
+Pull up a Terminal window.
+
+If you haven't already, clone the Avionics repo:
+
+```
+git clone https://github.com/UMN-Rocket-Team/Avionics.git
+```
+
+This is how you get the url for cloning if you're not sure how to:
+
+<img width="738" height="442" alt="Screenshot 2026-10-02 at 3 41 02 PM" src="https://github.com/user-attachments/assets/d400eafd-28e0-4389-a74a-1b91fae111ba" />
+
+<img width="734" height="445" alt="Screenshot 2026-10-02 at 3 41 45 PM" src="https://github.com/user-attachments/assets/c1c48aa1-8005-469e-b257-c64af3c3e300" />
+
+{: .note}
+If you don't have access to the Avionics repo, contact the Firmware lead.
 
 Switch to the challenges branch:
 

@@ -29,36 +29,19 @@ Here's a picture labeling all of the pins on the NUCLEO-L476RG board because I g
 So whatever pin you decide to use, note down the LETTER and the NUMBER, like for example the top left blue pin is labelled PC10, disregard the P, it's just C10.
 
 ### Now let's set up an STM project
+STM32 development is split into STM32CubeMX and STM32CubeIDE. CubeMX is used to configure the microcontroller, including pins, clocks, and peripherals, and it stores those configurations in the .ioc file. It can then automatically generate the initialization code for those settings.
+
+In the trainings, we'll be using the .ioc file quite a bit so you can see how the different peripherals and pins are configured. Once you start working on projects, though, we generally won't need to change the .ioc file as often. Many of the things configured through CubeMX can also be configured and controlled directly in code.
+
+STM32CubeIDE is where most of our actual coding, building, debugging, and flashing will happen. CubeMX is essentially a convenient way to configure the hardware and generate the initial setup code for us.
+
 In order to put programs on the NUCLEO board, we have to do it through [STM's IDE](https://www.st.com/en/development-tools/stm32cubeide.html#st-get-software). I hope you like eclipse and 1999 GUI styling. It's called STM32CubeIDE, and yet I have not encountered a single cube in the entire program.
 
-All of my screenshots are in dark theme, which you can enable by doing Window >> Preferences >> Appearance. And Enable theming and switch it to Dark theme.
+Once STM32CubeIDE is downloaded, we're going to put it to the side. We'll come back to it later.
 
-To create a project for the NUCLEO board, go to File >> New >> STM32 Project.\
+To create a project for the NUCLEO board, we're going to go through [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html#st-get-software) first to get an ioc file. 
 
-<img width="687" height="651" alt="Screenshot 2026-09-30 at 12 11 40 AM" src="https://github.com/user-attachments/assets/88696961-b372-4779-95ca-418e7cd763c5" />
-
-Click "STM32CubeIDE Empty Project" and then hit "Next >".
-
-<img width="598" height="456" alt="Screenshot 2026-09-30 at 12 17 05 AM" src="https://github.com/user-attachments/assets/08ba3aa3-9cef-4409-8dbe-fafd0c4d3ade" />
-
-Click the "Board Selector"
-
-<img width="1207" height="537" alt="Screenshot 2026-09-30 at 12 19 51 AM" src="https://github.com/user-attachments/assets/de5979ec-88b8-43c8-b486-01f9eaafa29f" />
-
-Then type "NUCLEO-L476RG" into the "Board Name Filter"
-
-<img width="1210" height="533" alt="Screenshot 2026-09-30 at 12 22 28 AM" src="https://github.com/user-attachments/assets/dd33a3b3-030c-4c36-af4c-33317b79944f" />
-
-Make sure to click on NUCLEO-L476RG to select it. Then the "Next >" button will become available.
-
-<img width="1214" height="538" alt="Screenshot 2026-09-30 at 12 23 44 AM" src="https://github.com/user-attachments/assets/fb2faad2-b228-449d-9b88-64a1c3edd23e" />
-
-Give the project a name, and make sure to select C++ as targeted language. That's the language used in the UFC codebase, so we might as well use it here too.
-
-<img width="500" height="534" alt="Screenshot 2026-09-30 at 12 24 50 AM" src="https://github.com/user-attachments/assets/54c46611-ccdd-42c5-8cf4-9b76b9d9c6b6" />
-
-I hope you enjoyed what you just did because we will be doing the same thing again but in [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html#st-get-software). 
-Once, you have CubeMX downloaded. Click "Access to MCU Selector". 
+Once you have CubeMX downloaded, click "Access to MCU Selector". 
 
 <img width="1277" height="748" alt="Screenshot 2026-09-30 at 12 25 40 AM" src="https://github.com/user-attachments/assets/7bb0c775-485c-4ba2-828c-e7967da4c240" />
 
@@ -125,21 +108,22 @@ Our code has successfully been generated. Yay!
 
 <img width="377" height="178" alt="Screenshot 2026-09-30 at 12 50 17 AM" src="https://github.com/user-attachments/assets/88446431-51e7-4500-84f6-61d202fd9bd3" />
 
-We can open the project once code generation is complete. This will open up CubeIDE.
-
-<img width="377" height="178" alt="Screenshot 2026-09-30 at 12 50 17 AM" src="https://github.com/user-attachments/assets/829e0053-df73-4b6b-944a-0abe71f5d1bc" />
+We can open the project once code generation is complete. This will open up CubeIDE if it is installed.
 
 It will ask you one additional question. Click "YES" to import.
 
 <img width="551" height="163" alt="Screenshot 2026-09-30 at 2 08 22 AM" src="https://github.com/user-attachments/assets/8d8967d2-3135-4750-be48-e4ecc5b1dbef" />
 
-The project has been successfully imported! Nice!
+The project has been successfully imported!
 
 <img width="583" height="149" alt="Screenshot 2026-09-30 at 2 08 59 AM" src="https://github.com/user-attachments/assets/aff77750-7240-45d7-81d1-4502db6a8d60" />
 
 The file we'll be editing is the main.c file.
 
-<img width="665" height="703" alt="Screenshot 2026-09-28 at 7 11 54 PM" src="https://github.com/user-attachments/assets/a3bacdd8-b546-47f9-8ff4-d8245d26f3a2" />
+{: .note}
+All of my screenshots are in dark theme, which you can enable by doing Window >> Preferences >> Appearance. And Enable theming and switch it to Dark theme.
+
+<img width="1035" height="733" alt="Screenshot 2026-10-02 at 3 31 55 PM" src="https://github.com/user-attachments/assets/4262563d-f042-471e-bd5d-622f55a0a40c" />
 
 Yikes! That allman swirly brace, and that 2 space indent. It's fine, what we're looking at is the main() function of the entire program. When the NUCLEO board is programmed, this function will run every time you supply power to the board (and right after you program it). So to restart a program, you can simply unplug and plug in the board. The NUCLEO boards also have a RESET button, it's the black button on the right labelled RESET. Pressing this button will also run the main() function.
 
@@ -164,20 +148,18 @@ Here we can see that everything is 80MHz, so basically the clock on this microco
 
 Here it is (btw, if your Project Explorer ever goes away just double click one of the files like main.c at the top and it will come back).
 
-So here we can see that we've enabled two clocks, GPIOC and GPIOA. We're also writing RESET to the LD2 pin. That's pin PA5, the internal LED. How did I know that? You can hold CTRL and click on LD2_Pin to see its definition.
+So here we can see that we've enabled four clocks: GPIOC, GPIOH, GPIOA, and GPIOB. We're also configuring the USART_TX_Pin and the USART_RX_Pin pins. That's pin PA2 and PA3, respectively. How did I know that? You can hold CTRL and click on USART_TX_Pin and USART_RX_Pin to see their definitions.
 
-<img width="361" height="649" alt="Screenshot 2026-09-28 at 7 13 27 PM" src="https://github.com/user-attachments/assets/a7a0e046-d892-4974-b68c-fd45ecb7a518" />
+<img width="290" height="270" alt="Screenshot 2026-10-02 at 4 18 18 PM" src="https://github.com/user-attachments/assets/20e90acd-b0d6-4490-afa0-78fa2dee92e6" />
 
+Both USART_TX_GPIO_Port and USART_RX_GPIO_Port are set to GPIOA, and USART_TX_Pin and USART_RX_Pin are set to GPIO_PIN_2 and GPIO_PIN_3, respectively. That means A2 and A3 (specifically PA2 and PA3, but the P is dropped in the code).\
 
-LD2_GPIO_Port is set to GPIOA, and LD2_Pin is set to GPIO_PIN_5. That means A5 (specifically PA5, but the P is dropped in the code).\
-Here we can also see the B1_Pin and port are bounded to PC13, that's the blue user button on the board. We'll see these pins both be set up in MX_GPIO_Init.
-
-Now it's time to set up our LED pin (not to be confused with the internal LED pin). We'll need to initialize whichever pin we are connecting to the LED.\
+Now it's time to set up our LED pin (not to be confused with the internal LED pin which we'll talk about later). We'll need to initialize whichever pin we are connecting to the LED.\
 I'll do my code example with PC10, that's the top left pin on the board (not including the top top of the board. That part can actually snap off as it is just a programmer, but please DO NOT SNAP IT OFF we need it).
 
-So I want to set up PC10 just like they do with PA5.
+So I want to set up PC10 just like they do with PA2 and PA3.
 
-<img width="508" height="580" alt="Screenshot 2026-09-28 at 7 13 48 PM" src="https://github.com/user-attachments/assets/9bb01721-469b-4e3b-bbb4-0984666d7b06" />
+<img width="450" height="416" alt="Screenshot 2026-10-02 at 4 41 49 PM" src="https://github.com/user-attachments/assets/d70cc8f1-0b64-4cbc-ae17-deaa622f22d2" />
 
 
 So here I've put my Pin as GPIO_PIN_10, and the port as GPIOC. But what do all of these other fields mean?
@@ -185,10 +167,9 @@ So here I've put my Pin as GPIO_PIN_10, and the port as GPIOC. But what do all o
 - The Pull field refers to the default state of the pin. This really only applies when the controller starts up (I think), because once the pin is set (either HIGH or LOW), it will stay that way until it is set again.
 - The Speed field refers to the "slew rate" of the pin. Basically, going from 3.3V to 0V doesn't happen instantly (although it is very fast). The slew rate is exactly how fast, well it's not very exact since the possible values are LOW, MEDIUM, HIGH, and VERY_HIGH. We don't need nanosecond precision for our LED so we'll keep it at LOW.
 
-Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPIO_Init function the clocks for GPIOC and GPIOA are enabled. But if you chose a pin from GPIOB, GPIOD, or GPIOH, it won't work unless those clocks are also enabled.
+Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPIO_Init function the clocks for GPIOC, GPIOH, GPIOA, and GPIOB are enabled. But if you chose a pin from say GPIOH, it won't work unless those GPIOH are also enabled.
 
-<img width="486" height="630" alt="Screenshot 2026-09-28 at 7 14 15 PM" src="https://github.com/user-attachments/assets/ab85e147-b2fc-485a-ac66-8ce6146bd234" />
-
+<img width="449" height="444" alt="Screenshot 2026-10-02 at 4 44 43 PM" src="https://github.com/user-attachments/assets/229fe61c-5d45-40d6-ad4a-f9bda3f2bfa0" />
 
 Alright so we've successfully initialized our LED pin. Now how do we actually turn it on and off?
 
@@ -217,6 +198,7 @@ Anyway, a window will pop up for configuration properties. I don't think we have
 It might take a second to compile the program, there should be information on the status in the Console at the bottom. If you don't see a console go to Window >> Show View >> Console. But once it's done compiling and uploading, the LED should turn on!
 
 <img width="408" height="585" alt="Screenshot 2026-09-28 at 7 15 54 PM" src="https://github.com/user-attachments/assets/13428b1e-5f21-4ec9-84d4-a2270b5f86f9" />
+
 <img width="515" height="306" alt="Screenshot 2026-09-28 at 7 16 51 PM" src="https://github.com/user-attachments/assets/811b4765-1b8e-468d-b34c-e2e3cb556574" />
 
 
