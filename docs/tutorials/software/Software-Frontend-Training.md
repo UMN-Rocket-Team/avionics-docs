@@ -84,17 +84,6 @@ You will also need to add an extra class to the App.css file
 
 <img width="458" alt="image" src="https://media.github.umn.edu/user/26316/files/3b091523-f6a9-4018-bd3a-c8e255772530">
 
-
-
-
-
-
-
-
-
-
-
-
 # Section 2. Learning SolidJS
 
 ## Section 2 Reference Material:
@@ -220,73 +209,7 @@ const deleteOutput = (answerToDelete: Answer): void => {
 
 The filter function returns a list that has all elements that match a condition( in this case not being the element we want to delete)
 
-
-
-
-
-
-
-
-
-
-
-# Section 3. Introduction to Rust
-
-For learning rust we will be using a different format than the previous two sections. Each rust related topic will have its own activity that you can work on. The activities are similar in format to the labs you see in compsci classes where you have to fill in certain funtions in order to make the entire project work.   
-Activities will be stored in zip files, and instructions for the activities will be contained in the README.md file inside the zip folder.
-Each section has set Readings and Videos to go along with it. These cover the exact same content you don't need to do both.  
-Readings come from the digital [rust book](https://doc.rust-lang.org/book/).  
-For videos you can choose between two video playlists:  
-[Lets Get rusty](https://www.youtube.com/playlist?list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8)  
-[Tom McGurl](https://www.youtube.com/playlist?list=PLSbgTZYkscaoV8me47mKqSM6BBSZ73El6).  
-<p><br/><br/><p/>     
-
-The playlists and the book all cover the same topics    
-**YOU DO NOT NEED TO DO ALL THREE**   
-
-|Topic|Reading|Video|Activity|
-|-----|-------|-----|--------|
-|Common Programming Concepts|[Rust book Chapter 3](https://doc.rust-lang.org/book/ch03-00-common-programming-concepts.html)|[Rusty video 3](https://www.youtube.com/watch?v=2V0JaMVjzws&list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8&index=3) or [McGurl video 2](https://www.youtube.com/watch?v=x4P7UGk-3wo&list=PLSbgTZYkscaoV8me47mKqSM6BBSZ73El6&index=2)|WIP|  
-|Ownership|[Rust book Chapter 4](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)|[Rusty video 4](https://www.youtube.com/watch?v=VFIOSWy93H0&list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8&index=4) or [McGurl video 3](https://www.youtube.com/watch?v=Poll5Q19qRA&list=PLSbgTZYkscaoV8me47mKqSM6BBSZ73El6&index=3) [& McGurl video 4](https://www.youtube.com/watch?v=l8QbPDHvoLw&list=PLSbgTZYkscaoV8me47mKqSM6BBSZ73El6&index=4)|WIP|
-|Structs|[Rust book Chapter 5](https://doc.rust-lang.org/book/ch05-00-structs.html)|[Rusty video 5](https://www.youtube.com/watch?v=n3bPhdiJm9I&list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8&index=5) or [McGurl video 5](https://www.youtube.com/watch?v=Iy5pvVPZT50&list=PLSbgTZYkscaoV8me47mKqSM6BBSZ73El6&index=5)|WIP|
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-***
-<p><br/><br/><p/>  
-
-***
-<p><br/><br/><p/>  
-
-***
-
 # Reference
-
-
-
-
-
-
-
-
 
 ## Command Line Interface
 
