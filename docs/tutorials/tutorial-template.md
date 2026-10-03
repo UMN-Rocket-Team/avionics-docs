@@ -1,8 +1,7 @@
 ---
 layout: default
 title: Tutorial Name
-parent: -
-grand_parent: Tutorials
+parent: Tutorials
 nav_order: 1
 nav_exclude: true
 ---
