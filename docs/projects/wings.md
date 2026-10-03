@@ -73,8 +73,10 @@ From the [README](https://github.com/UMN-Rocket-Team/WINGS#features) as of 2026:
 | Kind | Supported |
 |:--|:--|
 | Base stations and other inputs | Entacore AIMBASE, Featherweight GPS Tracker, Altus Metrum TeleDongle, any serial input (RFD, XBee, etc., usually through an FTDI USB-serial cable) |
-| Flight computers and trackers | Entacore AIM XTRA, Featherweight GPS Tracker, Altus Metrum TeleMega and TeleMetrum, and our own [UFC]({{ '/docs/projects/ufc/' | relative_url }}) over a serial radio |
+| Flight computers and trackers | Entacore AIM XTRA, Featherweight GPS Tracker, Altus Metrum TeleMega and TeleMetrum, and our own [UFC] over a serial radio |
 | Displays | Line graphs, scrolling-window graphs, direct readouts, inclination indicator, dark and high-contrast modes |
+
+<!-- [UFC]({{ '/docs/projects/ufc/' | relative_url }}) -->
 
 The UFC connects as a plain serial device: its radio's ground-side modem plugs into the laptop and shows up as a
 serial port. Flights have also used a Teensy with a LoRa module this way (the Leep mini on the 2024 High Altitude
@@ -83,7 +85,9 @@ flight).
 ## Using it on launch day
 
 This is the flight setup order from the 2025 WINGS notes. The UFC-specific steps (radio settings, which packets
-to plot) are in [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#live-telemetry-in-wings).
+to plot) are in [Flight Operations].
+
+<!-- [Flight Operations]({{ '/docs/projects/ufc/operations/' | relative_url }}#live-telemetry-in-wings) -->
 
 1. **Open or create a flight config** from the title screen.
 2. **Add or remove packet types** in the config.
@@ -158,7 +162,9 @@ still keep parsing reliable:
 - Values are **little-endian**. No arrays or structs inside a packet.
 - Convert to real units **on the rocket** before sending, so the ground station shows the value as-is.
 
-If you change a packet in the UFC's [`packets.h`]({{ '/docs/projects/ufc/firmware/packets/' | relative_url }}),
+If you change a packet in the UFC's [`packets.h`],
+
+<!-- [`packets.h`]({{ '/docs/projects/ufc/firmware/packets/' | relative_url }}) -->
 update its JSON definition too.
 
 ## Requirements
@@ -182,8 +188,10 @@ Requirements" tab). None of them had been marked as verified yet.
 | GNDSTN-4 | Work without an internet connection | Demonstration |
 
 GNDSTN-1.1 is because the UFC moved from the RFD900 (which flew at IREC 2025) to a 433 MHz E22 LoRa radio for 2026
-([Primary Card radio]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)). The launch-day steps above
+([Primary Card radio]). The launch-day steps above
 still describe the RFD setup.
+
+<!-- ([Primary Card radio]({{ '/docs/projects/ufc/cards/primary-card/' | relative_url }}#radio)) -->
 
 ## Grafana
 
