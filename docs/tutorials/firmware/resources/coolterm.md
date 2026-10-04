@@ -4,7 +4,7 @@ title: CoolTerm
 parent: Firmware
 has_children: false
 nav_exclude: true
-permalink: /docs/tutorials/firmware/resources/
+permalink: /docs/tutorials/firmware/resources/coolterm/
 ---
 
 # CoolTerm
