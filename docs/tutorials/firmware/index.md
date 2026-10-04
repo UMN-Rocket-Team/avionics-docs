@@ -36,7 +36,7 @@ Another key project is GYRO. GYRO was developed last year to experiment with rol
   </a>
 
   <!-- STM32CubeIDE Card -->
-  <a href="https://www.st.com/en/development-tools/stm32cubeide.html#st-get-software" style="display: block; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; background-color: #ffffff; transition: box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='none';">
+  <a href="{{ '/docs/tutorials/firmware/resources/cubeide/' | relative_url }}" style="display: block; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; background-color: #ffffff; transition: box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='none';">
     <div style="font-weight: 600; font-size: 1.1em; color: #0366d6; margin-bottom: 8px;">STM32CubeIDE</div>
     <p style="margin: 0; font-size: 0.9em; color: #586069;">Our primary IDE for microcontroller development.</p>
   </a>
@@ -54,7 +54,7 @@ Another key project is GYRO. GYRO was developed last year to experiment with rol
   </a>
 
   <!-- CoolTerm Card -->
-  <a href="{{ '/docs/tutorials/firmware/resources/' | relative_url }}" style="display: block; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; background-color: #ffffff; transition: box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='none';">
+  <a href="{{ '/docs/tutorials/firmware/resources/coolterm/' | relative_url }}" style="display: block; border: 1px solid #e1e4e8; border-radius: 8px; padding: 20px; text-decoration: none; color: inherit; background-color: #ffffff; transition: box-shadow 0.2s, transform 0.2s;" onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='none'; this.style.transform='none';">
     <div style="font-weight: 600; font-size: 1.1em; color: #0366d6; margin-bottom: 8px;">CoolTerm</div>
     <p style="margin: 0; font-size: 0.9em; color: #586069;">The serial port terminal we use for testing.</p>
   </a>
