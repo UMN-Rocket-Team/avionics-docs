@@ -41,9 +41,9 @@ Once STM32CubeIDE is downloaded, we're going to put it to the side. We'll come b
 
 To create a project for the NUCLEO board, we're going to go through [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html#st-get-software) first to get an ioc file. 
 
-Once you have CubeMX downloaded, click "Access to MCU Selector". 
+Once you have CubeMX downloaded, click "Access to Board Selector". 
 
-<img width="1277" height="748" alt="Screenshot 2026-09-30 at 12 25 40 AM" src="https://github.com/user-attachments/assets/7bb0c775-485c-4ba2-828c-e7967da4c240" />
+<img width="1641" height="958" alt="STM32CubeMX Home Dashboard" src="https://github.com/user-attachments/assets/e1cda78d-c3af-482a-9dc9-0d4ca330b503" />
 
 Click the "Board Selector"
 
@@ -209,7 +209,24 @@ It might take a second to compile the program, there should be information on th
 - Make sure your circuit still works by plugging the wire into the 3.3V pin instead of the GPIO one. If it turns on then it still works, otherwise the breadboard may be set up incorrectly.
 - Don't be afraid to ask for help!
 
-If the LED did turn on then you're good! You just coded an LED to turn on. We're literally computer engineering right now! But let's take this just one step further. I want to be able to control the LED using the blue user button on the NUCLEO board. For this we have to READ the state of the PC13 pin in order to determine the state of our LED pin.
+If the LED did turn on then you're good! You just coded an LED to turn on. We're literally computer engineering right now! 
+
+Now, let's take a look at the code `BSP_LED_Init(LED_GREEN)` that CubeMX generated for us.
+
+`LED_GREEN` is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can sinc ethey're just regular GPIO pins.
+
+Lets' try that now.
+
+If you CTRL-click LED_GREEN, you will see that it's connect to LED2. 
+
+Let's scroll down the .h file to see where LED2 is defined. We can see that it's set to pin PA5.
+
+We replace `GPIO_PIN_5` with `GPIO_PIN_10` (where our signal is currently connected to on the NUCLEO board).
+
+Reprogramming the board we can see that the LED lights up.
+
+
+But let's take this just one step further. I want to be able to control the LED using the blue user button on the NUCLEO board. For this we have to READ the state of the PC13 pin in order to determine the state of our LED pin.
 
 Reading a pin's state works very similarly to writing. Instead of calling HAL_GPIO_WritePin, we call HAL_GPIO_ReadPin, and it will return either a GPIO_PIN_SET or GPIO_PIN_RESET.
 
@@ -218,7 +235,7 @@ So, in our infinite loop, we can read the value of pin C13, and use that to writ
 <img width="671" height="252" alt="Screenshot 2026-09-28 at 7 17 24 PM" src="https://github.com/user-attachments/assets/636eff57-fd01-4870-9304-a8d17c9c3049" />
 
 
-Now if we run this... hey the LED is turned on and i'm not pushing the button, and when I push the button it turns off.
+Now if we run this... hey the LED is turned on and I'm not pushing the button, and when I push the button it turns off.
 
 STM decided to reverse the user button -> C13 wire. Instead of being SET when you are pushing the button, it gets RESET when the button is held down. So we have to switch the branches in our if statement.
 
