@@ -52,7 +52,7 @@ Here we can see that:
 
 But where's the Chip Select pin? STM didn't allocate it for us, so we'll have to do it ourselves. We can't do it here though, if you click on a pin you'll see there's no option for SPI2_CS, or anything of that sort. Instead we'll be setting up our Chip Select pin as a normal GPIO pin and manually pulling it down and pushing it back up before and after we do the SPI operation.
 
-I think we're good to save now. We can generate the code. Btw if you ever want to apply code generation at any time use this button
+I think we're good to save now. We can generate the code in CubeMX. Btw if you ever want to apply code generation at any time use this button
 
 <img width="1511" height="948" alt="Screenshot 2026-10-05 at 1 52 32 AM" src="https://github.com/user-attachments/assets/2bf57931-ecef-41e0-a78a-485cca3e1bcf" />
 
