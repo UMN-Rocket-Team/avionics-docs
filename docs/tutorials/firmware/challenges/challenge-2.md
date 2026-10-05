@@ -75,7 +75,7 @@ We can choose to deallocate some of these pins. For example, all the ones labell
 
 <img width="604" height="530" alt="Screenshot 2026-09-30 at 12 37 36 AM" src="https://github.com/user-attachments/assets/dc90284f-77e7-4b88-a060-7bfe8557234e" />
 
-Some of the pins are <span style="color: #D32D7D;">magenta 🟪</span> though. That means they are actively being used. PC13 is used to detect when the blue user button is being pressed (something we'll use later in the code). PA5 is bound to the internal LED (on the board a little below the RESET button). PC14 and PC15 are used for an external clock which is a literal crystal that just happens to vibrate at exactly 32Khz (plz fact check idk anything about the crystal and I can't even verify if it exists on the boards we use). And finally PA13 and PA14 are used for Serial Wire debugging. This is used for the debugger in STM, and we want to eventually use that so we should keep these pins allocated. Make sure not to connect the LED to any pins that are already being used. So you can't use PC13, PC14, PC15, PA5, PA13, or PA14. Luckily there are still dozens to choose from.
+Some of the pins are <span style="color: #D32D7D;">magenta 🟪</span> though. That means a pin is reserved for Board Support Package (BSP) use and cannot be changed. PC13 is used to detect when the blue user button is being pressed (something we'll use later in the code). PA5 is bound to the internal LED (on the board a little below the RESET button). PC14 and PC15 are used for an external clock which is a literal crystal that just happens to vibrate at exactly 32Khz (plz fact check idk anything about the crystal and I can't even verify if it exists on the boards we use). And finally PA13 and PA14 are used for Serial Wire debugging. This is used for the debugger in STM, and we want to eventually use that so we should keep these pins allocated. Make sure not to connect the LED to any pins that are already being used. So you can't use PC13, PC14, PC15, PA5, PA13, or PA14. Luckily there are still dozens to choose from.
 
 It's not going to let you generate code without giving the project a name, so let's go do that. Click on "Project Manager".
 <img width="1279" height="749" alt="Screenshot 2026-09-30 at 12 40 05 AM" src="https://github.com/user-attachments/assets/4745bedd-f8c3-422f-80a9-a30de673e23f" />
@@ -135,12 +135,10 @@ What do these things mean?
 
 <img width="1007" height="679" alt="Screenshot 2026-09-28 at 7 12 37 PM" src="https://github.com/user-attachments/assets/0f2c8950-8dec-4aa8-9eef-223c37699c46" />
 
-
 Here we can see that everything is 80MHz, so basically the clock on this microcontroller runs at 80MHz. Most PCs these days are 2.4GHz or more, so slightly more than our little computer here.
 - The GPIO pins are what we're going to be using. Let's take a closer look at the GPIO initialization code.
 
-<img width="569" height="670" alt="Screenshot 2026-09-28 at 7 13 03 PM" src="https://github.com/user-attachments/assets/cb0cc7fd-dbdb-48fb-b1bc-870ee7d03ba3" />
-
+<img width="430" height="424" alt="Screenshot 2026-10-05 at 3 00 58 AM" src="https://github.com/user-attachments/assets/b9118138-9f1f-4500-ad98-77bafdc865e6" />
 
 Here it is (btw, if your Project Explorer ever goes away just double click one of the files like main.c at the top and it will come back).
 
@@ -157,15 +155,14 @@ So I want to set up PC10 just like they do with PA2 and PA3.
 
 <img width="890" height="824" alt="Screenshot 2026-10-05 at 1 25 22 AM" src="https://github.com/user-attachments/assets/39f182a4-786b-485e-954c-d8271313b5c0" />
 
-
 So here I've put my Pin as GPIO_PIN_10, and the port as GPIOC. But what do all of these other fields mean?
 - The Mode field refers to one of the many GPIO_mode options. There's stuff like Input, Output, Open Drain, Analog, Alternate Function. Yeah, I don't know what half of those mean either, but it doesn't matter. All we want is OUTPUT_PP, this means output push/pull. Because we want this pin to be an OUTPUT (from the controller) and able to both PUSH (push voltage & current through the pin) and PULL (drain voltage & current from the pin). So basically it can act as a POWER or GND pin, and we can set it however we like within the code! How neat is that!
 - The Pull field refers to the default state of the pin. This really only applies when the controller starts up (I think), because once the pin is set (either HIGH or LOW), it will stay that way until it is set again.
 - The Speed field refers to the "slew rate" of the pin. Basically, going from 3.3V to 0V doesn't happen instantly (although it is very fast). The slew rate is exactly how fast, well it's not very exact since the possible values are LOW, MEDIUM, HIGH, and VERY_HIGH. We don't need nanosecond precision for our LED so we'll keep it at LOW.
 
-Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPIO_Init function the clocks for GPIOC, GPIOH, GPIOA, and GPIOB are enabled. But if you chose a pin from say GPIOH, it won't work unless those GPIOH are also enabled.
+Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPIO_Init function the clocks for GPIOC, GPIOH, GPIOA, and GPIOB are enabled. But if you chose a pin from say GPIOD, it won't work unless those GPIOD are also enabled.
 
-<img width="835" height="822" alt="Screenshot 2026-10-05 at 1 26 13 AM" src="https://github.com/user-attachments/assets/83fcf8dd-3d60-4041-9ec7-9505219db2de" />
+<img width="431" height="451" alt="Screenshot 2026-10-05 at 3 02 23 AM" src="https://github.com/user-attachments/assets/a065ef93-9dd6-4fab-bf57-3dabaaf1a853" />
 
 Alright so we've successfully initialized our LED pin. Now how do we actually turn it on and off?
 
@@ -174,7 +171,6 @@ Let's go back to the main function and start editing that infinite loop.
 We already saw the MX_GPIO_Init function do a write to the LED pin with HAL_GPIO_WritePin, so let's just use that for our LED.
 
 <img width="451" height="159" alt="Screenshot 2026-09-28 at 7 14 35 PM" src="https://github.com/user-attachments/assets/77e3748d-ca02-4bd0-aeb0-d394812163be" />
-
 
 So it's port C, pin 10, and we want it to SET the pin, which means to bring it HIGH.\
 I want to run this program to ensure that it works before we bind the LED to the blue user button.
@@ -189,7 +185,6 @@ Yeah I kind of hate these buttons and wish I could get rid of most of them, and 
 Anyway, a window will pop up for configuration properties. I don't think we have to change anything here so we can just click OK
 
 <img width="822" height="690" alt="Screenshot 2026-09-28 at 7 15 34 PM" src="https://github.com/user-attachments/assets/c802d323-c089-4eb0-a92e-a0bd715b09da" />
-
 
 It might take a second to compile the program, there should be information on the status in the Console at the bottom. If you don't see a console go to Window >> Show View >> Console. But once it's done compiling and uploading, the LED should turn on!
 
@@ -226,11 +221,15 @@ Let's replace GPIO_PIN_5 with GPIO_PIN_10 (where our signal is currently connect
 
 <img width="843" height="268" alt="Screenshot 2026-10-05 at 1 36 20 AM" src="https://github.com/user-attachments/assets/c05b6166-4e3f-4bfe-b611-b548d13a673d" />
 
-Reprogramming the board we can see that the LED lights up.
+Reprogramming the board, we can see that the LED lights up.
 
 <img width="408" height="585" alt="Screenshot 2026-09-28 at 7 15 54 PM" src="https://github.com/user-attachments/assets/13428b1e-5f21-4ec9-84d4-a2270b5f86f9" />
 
-But let's take this just one step further. I want to be able to control the LED using the blue user button on the NUCLEO board. For this we have to READ the state of the PC13 pin in order to determine the state of our LED pin.
+We're going to revert those changes since we don't want to overwrite internal LEDs.
+
+<img width="843" height="224" alt="Screenshot 2026-10-05 at 3 05 46 AM" src="https://github.com/user-attachments/assets/3b48aa32-2610-4f4b-9ae1-87a50f28f849" />
+
+Let's take this just one step further. I want to be able to control the LED using the blue user button on the NUCLEO board. For this we have to READ the state of the PC13 pin in order to determine the state of our LED pin.
 
 Reading a pin's state works very similarly to writing. Instead of calling HAL_GPIO_WritePin, we call HAL_GPIO_ReadPin, and it will return either a GPIO_PIN_SET or GPIO_PIN_RESET.
 
@@ -238,13 +237,11 @@ So, in our infinite loop, we can read the value of pin C13, and use that to writ
 
 <img width="671" height="252" alt="Screenshot 2026-09-28 at 7 17 24 PM" src="https://github.com/user-attachments/assets/636eff57-fd01-4870-9304-a8d17c9c3049" />
 
-
 Now if we run this... hey the LED is turned on and I'm not pushing the button, and when I push the button it turns off.
 
 STM decided to reverse the user button -> C13 wire. Instead of being SET when you are pushing the button, it gets RESET when the button is held down. So we have to switch the branches in our if statement.
 
 <img width="670" height="254" alt="Screenshot 2026-09-28 at 7 17 45 PM" src="https://github.com/user-attachments/assets/4b8f744a-f211-4582-93c9-bda5c85908e2" />
-
 
 Button Off | Button On
 :-------------------------:|:-------------------------:
