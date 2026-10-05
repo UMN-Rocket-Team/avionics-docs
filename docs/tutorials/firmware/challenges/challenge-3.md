@@ -33,11 +33,13 @@ We need to enable SPI on our project. Lets go back to our .ioc file. It's in Cub
 
 <img width="1267" height="702" alt="Screenshot 2026-10-05 at 1 48 35 AM" src="https://github.com/user-attachments/assets/f9252a66-5d72-4a49-ab00-3e532d6c9bc5" />
 
-But oh no, what's this? There are THREE different SPIs? Don't worry, the number just refers to the pins that will be used. Lets just go with SPI2 (I originally thought SPI2 was used for the devboard last year but it turns out we used SPI3, so the COB SPI labels on the wood board will not be particularly helpful, sorry about that). Select "Full-Duplex Master"
+But oh no, what's this? There are THREE different SPIs? Don't worry, the number just refers to the pins that will be used. Lets just go with SPI2 (I originally thought SPI2 was used for the devboard last year but it turns out we used SPI3, so the COB SPI labels on the wood board will not be particularly helpful, sorry about that). Select "Full-Duplex Master".
 
 <img width="1512" height="949" alt="Screenshot 2026-10-05 at 1 49 32 AM" src="https://github.com/user-attachments/assets/a061850b-7706-4dba-b68e-76543d1ef46f" />
 
 What does full duplex master mean? Full duplex means that both devices connected can send data to each other at the same time. Master refers to the Master->Slave relationship of SPI. Though we call it Controller->Peripheral these days, you still may see the terms Master and Slave for the two devices. We set up the NUCLEO board as the controller of the SPI communication.
+
+Wait a minute. Why are the SPI pins green? They are <span style="color: green;">green 🟩</span> because they are actively being used.
 
 Let's look at what pins were allocated for SPI2.
 
