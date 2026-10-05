@@ -344,55 +344,122 @@
 
   function drawCurrentParticles(g, perimeter) {
     if (state.switchOn !== 'On' || state.ledBurnedOut) return;
-
+  
     const currentA = getCurrentA();
     const currentNorm = clamp(currentA / ((3.3 - 2.0) / 100), 0, 1);
     const particleCount = 20;
-
+  
+    // Build the actual path the current should follow.
+    const path = [];
+  
+    // Left side, from battery upward to resistor.
+    path.push({ x: g.leftX, y: g.bottomY });
+    path.push({ x: g.leftX, y: g.resistorBottom });
+  
+    // Through the resistor.
+    const bodyTop = g.resistorTop + 5;
+    const bodyBottom = g.resistorBottom - 5;
+    const amplitude = 14;
+    const steps = 6;
+    const stepHeight = (bodyBottom - bodyTop) / steps;
+  
+    path.push({ x: g.leftX, y: bodyBottom });
+  
+    for (let i = steps - 1; i >= 0; i--) {
+      const yy = bodyTop + i * stepHeight;
+      const nextY = yy + stepHeight;
+      const direction = i % 2 === 0 ? -1 : 1;
+  
+      path.push({
+        x: g.leftX + direction * amplitude,
+        y: yy + stepHeight / 2
+      });
+  
+      path.push({
+        x: g.leftX,
+        y: yy
+      });
+    }
+  
+    // Continue from resistor to the top-left corner.
+    path.push({ x: g.leftX, y: g.topY });
+  
+    // Across the top to the switch.
+    path.push({ x: g.centerX - 21, y: g.topY });
+  
+    // Through the switch.
+    path.push({ x: g.centerX + 21, y: g.topY });
+  
+    // Continue to LED.
+    path.push({ x: g.rightX, y: g.topY });
+    path.push({ x: g.rightX, y: g.ledY - 30 });
+    path.push({ x: g.rightX, y: g.ledY + 30 });
+    path.push({ x: g.rightX, y: g.bottomY });
+  
+    // Bottom back to battery.
+    path.push({ x: g.centerX + 12, y: g.bottomY });
+    path.push({ x: g.centerX - 12, y: g.bottomY });
+    path.push({ x: g.leftX, y: g.bottomY });
+  
+    // Calculate lengths of each segment.
+    const segments = [];
+    let totalLength = 0;
+  
+    for (let i = 0; i < path.length - 1; i++) {
+      const dx = path[i + 1].x - path[i].x;
+      const dy = path[i + 1].y - path[i].y;
+      const length = Math.sqrt(dx * dx + dy * dy);
+  
+      segments.push({
+        start: path[i],
+        end: path[i + 1],
+        length: length,
+        accumulated: totalLength
+      });
+  
+      totalLength += length;
+    }
+  
     ctx.save();
     ctx.shadowColor = colors.current;
     ctx.shadowBlur = 12;
-
+  
     for (let i = 0; i < particleCount; i++) {
-      const distance = (i / particleCount * perimeter + currentOffset) % perimeter;
-      let x;
-      let y;
-
-      // Conventional current direction:
-      // battery positive -> resistor -> switch -> LED -> battery negative.
-      const leftVertical = g.bottomY - g.topY;
-      const topHorizontal = g.rightX - g.leftX;
-      const rightVertical = leftVertical;
-      const bottomHorizontal = topHorizontal;
-
-      if (distance < leftVertical) {
-        x = g.leftX;
-        y = g.bottomY - distance;
-      } else if (distance < leftVertical + topHorizontal) {
-        x = g.leftX + (distance - leftVertical);
-        y = g.topY;
-      } else if (distance < leftVertical + topHorizontal + rightVertical) {
-        x = g.rightX;
-        y = g.topY + (distance - leftVertical - topHorizontal);
-      } else {
-        x = g.rightX - (distance - leftVertical - topHorizontal - rightVertical);
-        y = g.bottomY;
+      let distance = (i / particleCount * totalLength + currentOffset) % totalLength;
+  
+      let segment = segments[0];
+  
+      for (const s of segments) {
+        if (distance >= s.accumulated &&
+            distance <= s.accumulated + s.length) {
+          segment = s;
+          break;
+        }
       }
-
+  
+      const t = segment.length === 0
+        ? 0
+        : (distance - segment.accumulated) / segment.length;
+  
+      const x = lerp(segment.start.x, segment.end.x, t);
+      const y = lerp(segment.start.y, segment.end.y, t);
+  
       const radius = 3.2 + currentNorm * 1.5;
+  
       ctx.fillStyle = colors.current;
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
-
+  
       ctx.shadowBlur = 0;
       ctx.fillStyle = colors.currentCore;
       ctx.beginPath();
       ctx.arc(x, y, Math.max(1.2, radius * 0.38), 0, Math.PI * 2);
       ctx.fill();
+  
       ctx.shadowBlur = 12;
     }
-
+  
     ctx.restore();
   }
 
