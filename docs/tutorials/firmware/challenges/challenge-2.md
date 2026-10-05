@@ -212,7 +212,7 @@ Now, let's take a look at the code `BSP_LED_Init(LED_GREEN)` that CubeMX generat
 
 LED_GREEN is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can since they're just regular GPIO pins.
 
-Lets' try that now.
+Let's try that now.
 
 If you CTRL-click LED_GREEN, you will see that it's connect to LED2. 
 
