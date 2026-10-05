@@ -45,10 +45,6 @@ Once you have CubeMX downloaded, click "Access to Board Selector".
 
 <img width="1641" height="958" alt="STM32CubeMX Home Dashboard" src="https://github.com/user-attachments/assets/e1cda78d-c3af-482a-9dc9-0d4ca330b503" />
 
-Click the "Board Selector"
-
-<img width="1406" height="818" alt="Screenshot 2026-09-30 at 12 27 03 AM" src="https://github.com/user-attachments/assets/a94fdd70-e1c7-433f-8951-d54f077a00c3" />
-
 Then type "NUCLEO-L476RG" into the "Commercial Part Number"
 
 <img width="1409" height="818" alt="Screenshot 2026-09-30 at 12 28 00 AM" src="https://github.com/user-attachments/assets/9b098e31-a389-41a2-8ec7-58c7d97b6643" />
