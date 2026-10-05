@@ -29,21 +29,19 @@ SPI uses four principle wires to operate, these are:
 
 The basic idea is that the clock line pulses up and down very fast as the data is sent through one of the data wires. The data is synced to the clock, the peripheral looks for data on the COPI line and sends data via the CIPO line, likewise the controller looks for data on the CIPO line and sends data via the COPI line. The chip select is used if you have multiple peripherals connected to the same SPI bus. In that case, you would have as many chip select wires as you have peripheral devices, and they would share the CLK, COPI, and CIPO lines. We still need one chip select even if we just have one peripheral though, because that will determine when the peripheral "starts listening" to the other lines. In general the number of chip selects is equal to the number of peripherals you have connected to a given SPI bus.
 
-We need to enable SPI on our project. Lets go back to our ioc file. It's near the bottom of the Project Explorer if you closed it.
+We need to enable SPI on our project. Lets go back to our .ioc file. It's in CubeMX if you closed it.
 
-<img width="877" height="633" alt="Screenshot 2026-09-28 at 10 23 23 PM" src="https://github.com/user-attachments/assets/6fe01118-8b49-4dee-a1a0-519b9a5e0008" />
-
+<img width="1267" height="702" alt="Screenshot 2026-10-05 at 1 48 35 AM" src="https://github.com/user-attachments/assets/f9252a66-5d72-4a49-ab00-3e532d6c9bc5" />
 
 But oh no, what's this? There are THREE different SPIs? Don't worry, the number just refers to the pins that will be used. Lets just go with SPI2 (I originally thought SPI2 was used for the devboard last year but it turns out we used SPI3, so the COB SPI labels on the wood board will not be particularly helpful, sorry about that). Select "Full-Duplex Master"
 
-<img width="874" height="610" alt="Screenshot 2026-09-28 at 10 23 47 PM" src="https://github.com/user-attachments/assets/0f61bcf2-5021-4aa6-a80e-5e7a0313a890" />
-
+<img width="1512" height="949" alt="Screenshot 2026-10-05 at 1 49 32 AM" src="https://github.com/user-attachments/assets/a061850b-7706-4dba-b68e-76543d1ef46f" />
 
 What does full duplex master mean? Full duplex means that both devices connected can send data to each other at the same time. Master refers to the Master->Slave relationship of SPI. Though we call it Controller->Peripheral these days, you still may see the terms Master and Slave for the two devices. We set up the NUCLEO board as the controller of the SPI communication.
 
 Let's look at what pins were allocated for SPI2.
 
-<img width="619" height="595" alt="Screenshot 2026-09-28 at 10 24 12 PM" src="https://github.com/user-attachments/assets/50efcc1b-31b1-4089-bd9d-bb4d243de17e" />
+<img width="580" height="533" alt="Screenshot 2026-10-05 at 1 50 19 AM" src="https://github.com/user-attachments/assets/92a2695f-466f-471c-8827-33dca0b31622" />
 
 Here we can see that:
 - PB10 became the SPI2_SCK, that's the clock
@@ -54,25 +52,24 @@ But where's the Chip Select pin? STM didn't allocate it for us, so we'll have to
 
 I think we're good to save now. We can generate the code. Btw if you ever want to apply code generation at any time use this button
 
-<img width="878" height="45" alt="Screenshot 2026-09-28 at 10 26 40 PM" src="https://github.com/user-attachments/assets/933dc737-0e49-4f7f-ad8e-37b047d32110" />
+<img width="1511" height="948" alt="Screenshot 2026-10-05 at 1 52 32 AM" src="https://github.com/user-attachments/assets/2bf57931-ecef-41e0-a78a-485cca3e1bcf" />
 
 We'll notice some new variables and functions in our project... But before we address them, I want to address something else
 
-<img width="456" height="522" alt="Screenshot 2026-09-28 at 10 24 33 PM" src="https://github.com/user-attachments/assets/de78b580-80ab-4cce-b8ae-87371ed068ce" />
+<img width="852" height="819" alt="Screenshot 2026-10-05 at 2 36 02 AM" src="https://github.com/user-attachments/assets/b9a33f1c-bffb-49f4-bd48-c0f263ec6097" />
 
-Generating the code got rid of my extra clock enables. Sure it added GPIOB enable, but my D and H were removed. That's because I didn't put them inside the
+Generating the code got rid of my extra GPIOD clock enable. That's because I didn't put them inside the
 ```
 /* USER CODE BEGIN */
 /* USER CODE END */
 ```
 tags. Any code that you put outside of those comments will get removed after code generation, so make sure to patch up stuff that may have been removed. Luckily, in the UFC codebase we never use code generation, so you won't be having this problem regularly.
 
-<img width="453" height="552" alt="Screenshot 2026-09-28 at 10 27 06 PM" src="https://github.com/user-attachments/assets/c7995997-f546-4ebf-a7c8-b8e676c51cf4" />
+<img width="839" height="819" alt="Screenshot 2026-10-05 at 2 37 00 AM" src="https://github.com/user-attachments/assets/6d991543-7329-41c6-905f-8c7e717179b0" />
 
 Now let's address the new SPI functions. Somewhere in your code you'll find this function
 
-<img width="445" height="516" alt="Screenshot 2026-09-28 at 10 28 54 PM" src="https://github.com/user-attachments/assets/a33331b8-f4b2-47f6-9a59-1d7d5153648b" />
-
+<img width="472" height="481" alt="Screenshot 2026-10-05 at 2 11 15 AM" src="https://github.com/user-attachments/assets/9707d67a-254a-41f0-a2aa-c4c063b6f94c" />
 
 It's the start of an initialization of SPI, but it is incomplete. We'll have to initialize the pins ourselves (actually some pins are initialized in the msp file, but I am chosing to ignore msp files and functions because I have yet to find a compelling argument for their existence). But I want to go into what some of these settings do first. You can control click any of the fields or values to see what other options exist for them, that's generally a good way to understand what their function is.
 - The Instance is what protocol your using. It's SPI2 because we picked SPI2 on the ioc.
@@ -80,13 +77,13 @@ It's the start of an initialization of SPI, but it is incomplete. We'll have to 
 - The direction has to do with the two data lines. We want dedicated COPI and CIPO lines, so we set it to SPI_DIRECTION_2LINES. Other forms exist that use a single data line for both COPI and CIPO, or do other funky stuff.
 - The DataSize is how many bits of data are sent at a time. It's set to 4BIT right now, but I think it will be more natural to change it to 8BIT, then we can count our reps in bytes instead of in half-bytes.
 
-   <img width="555" height="660" alt="Screenshot 2026-09-28 at 10 29 30 PM" src="https://github.com/user-attachments/assets/091187fc-66ac-4c5d-a497-7f9520e7dfd6" />
+   <img width="788" height="819" alt="Screenshot 2026-10-05 at 2 35 03 AM" src="https://github.com/user-attachments/assets/f684f61f-e6af-4f30-9bda-fca059a17ad7" />
 
 - The CLKPolarity refers to the default state of the clock. If set to LOW, then the clock line is LOW when nothing is happening, if it's HIGH then the clock will be HIGH when it's not doing anything
 - The CLKPhase determines whether bits are read on the rising or falling edge of the clock. The clock is a line that will go up and down rapidly, while the data lines will go up and down synced with the clock. But you can choose to sync on the rising (first) edge of the clock, or the falling (second) edge. They are not labelled RISING and FALLING though, because if you have your CLKPolarity set to HIGH, then they would have to be reversed, with 1EDGE referring to FALLING and 2EDGE with RISING. But for now, 1EDGE means on the RISING edge, and that's generally what we want.
 - NSS is I'm not exactly sure. [Here](https://stackoverflow.com/questions/35780290/how-can-i-use-hardware-nss-spi-on-stm32f4) is a link to a stack overflow post about it. Apparently it's another kind of "enable" signal for SPI, and it can be implemented in software (SOFT) or as a pin in hardware (HARD_OUTPUT for controller or HARD_INPUT for peripheral)
 - BaudRatePrescaler refers to the frequency of the CLK pin. It will always be a power of two quotient of the speed of the clock on the chip, which we saw earlier was 80MHz. So right now the prescaler is set to SPI_BAUDRATEPRESCALER_2, meaning that the frequency of the SPI_CLK line will be 40MHz, or 1 cycle every 25 nanoseconds. The rule is that the SPI clock's frequency will be the main clock / BaudRatePrescaler.
-- FirstBit refers to the "endianness" of the communication. Whenever SPI is used to transmit or receive data, the data is in binary form, and encoded into a wire being either UP or DOWN. Take the sequence 01011001 for example. That's an 8-bit sequence that gets encoded as `_|‾|_|‾‾|__|‾` it goes 0 (low) then 1 (high) back to 0 (low) then 1 for 2 cycles, and then 0 for 2 cycles before back to 1. That's an example of MSB, or big endian, since the Most Significant Bit is sent FIRST (we assume it's being read left to right). The other option is to encode the same string of bits like this `‾|__|‾‾|_|‾|_` so it's just reversed. A good way to think about it is in MSB mode, the sender is positioned to the RIGHT of the receiver, and is giving them data one at a time like this:
+- FirstBit refers to the "endianness" of the communication. Whenever SPI is used to transmit or receive data, the data is in binary form, and encoded into a wire being either UP or DOWN. Take the sequence 01011001 for example. That's an 8-bit sequence that gets encoded as `_|‾|_|‾‾|__|‾` it goes 0 (low) then 1 (high) back to 0 (low) then 1 for 2 cycles,  0 for 2 cycles before back to 1. That's an example of MSB, or big endian, since the Most Significant Bit is sent FIRST (we assume it's being read left to right). The other option is to encode the same string of bits like this `‾|__|‾‾|_|‾|_` so it's just reversed. A good way to think about it is in MSB mode, the sender is positioned to the RIGHT of the receiver, and is giving them data one at a time like this:
 
    [] <- [01011001]\
    [0] <- [1011001]\
@@ -119,7 +116,7 @@ TLDR: We didn't change anything except the DataSize is now 8bit instead of 4. No
 
 The pins get initialized in much the same way as we did for the GPIO. Only now, instead of GPIO_MODE_OUTPUT_PP, we need to tell HAL that we want these pins used for specific SPI purposes. Let's start with the CLK, that's pin B10.
 
-<img width="460" height="221" alt="Screenshot 2026-09-28 at 10 30 06 PM" src="https://github.com/user-attachments/assets/7141ff60-b82c-4226-b3fc-e7396a638809" />
+<img width="376" height="157" alt="Screenshot 2026-10-05 at 2 24 06 AM" src="https://github.com/user-attachments/assets/37b72531-8a53-44d7-98e8-3bbfe335b0f6" />
 
 But what to set the Mode to? For this we'll have to consult, [The Datasheet](https://www.st.com/resource/en/datasheet/stm32l476rg.pdf#page=88). Get used to the look of it, because you'll be seeing many more like it doing firmware. I've linked you straight to page 88 of the datasheet for the STM32L476xx series. There's only one in this series which is the STM32L476RG, which is what we're using. But what's this table on page 88. This is the Alternate Functions table. It tells you which pins support which "alternate functions". What that means is that only certain pins can be SPI clocks, and only certain pins can be COPI and CIPO. This table will tell you which pins can do what. Thing is, we already know what pins we're using. It's PB10, PC2, PC3, and some other GPIO pin for the Chip Select. But we are still going to use the table here to tell us exactly what Mode these pins allow. The Mode field itself only accepts values of GPIO_MODE, as can be seen in the struct declaration (CTRL+Click the .Mode)
 
@@ -127,7 +124,7 @@ But what to set the Mode to? For this we'll have to consult, [The Datasheet](htt
 
 But there's something else here that we've never seen before. A field called Alternate. That's the one we want. We can set the Mode to GPIO_MODE_AF_PP, this means we want to use this pin for an Alternate Function (AF) and we want it to be push/pull, like our LED pin. Then we can set the GPIO_InitStruct.Alternate field:
 
-<img width="479" height="198" alt="Screenshot 2026-09-28 at 10 31 04 PM" src="https://github.com/user-attachments/assets/9a783bcb-f25f-4ec4-af82-93e9d90c36c5" />
+<img width="378" height="171" alt="Screenshot 2026-10-05 at 2 25 16 AM" src="https://github.com/user-attachments/assets/16da0bb6-df0e-490f-a7fb-9c0ef9498051" />
 
 So let's look at the datasheet for PB10:
 
@@ -135,35 +132,33 @@ So let's look at the datasheet for PB10:
 
 We can see under AF5 it is registered as SPI2_CLK, exactly what we need. So we set the Alternate field to GPIO_AF5_SPI2. It will know to make it a clock because this pin cannot support COPI or CIPO.
 
-<img width="392" height="163" alt="Screenshot 2026-09-28 at 10 32 06 PM" src="https://github.com/user-attachments/assets/0c5a00ca-05b2-4f34-ba67-b12439ca1463" />
+<img width="375" height="169" alt="Screenshot 2026-10-05 at 2 25 56 AM" src="https://github.com/user-attachments/assets/30573b08-4c67-4a6b-9ee7-f357871a6e31" />
 
 Addendum: The speed. This is a clock going at presumably 40MHz, which is pretty fast for a line to go up and down. Are we sure we shouldn't bump up the speed to at least a GPIO_SPEED_FREQ_MEDIUM? [Here](https://community.st.com/t5/stm32-mcus-products/i-would-like-to-know-about-the-4-gpio-speed-settings-on-the/td-p/56124) is a post with a table displaying the speed (in MHz and in ns) guarenteed by the different speed settings. Now granted, this is for a different chip, but the table is a bit startling. It indicates that even on speed 10 (10 equates to GPIO_SPEED_FREQ_HIGH), if the voltage difference is too high, it might not be able to keep up with 40MHz. Only speed 11 (GPIO_SPEED_FREQ_VERY_HIGH) is able to keep guarentee that it will be able to do it. Instead of making the frequency extremely high, my solution is just to increase the BaudRatePrescaler to slow down that SPI clock. This will make it much easier to see on the logic analyzer later, and we'll be able to keep our speed at GPIO_SPEED_FREQ_LOW. I'll set the BaudRatePrescaler to SPI_BAUDRATEPRESCALER_256 to really slow this clock down. Remember that the SPI clock frequency is the main clock frequency / BaudRatePrescaler. So, by setting it to 256, that should make the SPI clock run at 80/256, or 0.3125MHz, 312.5KHz. Easily within the range of every voltage difference of GPIO_SPEED_FREQ_LOW.
 
-<img width="491" height="291" alt="Screenshot 2026-09-28 at 10 32 40 PM" src="https://github.com/user-attachments/assets/1eded40d-f959-4461-a5d3-c47f08051367" />
+<img width="477" height="253" alt="Screenshot 2026-10-05 at 2 17 43 AM" src="https://github.com/user-attachments/assets/81ab9b7b-616f-43d0-a003-3c3742a6e329" />
 
 And that's the clock set up. We can repeat similar steps for the COPI and CIPO pins, they'll all be using GPIO_AF5_SPI2 as well.
 
-<img width="409" height="396" alt="Screenshot 2026-09-28 at 10 33 03 PM" src="https://github.com/user-attachments/assets/39f7a98b-bf59-4450-a078-3bba3cd845c7" />
-
+<img width="383" height="369" alt="Screenshot 2026-10-05 at 2 28 15 AM" src="https://github.com/user-attachments/assets/686689b3-01f3-4815-b0a6-91dfa7c5dfd2" />
 
 Okay now let's pick our Chip Select pin. It can be any GPIO enabled pin, but for historical reasons I will choose PA11, as that's one used in development when we only had these devboards last year. We're going to set this one up as a normal GPIO pin, because HAL SPI does not have internal support for chip selects, we will manually be toggling them off and on. I'm choosing A11 for this.
 
-<img width="412" height="483" alt="Screenshot 2026-09-28 at 10 33 35 PM" src="https://github.com/user-attachments/assets/413ed0af-082a-4cd3-813f-1afd7f122c7a" />
+<img width="383" height="440" alt="Screenshot 2026-10-05 at 2 30 09 AM" src="https://github.com/user-attachments/assets/88b2df9a-c1ef-4b44-98b1-3e354efe75d4" />
 
 We're almost done, there's just one last thing to do. Remember how we had to enable the clocks for the GPIO pins to work? Well SPI has its own clock within the microcontroller, so if we want anything to happen we have to enable that too.
 
-<img width="506" height="609" alt="Screenshot 2026-09-28 at 10 34 00 PM" src="https://github.com/user-attachments/assets/a60c2998-52a2-4560-9195-b42c720da32f" />
+<img width="468" height="408" alt="Screenshot 2026-10-05 at 2 30 50 AM" src="https://github.com/user-attachments/assets/8433bb1d-1b15-4532-be56-fffbb7c906f9" />
 
 And that's all the initialization! Make sure that the project builds by clicking the "build" button.
 
-<img width="950" height="54" alt="Screenshot 2026-09-28 at 10 35 15 PM" src="https://github.com/user-attachments/assets/feb1c050-a81d-4ee3-ab10-08c735eb44d5" />
+<img width="891" height="26" alt="Screenshot 2026-10-05 at 2 32 06 AM" src="https://github.com/user-attachments/assets/1aa3415f-3a3f-4c5e-baf4-5f4cdcac137d" />
 
 Fix any compile errors, don't be afraid to ask for help!
 
 Alright now let's try actually sending a byte of data over SPI. We're not actually going to be sending it to a peripheral device, but rather, we're going to capture the output using a very fancy oscilloscope called a logic analyzer.
 
 <img width="698" height="657" alt="Screenshot 2026-09-28 at 10 35 41 PM" src="https://github.com/user-attachments/assets/a64453fa-5dd1-40a6-9571-4c951516725a" />
-
 
 Setting up the Saleae can be a little bit tricky, and there's more [software](https://www.Saleae.com/pages/downloads) we have to get. This software 
 is a lot more modern and pleasant to use than STM's IDE though, so that's a plus.
@@ -258,18 +253,18 @@ In the code, that involves manually setting the chip select pin LOW and then cal
 
 Before we set the chip select pin LOW though, it needs to be HIGH. So before the while() loop I will add this line of code:
 
-<img width="635" height="388" alt="Screenshot 2026-09-28 at 10 45 51 PM" src="https://github.com/user-attachments/assets/ea056075-bfc0-400a-bd97-0b3a8f8384c2" />
+<img width="732" height="321" alt="Screenshot 2026-10-05 at 2 41 45 AM" src="https://github.com/user-attachments/assets/2724466c-f618-4da6-897a-6b167bf1a4ff" />
 
 And then we can transmit with SPI in the while loop:
 
-<img width="713" height="412" alt="Screenshot 2026-09-28 at 10 46 10 PM" src="https://github.com/user-attachments/assets/6a9706aa-5baf-44f3-860e-649743a9fc1e" />
+<img width="512" height="253" alt="Screenshot 2026-10-05 at 2 48 10 AM" src="https://github.com/user-attachments/assets/fa7da4b6-97d0-4ad3-ab2f-af327d553d3f" />
 
 So what's happening here?\
 First, I'm making an array of four bytes.\
 Then I'm setting the chip select LOW.\
 Then I'm calling the magic function, let's take a look at this more (ctrl + click it!)
 
-<img width="1208" height="526" alt="Screenshot 2026-09-28 at 10 46 36 PM" src="https://github.com/user-attachments/assets/07895a9b-0afd-4c14-a8f9-cb4678d34820" />
+<img width="874" height="297" alt="Screenshot 2026-10-05 at 2 49 58 AM" src="https://github.com/user-attachments/assets/db73f2c4-6d2b-4eaf-a428-f7cf9e7622b7" />
 
 We are going to go into how it works, because it's a little bit out of the scope of this tutorial and not necessary to know how to use it.\
 Instead we're focused on what arguments it requires and what they do.
