@@ -150,7 +150,7 @@ Here it is (btw, if your Project Explorer ever goes away just double click one o
 
 So here we can see that we've enabled four clocks: GPIOC, GPIOH, GPIOA, and GPIOB. We're also configuring the USART_TX_Pin and the USART_RX_Pin pins. That's pin PA2 and PA3, respectively. How did I know that? You can hold CTRL and click on USART_TX_Pin and USART_RX_Pin to see their definitions.
 
-<img width="290" height="270" alt="Screenshot 2026-10-02 at 4 18 18 PM" src="https://github.com/user-attachments/assets/20e90acd-b0d6-4490-afa0-78fa2dee92e6" />
+<img width="578" height="538" alt="Screenshot 2026-10-05 at 1 24 45 AM" src="https://github.com/user-attachments/assets/834ff241-614d-4dbb-bb7e-cb4e050408a6" />
 
 Both USART_TX_GPIO_Port and USART_RX_GPIO_Port are set to GPIOA, and USART_TX_Pin and USART_RX_Pin are set to GPIO_PIN_2 and GPIO_PIN_3, respectively. That means A2 and A3 (specifically PA2 and PA3, but the P is dropped in the code).\
 
@@ -159,7 +159,7 @@ I'll do my code example with PC10, that's the top left pin on the board (not inc
 
 So I want to set up PC10 just like they do with PA2 and PA3.
 
-<img width="450" height="416" alt="Screenshot 2026-10-02 at 4 41 49 PM" src="https://github.com/user-attachments/assets/d70cc8f1-0b64-4cbc-ae17-deaa622f22d2" />
+<img width="890" height="824" alt="Screenshot 2026-10-05 at 1 25 22 AM" src="https://github.com/user-attachments/assets/39f182a4-786b-485e-954c-d8271313b5c0" />
 
 
 So here I've put my Pin as GPIO_PIN_10, and the port as GPIOC. But what do all of these other fields mean?
@@ -169,7 +169,7 @@ So here I've put my Pin as GPIO_PIN_10, and the port as GPIOC. But what do all o
 
 Lastly, we have to make sure that the clock is enabled. At the top of the MX_GPIO_Init function the clocks for GPIOC, GPIOH, GPIOA, and GPIOB are enabled. But if you chose a pin from say GPIOH, it won't work unless those GPIOH are also enabled.
 
-<img width="449" height="444" alt="Screenshot 2026-10-02 at 4 44 43 PM" src="https://github.com/user-attachments/assets/229fe61c-5d45-40d6-ad4a-f9bda3f2bfa0" />
+<img width="835" height="822" alt="Screenshot 2026-10-05 at 1 26 13 AM" src="https://github.com/user-attachments/assets/83fcf8dd-3d60-4041-9ec7-9505219db2de" />
 
 Alright so we've successfully initialized our LED pin. Now how do we actually turn it on and off?
 
@@ -185,7 +185,7 @@ I want to run this program to ensure that it works before we bind the LED to the
 
 To run the program, click the green button in the top row. Make sure to save the main.c file first!
 
-<img width="1010" height="49" alt="Screenshot 2026-09-28 at 7 15 01 PM" src="https://github.com/user-attachments/assets/96b1a654-5b58-454f-bb05-b0fc59f9317e" />
+<img width="895" height="27" alt="Screenshot 2026-10-05 at 1 28 05 AM" src="https://github.com/user-attachments/assets/270d5c9d-05df-4c42-8c7e-7bb7cc02e0ec" />
 
 
 Yeah I kind of hate these buttons and wish I could get rid of most of them, and you probably can I just don't know how.
@@ -201,7 +201,6 @@ It might take a second to compile the program, there should be information on th
 
 <img width="515" height="306" alt="Screenshot 2026-09-28 at 7 16 51 PM" src="https://github.com/user-attachments/assets/811b4765-1b8e-468d-b34c-e2e3cb556574" />
 
-
 #### Ayo this LED is NOT on
 - Ensure that the program compiled and uploaded itself to the STM. The console will tell you if something went wrong.
 - Make sure that you initialized and activated the right pin. Consult the chart and check the code and the pin to make sure they match
@@ -213,18 +212,27 @@ If the LED did turn on then you're good! You just coded an LED to turn on. We're
 
 Now, let's take a look at the code `BSP_LED_Init(LED_GREEN)` that CubeMX generated for us.
 
-`LED_GREEN` is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can sinc ethey're just regular GPIO pins.
+<img width="748" height="164" alt="Screenshot 2026-10-05 at 1 31 29 AM" src="https://github.com/user-attachments/assets/5b95410c-a736-479a-9e47-1c7c533f8eab" />
+
+`LED_GREEN` is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can since they're just regular GPIO pins.
 
 Lets' try that now.
 
-If you CTRL-click LED_GREEN, you will see that it's connect to LED2. 
+If you CTRL-click `LED_GREEN`, you will see that it's connect to LED2. 
 
-Let's scroll down the .h file to see where LED2 is defined. We can see that it's set to pin PA5.
+<img width="198" height="223" alt="Screenshot 2026-10-05 at 1 33 03 AM" src="https://github.com/user-attachments/assets/263eadbd-184c-4b9b-bc32-4754b94bec80" />
 
-We replace `GPIO_PIN_5` with `GPIO_PIN_10` (where our signal is currently connected to on the NUCLEO board).
+Scroll down the .h file to see where `LED2` is defined. We can see that it's set to pin PA5.
+
+<img width="849" height="284" alt="Screenshot 2026-10-05 at 1 34 00 AM" src="https://github.com/user-attachments/assets/1bba9567-b01c-4326-9ffb-ec8a1a106027" />
+
+Let's replace `GPIO_PIN_5` with `GPIO_PIN_10` (where our signal is currently connected to on the NUCLEO board).
+
+<img width="843" height="268" alt="Screenshot 2026-10-05 at 1 36 20 AM" src="https://github.com/user-attachments/assets/c05b6166-4e3f-4bfe-b611-b548d13a673d" />
 
 Reprogramming the board we can see that the LED lights up.
 
+<img width="408" height="585" alt="Screenshot 2026-09-28 at 7 15 54 PM" src="https://github.com/user-attachments/assets/13428b1e-5f21-4ec9-84d4-a2270b5f86f9" />
 
 But let's take this just one step further. I want to be able to control the LED using the blue user button on the NUCLEO board. For this we have to READ the state of the PC13 pin in order to determine the state of our LED pin.
 
