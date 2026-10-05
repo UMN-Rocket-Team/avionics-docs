@@ -210,19 +210,19 @@ Now, let's take a look at the code `BSP_LED_Init(LED_GREEN)` that CubeMX generat
 
 <img width="748" height="164" alt="Screenshot 2026-10-05 at 1 31 29 AM" src="https://github.com/user-attachments/assets/5b95410c-a736-479a-9e47-1c7c533f8eab" />
 
-`LED_GREEN` is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can since they're just regular GPIO pins.
+LED_GREEN is one of the internal LEDs. An internal LED is an LED built into the NUCLEO board. The GPIO pins used for internal LEDs shouldn't be configured for external use since you will lose the lights on the NUCLEO board, but they can since they're just regular GPIO pins.
 
 Lets' try that now.
 
-If you CTRL-click `LED_GREEN`, you will see that it's connect to LED2. 
+If you CTRL-click LED_GREEN, you will see that it's connect to LED2. 
 
 <img width="198" height="223" alt="Screenshot 2026-10-05 at 1 33 03 AM" src="https://github.com/user-attachments/assets/263eadbd-184c-4b9b-bc32-4754b94bec80" />
 
-Scroll down the .h file to see where `LED2` is defined. We can see that it's set to pin PA5.
+Scroll down the .h file to see where LED2 is defined. We can see that it's set to pin PA5.
 
 <img width="849" height="284" alt="Screenshot 2026-10-05 at 1 34 00 AM" src="https://github.com/user-attachments/assets/1bba9567-b01c-4326-9ffb-ec8a1a106027" />
 
-Let's replace `GPIO_PIN_5` with `GPIO_PIN_10` (where our signal is currently connected to on the NUCLEO board).
+Let's replace GPIO_PIN_5 with GPIO_PIN_10 (where our signal is currently connected to on the NUCLEO board).
 
 <img width="843" height="268" alt="Screenshot 2026-10-05 at 1 36 20 AM" src="https://github.com/user-attachments/assets/c05b6166-4e3f-4bfe-b611-b548d13a673d" />
 
