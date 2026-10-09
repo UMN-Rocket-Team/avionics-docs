@@ -418,17 +418,9 @@ Generate code and head to `main.c`.
 
 Replace `HAL_TIM_Base_Start_IT(&htim2)` with the PWM start function (and delete the TIM2 part of your callback, since TIM2 no longer interrupts):
 
-```c
-HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-```
-
 <img width="743" height="662" alt="main.c with HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1)" src="https://github.com/user-attachments/assets/e8bba776-963e-4c81-8032-f7a8e95d2429" />
 
 Now you can set the brightness anywhere in your code with one macro, `__HAL_TIM_SET_COMPARE`. It writes a new value into CCR:
-
-```c
-__HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, 500);   // 500 / 1000 = 50% brightness
-```
 
 {: .note}
 Comment out `BSP_LED_Init(LED_GREEN)` if you put the compare function above the internal LED initialization. Otherwise it'll reconfigure the pin as a regular GPIO and PWM won't work.
