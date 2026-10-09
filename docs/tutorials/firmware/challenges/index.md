@@ -13,5 +13,5 @@ permalink: /docs/tutorials/firmware/challenges/
 Onboarding sequence for the Firmware subteam. Work through these roughly in order —
 later tutorials assume you've completed the earlier ones.
 
-{: .important}
-If you get stuck on any part, don't be afraid to ask questions.
+{: .note}
+We're going to cover a lot of material very quickly, so don't worry if you're confused at first. You'll learn as you go. If you get stuck or have questions, don't be afraid to ask!

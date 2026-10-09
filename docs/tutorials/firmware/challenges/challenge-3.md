@@ -3,7 +3,7 @@ layout: default
 title: "Challenge 3: Timers, Interrupts, and Hardware PWM"
 parent: Challenges
 grand_parent: Firmware
-nav_order: 2
+nav_order: 1
 permalink: /docs/tutorials/firmware/challenges/challenge-3/
 ---
 
@@ -256,7 +256,7 @@ Why (i * i) / 999? Human eyes perceive light non-linearly (Weber-Fechner Law). G
 
 Want proof that PWM and regular LED blinking are the exact same mechanism? Go back into your .ioc file, leave ARR = 999, but change the Prescaler to 79999. Re-flash your code. 
 
-{: .note)
+{: .note}
 Remember that `BSP_LED_Init(LED_GREEN)` will not be commented out after code generation because it's not inside `USER CODE`
 
 Your PWM signal is now running at a glacial 1 Hz (1 full second per cycle). Change the prescaler back to 79, and that slow blink blurs right back into smooth brightness. Dimming is literally just blinking faster than your eyeballs can process!
@@ -264,6 +264,8 @@ Your PWM signal is now running at a glacial 1 Hz (1 full second per cycle). Chan
 <hr>
 
 <div style="display: flex; justify-content: space-between; margin-top: 2rem;">
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-outline">&#10094; Previous: Challenge 2</a>
+  <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-4/" class="btn btn-primary">Next: Challenge 4 &#10095;</a>
   <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-2/" class="btn btn-outline">&#10094; Previous: Challenge 2</a>
   <a href="/avionics-docs/docs/tutorials/firmware/challenges/challenge-4/" class="btn btn-primary">Next: Challenge 4 &#10095;</a>
 </div>

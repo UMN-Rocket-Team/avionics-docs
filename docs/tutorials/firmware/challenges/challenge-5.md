@@ -1,158 +1,187 @@
 ---
 layout: default
-title: "Challenge 5: Sensor Driver"
+title: "Challenge 5: SPI Communication with Sensor Breakout"
 parent: Challenges
 grand_parent: Firmware
 nav_order: 1
 permalink: /docs/tutorials/firmware/challenges/challenge-5/
 ---
 
-# Challenge 5: Sensor Driver
+# Challenge 5: SPI Communication with Sensor Breakout
 
-The sensor driver is the ultimate goal of these challenges. Drivers like these are used all across the UFC for communicating with a myriad of different peripheral devices.
+For this challenge we will be focusing on the [Low G Accelerometer](https://www.mouser.com/datasheet/2/389/lis2dw12-1849760.pdf) used on the sensor card of the UFC. This sensor has a SPI interface that we will make use of to obtain the acceleration data as well as to change settings. I've linked you to the full 67 page [datasheet](https://www.mouser.com/datasheet/2/389/lis2dw12-1849760.pdf) for this sensor, but along the tutorial I'll be highlighting the important parts that we'll need to know for this challenge.
 
 #### What you'll need
 
 - Software: STM32CubeIDE, Logic 2 (Saleae)
-- Hardware: Breadboard setup from Challenge 4
+- Hardware: STM32L4, Saleae, Low G Accelerometer
 
-Drivers make use of [classes in C++](https://www.w3schools.com/cpp/cpp_classes.asp). A class encapsulates the functionality of a driver into a package that can be easily used by other parts of the code. It's good when doing high-level design to always think about what the express purpose of your code is. In the case of a sensor driver there is a very clear purpose: Get the data from the sensor. The sensor produces data, we want to extract that data, and the driver is what we use to do it.
+Okay! The first thing to do is set up the hardware. You'll need a breakout for the sensor like this:
 
-So let's start by creating the class. We'll do it in a new file.
+<img width="465" height="785" alt="Screenshot 2026-09-28 at 10 57 50 PM" src="https://github.com/user-attachments/assets/0abba9cc-84f0-4b41-b661-4b4e826bc206" />
 
-<img width="794" height="608" alt="Screenshot 2026-09-28 at 11 14 06 PM" src="https://github.com/user-attachments/assets/e1c2a392-97c9-4f08-9db2-3ea820cb1f3a" />
+<img width="270" height="300" alt="Screenshot 2026-09-28 at 10 58 19 PM" src="https://github.com/user-attachments/assets/87495181-a41b-4733-823a-1bcf6d3bbf6f" />
 
-We're going to create what's called a "Header file". This is a C/C++ convention that declares classes and functions.
+There are a lot of pin connections here, but we only have to worry about six of them.
 
-<img width="474" height="385" alt="Screenshot 2026-09-28 at 11 14 30 PM" src="https://github.com/user-attachments/assets/70d21d28-9d60-4ac2-bea4-9790618b062c" />
+| Breakout pin | Signal | Color |
+|---|---|---|
+| 7 | GND | Black |
+| 6 | 3.3 V | Red |
+| 5 | COPI / SDI | Blue |
+| 4 | CIPO / SDO | Purple |
+| 3 | SCK | Green |
+| 2 | CS | Yellow |
 
-The UFC codebase generally uses a separate file to declare each class, and the name of the file is the name of the class declared within. So for this file we'll call it Sensor_Driver.h and put a class called Sensor_Driver in it.
+We'll need to connect these wires to the corresponding ones on the STM32.
 
-At the top of the file, we put #includes to other files that we'll be using. In this case we need the "stm32l4xx_hal.h" file, which is where those HAL_SPI functions come from.
+<img width="460" height="640" alt="Screenshot 2026-09-28 at 10 58 42 PM" src="https://github.com/user-attachments/assets/cf005385-8232-4d00-b8f3-dfd494f19ca4" />
 
-<img width="516" height="263" alt="Screenshot 2026-09-28 at 11 14 45 PM" src="https://github.com/user-attachments/assets/60b970df-d736-4d31-8b65-ed5e1345fe0f" />
+<img width="986" height="805" alt="Screenshot 2026-09-28 at 10 59 03 PM" src="https://github.com/user-attachments/assets/7fb2ffa7-508c-4fd5-b65a-9b45c56737e2" />
 
-The STM IDE also automatically generates this include guard, this #ifndef statement at the top ensures that this file can't be #included twice in a file.
+I'm also going to connect some header pins so that we can use the Saleae on this circuit.
 
-The next thing that we generally do is put a bunch of macros for addresses we use in the class. I've gathered the relevant ones from page 33 of the [datasheet](https://www.mouser.com/datasheet/2/389/lis2dw12-1849760.pdf)
+<img width="430" height="552" alt="Screenshot 2026-09-28 at 10 59 23 PM" src="https://github.com/user-attachments/assets/bc03e357-71d0-41fc-88a3-ebe961838ff0" />
 
-<img width="842" height="838" alt="Screenshot 2026-09-28 at 11 15 32 PM" src="https://github.com/user-attachments/assets/68248c72-137d-4171-acc6-1f536ff55be9" />
+Now let's turn on the STM and make sure that all the connections are wired properly.
 
-Now we can define our class. I'm actually going to use a "struct" instead of a class, but they do the same thing in C++. The reason I use a struct is because everything in a struct is public, whereas everything in a class is private. I like things to be public so that I can access all the fields (class variables) and methods (class functions) from anywhere else in the code.
+<img width="402" height="534" alt="Screenshot 2026-09-28 at 10 59 39 PM" src="https://github.com/user-attachments/assets/90ee5697-be61-4ccd-ae7e-cc5e930bc707" />
 
-<img width="704" height="773" alt="Screenshot 2026-09-28 at 11 15 54 PM" src="https://github.com/user-attachments/assets/3e6b140e-cc40-426e-8a40-00f6ed66d1a2" />
+Upon turning the STM on, you should notice the green light on the breakout board turn on. If not, check your power and ground connections.\
+If you start a Saleae capture, you should also see the same 0xA71021C5 being sent over the wire.
 
-The header file is a place to map out the skeleton of the class, not to actually write the code for it. This is because in order for the binary to be linked correctly after being compiled, there can only exist one instance of the code to avoid namespace collisions. But the #ifndef guard was supposed to already take care of that! Well it only works for #including the file multiple times **within one file**. So when the compiler goes to compile ALL of the source files, if you have a #include "Sensor_Driver.h" in multiple source files then the include guard won't work as you expect. The linker will get mad at you for multiple definitions. This is a little bit annoying but we have to deal with it, so headers are reserved for _declarations_ not definitions.
+<img width="993" height="479" alt="Screenshot 2026-09-28 at 11 00 13 PM" src="https://github.com/user-attachments/assets/b3732d70-e2be-4417-9db6-c9a2cc5efa96" />
 
-With that said, we now need to determine what kinds of fields and methods to declare in this class. This is subject to the designer of the class, but given our ultimate goal (reading data from the sensor), I would say we don't actually need any fields. The only thing that we _really need_ is a single function that "gets the data from the sensor". But there are multiple steps to that process. The first two functions I'll declare will be almost universal to all classes in the UFC, these are the init and deinit functions for the class.
+But now there's something new on the CIPO line. It's not anything useful because 0xA71021C5 is not a command that the sensor understands, but we can construct a request over SPI to get the sensor to respond in a way that we want.
 
-<img width="695" height="812" alt="Screenshot 2026-09-28 at 11 16 30 PM" src="https://github.com/user-attachments/assets/8cbb0a8c-0580-429a-b2e9-e993bfa612ee" />
+Here's a segment from page 30 of the LIS2DW12 [datasheet](https://www.mouser.com/datasheet/2/389/lis2dw12-1849760.pdf#page=30). It details how to do a register read over SPI.
 
-The init and deinit functions are for doing the business that's done in the MX_SPI2_Init function (and Deinit, if it existed) in the main.c file. We move that code to the relevant class to keep things organised. Now we can define what I call the _interface_ methods.
+<img width="851" height="509" alt="Screenshot 2026-09-28 at 11 00 44 PM" src="https://github.com/user-attachments/assets/f92e0222-f3e6-49dc-b947-7d49a4801355" />
 
-<img width="549" height="151" alt="Screenshot 2026-09-28 at 11 16 50 PM" src="https://github.com/user-attachments/assets/8c16369b-19ed-4784-81ea-1d94d7ee791d" />
+And here on page 33 we can find the register address table.
 
-There is just the one readAccel function. This function just reads the acceleration value from the sensors and outputs the data into three floats (passed in). I also specify that the output will be in m/s^2.
+<img width="658" height="829" alt="Screenshot 2026-09-28 at 11 01 11 PM" src="https://github.com/user-attachments/assets/542efe75-26d4-43d8-bb8a-1e2fe8e526d0" />
 
-But in order to just "get the data from the sensor", we have a number of steps we'll go through. That's where the third category of methods come in, the _internal_ methods.
+Lets start out by reading the WHO_AM_I register (0x0F). If we go to page 35 we can see more information
 
-<img width="573" height="265" alt="Screenshot 2026-09-28 at 11 17 09 PM" src="https://github.com/user-attachments/assets/a3bd8e59-26ac-495c-a7d4-7cf683992367" />
+<img width="662" height="143" alt="Screenshot 2026-09-28 at 11 01 33 PM" src="https://github.com/user-attachments/assets/1f0403a8-13ec-4dc7-ac51-793c2f53a410" />
 
-These internal methods outline the steps for getting the data from the sensor. We need to read the raw data, which requires reading from registers on the sensor. Then convert the raw uint16 data into m/s^2. The writeRegister will be used in the init() function to configure the sensor with certain parameters.
+This register is supposed to have a value of 0x44.
 
-The last thing I like to do is includes a global instance of the driver, so that any file that #includes this sensor driver will have access to one. Because there isn't really a need to make multiple drivers.
+So let's set up a framework for sending and receiving one byte of data over SPI. We'll change our code from the last tutorial to support both sending and receiving.
 
-<img width="558" height="766" alt="Screenshot 2026-09-28 at 11 17 44 PM" src="https://github.com/user-attachments/assets/6d350458-f710-4973-b520-08e20818c55a" />
+<img width="485" height="273" alt="Screenshot 2026-09-28 at 11 01 54 PM" src="https://github.com/user-attachments/assets/88a7e287-cc4a-4fda-a11e-b5b78e7c89a8" />
 
-In order to prevent this instance of the class from being defined multiple times, we define it as "extern", which _declares_ it rather than instantiates/defines it. We'll create the real instance in the source file, which we can finally start!
+Here I have a 1 byte spiInput buffer as well as a 1 byte spiOutput buffer. We'll be sending the spiInput to the sensor using the HAL_SPI_Transmit function and then receiving the response through the HAL_SPI_Receive function. Now we just have to figure out what to send to get the value of the WHO_AM_I register.
 
-<img width="694" height="688" alt="Screenshot 2026-09-28 at 11 18 23 PM" src="https://github.com/user-attachments/assets/16840933-66ad-4e11-a0ee-47a12052773a" />
+Recall on page 30 the steps for reading using SPI. We have to SET the MSB (most significant bit) and fill the remaining 7 bits with the address of the register we want to read. So since we're trying to read address 0x0F, we need to send 0x0F augmented with the most significant bit set.
 
-So I've created Sensor_Driver.cpp and filled it with definitions of all those methods we declared in the header. Now we just need to put in the code, and luckily, we have already written some of it!
+It helps to write the address in binary. 0x0F translates to 0b00001111, so in order to set the MSB, we just have to change it to 0b10001111. That translates back to 0x8F in hex.
 
-We can repurpose this MX_SPI2_Init function from main.c to be our driver's init function. So I'll just copy and paste it in.
+So let's set our spiInput to 0x8F.
 
-<img width="583" height="778" alt="Screenshot 2026-09-28 at 11 18 42 PM" src="https://github.com/user-attachments/assets/f4da19f5-f122-4d65-a2cf-42605ea15374" />
+<img width="481" height="274" alt="Screenshot 2026-09-28 at 11 02 19 PM" src="https://github.com/user-attachments/assets/86bd200c-2de6-4ffb-83a2-96ab3e713682" />
 
-Ahh, I've just realised. The hspi2 which was previous defined as a global at the top of the main.c file is not accessible to our source file here. So I suppose there is a reason to have a field in this class. We can go back to the header and define it.
+Now let's run the code and check the Saleae to see the results.
 
-<img width="570" height="358" alt="Screenshot 2026-09-28 at 11 18 58 PM" src="https://github.com/user-attachments/assets/9549a877-d90e-4b06-80a4-a27891ebbeb1" />
+<img width="896" height="428" alt="Screenshot 2026-09-28 at 11 02 40 PM" src="https://github.com/user-attachments/assets/3c2438fe-06b6-49b4-826d-42d1f1856fb5" />
 
-<img width="630" height="443" alt="Screenshot 2026-09-28 at 11 19 21 PM" src="https://github.com/user-attachments/assets/82b856ae-4648-43c2-8ae7-adc58a4e80f7" />
 
-The other thing we don't have access to is this Error_Handler() function, which runs if the HAL_SPI_Init function fails. In the real UFC codebase, we have a UFC_ECODE type (UFC Error Code) that is used to indicate failures like this, but since this driver is in a separate project, I'll just remove the check for now.
+Now this is a promising result, but there is something strange happening. We are sending 0x8F and receiving 0x44 like we should, but it also looks like we are SENDING 0x44 during the period when we receive it. It's also a little strange that the both the COPI and CIPO lines are held high the whole time that we are not sending it anything. Let's investigate these mysteries.
 
-<img width="566" height="340" alt="Screenshot 2026-09-28 at 11 19 42 PM" src="https://github.com/user-attachments/assets/3e4a5b3e-7e0c-42ba-ad90-c560c9a19fb1" />
+To understand why we are sending a 0x44 while we receive it, it helps to look into the code of the HAL_SPI_Receive function.
 
-There are also a few other things we want to do in the initialization sequence that have to do with the sensor itself. This is where it really helps to comb through the datasheet. Luckily someone else has already done that work for us, but when it comes to making new drivers this is something that you'll just have to figure out. We'll be changing the values of CTRL registers on the sensor, specifically CTRL2, CTRL1, CTRL3, and CTRL6. The relevant page numbers on the datasheet are 38, 36, 39, and 42.
+<img width="810" height="346" alt="Screenshot 2026-09-28 at 11 03 01 PM" src="https://github.com/user-attachments/assets/6e776d9a-3874-46e2-ba63-59dc9f69d752" />
 
-<img width="1098" height="304" alt="Screenshot 2026-09-28 at 11 20 00 PM" src="https://github.com/user-attachments/assets/f0aca60b-7cfd-4b2d-ae30-27b8679a64d5" />
+Here we can find the answer. The HAL_SPI_Receive actually just calls HAL_SPI_TransmitReceive with the receive buffer as the transmit buffer. That means that whatever happens to be in spiOutput when we call HAL_SPI_Receive is sent over the COPI line while we do the receive. We don't need to be sending anything so we can just set that to zero.
 
-Yeah this code is a little complex. But for the most part it is just a series of writeRegister commands to enable different settings on the sensor. There is that loop section, which keeps track of the "boot process" status. We enable the "boot bit" in CTRL2 (the most significant bit) and wait for the boot process to be complete (which is indicated by the boot bit being set back to 0). So that's what the loop does. We also have a maximum read attempts of 10000 to avoid getting into an endless loop. It's important to have timeout cases for any looping code, because we never want to get stuck in an endless loop as it will essentially crash the entire flight computer. I'd encourage you to read more about these configuration settings in the datasheet of the sensor.
+<img width="489" height="276" alt="Screenshot 2026-09-28 at 11 03 21 PM" src="https://github.com/user-attachments/assets/33c5f1f6-d765-4732-ab70-203a4d496010" />
 
-The deinit function is much simpler. We just disable the SPI2 clock, deinit SPI, and deinitialize all the pins with HAL_GPIO_DeInit.
+Now if we run the code again we see zero during the receive period.
 
-<img width="420" height="155" alt="Screenshot 2026-09-28 at 11 20 21 PM" src="https://github.com/user-attachments/assets/8bd3569d-37e3-4e2a-a93d-38cc01880bdd" />
+<img width="894" height="429" alt="Screenshot 2026-09-28 at 11 03 39 PM" src="https://github.com/user-attachments/assets/ee876503-6e7a-4672-af15-ac73cbe3a20b" />
 
-I think next we'll focus on the read and write register functions. We have already written a readRegister function in the main.c file, so we just have to port it over and modify it slightly.
+So that mystery has been solved. But why are both data lines high during the idle period? To be fair, this doesn't really matter because the state of the COPI and CIPO lines are not relevant unless the chip select is down and the clock is moving, but it is at least nice to understand what is causing them to idle high.
 
-<img width="656" height="171" alt="Screenshot 2026-09-28 at 11 20 38 PM" src="https://github.com/user-attachments/assets/548e4805-80e7-4cb6-82f8-fb0fad8c89c5" />
+The answer to the CIPO line can be found on page 4 of the LIS2DW12 datasheet:
 
-The reason we don't simply return the output is because in the real codebase we return a UFC_ECODE, so I leave it as void in this example to better match that.
+<img width="595" height="461" alt="Screenshot 2026-09-28 at 11 03 58 PM" src="https://github.com/user-attachments/assets/3aff82a4-3bf4-4025-8a81-cbdd89317512" />
 
-Then, the write register sequence is very similar. Page 31 of the datasheet says that the MSB must be a zero, which it already will always be in the case of a valid register address.
+The SDO line (CIPO) is set to be pulled up, meaning it idles high. So that's nice to know. But what about the COPI line? That one is controlled by the STM32, so the answer lies there.
 
-<img width="653" height="123" alt="Screenshot 2026-09-28 at 11 21 04 PM" src="https://github.com/user-attachments/assets/bf296dda-9168-4ecd-91cd-e056c6aaf971" />
+And to be honest with you, I could not find it. I looked around and googled around but I can't find a satisfying answer for why the COPI line goes back to being high after receiving. I guess that's just a mystery that will remain unsolved.
 
-Remember to do two Transmits!
+But we accomplished what we wanted to, we successfully read the WHO_AM_I register from the sensor! But before we consider the challenge complete, I want to extend some of the functionality of our code. Right now we've hardcoded the register read to be the WHO_AM_I register, but what if instead we created a function that could read arbitrary registers from the sensor.
 
-Now we can write the readRawAccel function. This function will read the registers that actually contain the acceleration data. These are specified on pages 44 and 45 of the datasheet.
+<img width="612" height="575" alt="Screenshot 2026-09-28 at 11 04 21 PM" src="https://github.com/user-attachments/assets/685ede14-fa8c-45b1-8867-3bf594fa6455" />
 
-<img width="1104" height="252" alt="Screenshot 2026-09-28 at 11 21 29 PM" src="https://github.com/user-attachments/assets/89ac88ee-6cb4-4fd4-b65a-ffcad57b4416" />
+Here I've started defining a function that can read any register from the sensor.
 
-This function also gets slightly involved. The two main reasons are that the there are six associated registers comprising 16-bit values for each acceleration axis, and that there's a DRDY flag (data ready) that is triggered when the data is ready to read. So the first thing we do is pull the status register until that flag is RESET, then we read the data from the six registers.
+<img width="606" height="190" alt="Screenshot 2026-09-28 at 11 04 44 PM" src="https://github.com/user-attachments/assets/c67e275c-f5e1-4036-a153-cb4c7599bbda" />
 
-In order to complete the conversion function, we once again look to the datasheet. Page 6 specifies the conversion values under the "Sensitivity" section. This conversion factor only gets us to mg (milli-gs) though, so in order to convert to m/s^2 we have to do a little bit of extra math.
+Most of this code is just copied from what we had in the main loop. But the key difference is that instead of hardcoding the spiInput to 0x8F, we take the register address and OR it with 0x80. This will ensure that the MSB is SET (since 0x80 decomposes to 0b10000000, and the OR function will SET the 1s but not RESET to 0s).
 
-<img width="1099" height="54" alt="Screenshot 2026-09-28 at 11 21 52 PM" src="https://github.com/user-attachments/assets/9dea2f40-eebf-4a4f-9788-c05375505a24" />
+Now we can replace our main loop with a call to this function:
 
-Since this function has no error case, it returns the converted value directly.
+<img width="485" height="235" alt="Screenshot 2026-09-28 at 11 04 56 PM" src="https://github.com/user-attachments/assets/42244b6a-30aa-4f07-8db9-b97672595040" />
 
-We're finally ready to throw everything together to create our readAccel function - the one that actually matters. The readAccel function will be the primary function used by other code from this driver, and now we have all the pieces we need to construct it.
+Now to verify that this is working, I'm going to use the debugger functionality of the STM IDE. This debugger is extremely useful for figuring out what code is doing and finding where something is going wrong. Let's edit the debug configurations:
 
-<img width="462" height="157" alt="Screenshot 2026-09-28 at 11 22 12 PM" src="https://github.com/user-attachments/assets/84165883-95d0-4ca1-8ba3-207f593f1625" />
+<img width="219" height="129" alt="Screenshot 2026-09-28 at 11 05 11 PM" src="https://github.com/user-attachments/assets/5a891fa8-44a6-4da6-84d6-be3b6737c629" />
 
-There we go! We should make sure this builds. For some reason the compiler is getting mad at my readRegister function `spiInput[1] = {regAddress | 0x80}` so I altered it slightly.
+Here we're going to make separate debug and release configurations. The advantage of this is that the debug configuration is good for running the code in debug mode, it compiles the code in a way that the debugger can understand and step through. The release configuration will compile the code for speed. It will make the code run faster but at the cost of the ability to debug it. We have a configuration GPIOTest Debug.
 
-<img width="677" height="195" alt="Screenshot 2026-09-28 at 11 23 36 PM" src="https://github.com/user-attachments/assets/e3148284-32f1-4983-8cf0-a8affedc817d" />
+<img width="897" height="566" alt="Screenshot 2026-09-28 at 11 05 25 PM" src="https://github.com/user-attachments/assets/1783e5dd-0351-4ce1-9cc9-33bb89095b38" />
 
-idk why it got upset though. We should probably also tie this in to the main file and function.
+But let's edit this, we want the Build Configuration to be "Debug", and we also want to Enable auto build.
 
-<img width="502" height="739" alt="Screenshot 2026-09-28 at 11 24 07 PM" src="https://github.com/user-attachments/assets/15cf5e28-ca8c-4f85-8921-a7a7fa55e70a" />
+<img width="896" height="561" alt="Screenshot 2026-09-28 at 11 05 56 PM" src="https://github.com/user-attachments/assets/07093e5f-393d-437d-aeb4-aa4db7c88615" />
 
-We gotta rename the main.c to main.cpp for it to work, because we just made a C++ class.
+remember to hit Apply!
 
-Then I've just removed the readRegister function from before as well as the MX_SPI2_Init function. And I've rewritten the main function to this:
+Now let's make a Release configuration:
 
-<img width="619" height="710" alt="Screenshot 2026-09-28 at 11 24 26 PM" src="https://github.com/user-attachments/assets/e378170f-d89a-4a46-bfec-bfe72a4e2974" />
+<img width="896" height="567" alt="Screenshot 2026-09-28 at 11 06 41 PM" src="https://github.com/user-attachments/assets/bb824b09-8e32-4747-9c4b-2ff970d669f1" />
 
-Actually it makes sense to move the `HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET)` call to inside `Sensor_Driver::init()`. So I will also do that.
+This one will use the Release build configuration
 
-<img width="826" height="782" alt="Screenshot 2026-09-28 at 11 24 47 PM" src="https://github.com/user-attachments/assets/a45160b3-3519-4425-b710-2236d6829970" />
+<img width="898" height="565" alt="Screenshot 2026-09-28 at 11 06 57 PM" src="https://github.com/user-attachments/assets/891be5dc-c6fb-4cd7-96b0-3a4666036253" />
 
-Now we can actually try running this to see if it works.
+It's also important to set the C/C++ Application as Release/GPIOTest.elf
 
-I've run the debugger once again and put a breakpoint on the readAccel function:
+Okay, time to debug!
 
-<img width="897" height="581" alt="Screenshot 2026-09-28 at 11 25 33 PM" src="https://github.com/user-attachments/assets/67d256fa-71af-4034-a85b-6e1f1b79437f" />
+<img width="220" height="122" alt="Screenshot 2026-09-28 at 11 07 15 PM" src="https://github.com/user-attachments/assets/52a741cb-c4bf-443b-94fa-45b23ff74217" />
 
-And a simple way to test the functionality is just by using the "Resume" button and shaking the sensor in real time while you do this. The result of the "accel" variable in the variables tab should be changing. And if you don't move the sensor, the values should be at or around zero. It's not the best method of testing, but without the interface tools of the UFC codebase we are limited in what tools we have.
+When you debug, the startup sequence will take a while, but eventually it will drop you at the beginning of the main() function.
 
-Another way of doing tests is by using the Saleae to see if the spi lines are acting correctly.
+<img width="663" height="572" alt="Screenshot 2026-09-28 at 11 07 40 PM" src="https://github.com/user-attachments/assets/5144571b-09c2-472d-ac96-dcac92991312" />
 
-<img width="1103" height="567" alt="Screenshot 2026-09-28 at 11 25 11 PM" src="https://github.com/user-attachments/assets/3ea1d2b2-d1e8-42ba-a23e-ae2ae93cc243" />
+There are a panel of buttons at the top that allow you to move through the code.
 
-<img width="1106" height="570" alt="Screenshot 2026-09-28 at 11 26 03 PM" src="https://github.com/user-attachments/assets/e9432333-5ae2-4ad0-997d-3e8fab91335a" />
+<img width="291" height="46" alt="Screenshot 2026-09-28 at 11 08 14 PM" src="https://github.com/user-attachments/assets/d07f4b44-e263-4fe1-a310-828d8d2f8dac" />
+
+<img width="373" height="84" alt="Screenshot 2026-09-28 at 11 08 36 PM" src="https://github.com/user-attachments/assets/b09cea07-a5e5-4975-8aab-061d1397aaf7" />
+
+The "Step Over" button will go to the next line\
+"Step Into" will go into a function call\
+"Resume" will advance to the next breakpoint.
+
+To create a breakpoint, double click to the left of a line number. Let's put one on the function call.
+
+<img width="763" height="349" alt="Screenshot 2026-09-28 at 11 09 15 PM" src="https://github.com/user-attachments/assets/8fd55913-df0c-4fcc-b9cb-4edb302ed7c6" />
+
+Then let's hit "Resume"
+
+<img width="1085" height="711" alt="Screenshot 2026-09-28 at 11 09 47 PM" src="https://github.com/user-attachments/assets/45136d3d-6fbb-4d54-8078-bc1b3d90821b" />
+
+Right now we are just about to execute the readRegister function. The "Variables" tab in the debugger is showing whoami as 0x0 (I changed it to hex by right clicking it and selecting Number Format -> Hex). If you don't see the "Variables" tab you can enable it with Window -> Show View -> Variables.
+
+Now we can hit "Step Over".
+
+<img width="1084" height="731" alt="Screenshot 2026-09-28 at 11 10 15 PM" src="https://github.com/user-attachments/assets/7f57c555-c1fe-4ffb-8d4a-e11afab52b4d" />
+
+We can see the whoami variable has updated to 0x44. So that means that it worked!
 
 <hr>
 
