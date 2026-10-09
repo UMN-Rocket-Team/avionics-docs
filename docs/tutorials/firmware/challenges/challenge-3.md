@@ -67,7 +67,7 @@ So instead, we're going to teach the **hardware** to count time for us. Three to
 | Tool | What it does |
 | :--- | :--- |
 | **Timer** | A counter built into the chip that counts clock ticks all by itself. |
-| **Interrupt** | A way for the timer to tap the CPU on the shoulder when something happens. |
+| **Interrupt** | A signal sent by the timer to pause the CPU and execute a dedicated task (like updating a clock or sampling a sensor) whenever an interval or counter limit is reached. |
 | **PWM** | A way for the timer to flip a pin on and off on its own, with no CPU help at all. |
 
 ---
@@ -138,7 +138,9 @@ $$\text{ARR} + 1 = \frac{\text{Tick Rate}}{\text{Target Frequency}}$$
 
 At a 10 kHz tick rate and a 2 Hz target, $\text{ARR} + 1 = \dfrac{10{,}000}{2} = 5000$, so $\text{ARR} = 4999$.
 
-**Step D: Check your work.** Plug both numbers back into the golden formula: $\dfrac{80{,}000{,}000}{8000 \times 5000} = 2\text{ Hz}$. ✅ Don't forget the $-1$ in Step B and Step C. You compute $\text{PSC} + 1$ and $\text{ARR} + 1$, then subtract one before typing the values into CubeMX.
+**Step D: Check your work.** Plug both numbers back into the golden formula: $\dfrac{80{,}000{,}000}{8000 \times 5000} = 2\text{ Hz}$. 
+{: .note}
+Don't forget the $-1$ in Step B and Step C. You compute $\text{PSC} + 1$ and $\text{ARR} + 1$, then subtract one before typing the values into CubeMX.
 
 #### Rules to keep in mind
 
@@ -251,12 +253,6 @@ Click **Generate Code** (or save the `.ioc` and accept the prompt), then open `m
 
 First, we start the timer with its interrupt turned on. Add this inside `main()`, in the `USER CODE BEGIN 2` section (after all the `MX_..._Init()` calls):
 
-```c
-/* USER CODE BEGIN 2 */
-HAL_TIM_Base_Start_IT(&htim2);
-/* USER CODE END 2 */
-```
-
 <img width="734" height="647" alt="main.c with HAL_TIM_Base_Start_IT(&htim2) added in USER CODE BEGIN 2" src="https://github.com/user-attachments/assets/b9f13f08-8b0c-48d3-ad53-7e92e1ba9e31" />
 
 {: .note}
@@ -266,21 +262,9 @@ HAL_TIM_Base_Start_IT(&htim2);
 
 Now scroll down near the bottom of `main.c` (around `USER CODE BEGIN 4`) and add the callback. This is the function the HAL calls every time a timer finishes a lap. We'll toggle `PA5`, the same pin as the onboard LED from Challenge 2:
 
-```c
-/* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  if (htim->Instance == TIM2)
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-  }
-}
-/* USER CODE END 4 */
-```
+<img width="492" height="115" alt="PeriodElapsedCallback toggling PA5 in USER CODE BEGIN 4" src="https://github.com/user-attachments/assets/1543c3a4-7bfa-497a-a5bf-d1d374510664" />
 
 The `if (htim->Instance == TIM2)` check matters: **every** timer shares this one callback. Right now only TIM2 exists, but in a minute we'll add TIM3, and this check is how we tell them apart.
-
-<img width="492" height="115" alt="PeriodElapsedCallback toggling PA5 in USER CODE BEGIN 4" src="https://github.com/user-attachments/assets/1543c3a4-7bfa-497a-a5bf-d1d374510664" />
 
 You're probably wondering where this callback came from. It comes from the HAL timer library.
 
@@ -357,28 +341,9 @@ Try working out the PSC and ARR yourself first. Remember, you need $(PSC+1) \tim
 
 Generate code and start TIM3 in `main()`, right next to TIM2:
 
-```c
-HAL_TIM_Base_Start_IT(&htim2);
-HAL_TIM_Base_Start_IT(&htim3);
-```
-
 <img width="735" height="665" alt="main.c starting both htim2 and htim3 with HAL_TIM_Base_Start_IT" src="https://github.com/user-attachments/assets/9dbc19fc-e134-4978-ad99-467bef6fba5b" />
 
 Then add TIM3 to the callback. Remember that both timers call the _same_ function, so we check `htim->Instance` to see which one fired:
-
-```c
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-  if (htim->Instance == TIM2)
-  {
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);    // 1 Hz toggle
-  }
-  else if (htim->Instance == TIM3)
-  {
-    HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_10);   // 4 Hz toggle
-  }
-}
-```
 
 <img width="502" height="173" alt="PeriodElapsedCallback handling both TIM2 and TIM3" src="https://github.com/user-attachments/assets/a801e807-800a-49a2-a215-0da07b821f75" />
 
@@ -410,7 +375,7 @@ Two terms to know:
 
 [Image source: PWM basics](https://pico.implrust.com/core-concepts/pwm/basic-concepts.html)
 
-$$\text{Duty Cycle (\%)} = \frac{\text{CCR}}{\text{ARR} + 1} \times 100$$
+$$\text{Duty Cycle (%)} = \frac{\text{CCR}}{\text{ARR} + 1} \times 100$$
 
 Here's how the pieces fit together:
 
@@ -523,7 +488,7 @@ Remember that `BSP_LED_Init(LED_GREEN)` will come back after code generation, be
 | **Timer** | Hardware counter that counts clock ticks without the CPU. |
 | **Prescaler (PSC)** | Divides the clock by $(PSC + 1)$ so the counter ticks slower. |
 | **Counter Period (ARR)** | The counter runs $0 \to$ ARR, then resets. A lap is $(ARR + 1)$ ticks. |
-| **Interrupt** | The timer taps the CPU on the shoulder; the callback runs; `main()` resumes. |
+| **Interrupt** | The timer interrupts the CPU; the callback runs; `main()` resumes. |
 | **Callback** | Your function (`HAL_TIM_PeriodElapsedCallback`), shared by all timers, so check `htim->Instance`. |
 | **PWM** | The timer drives a pin on its own. ARR sets frequency, CCR sets duty cycle. |
 
