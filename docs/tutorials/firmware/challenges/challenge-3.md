@@ -320,7 +320,10 @@ That's the whole point. The timer runs in hardware and requests attention when i
 
 One LED is neat. Two LEDs blinking at completely different rates, without any delay loops, is where embedded hardware gets fun. We'll do it by using a second timer.
 
-Plug an external LED (with a resistor) into breadboard pin `PC10`, just like you wired it in Challenge 2. Make sure `PC10` is still set as a **GPIO Output** in your `.ioc`.
+Plug an additional external LED (with a resistor) into breadboard pin `PC10`, just like you wired it in Challenge 2. Make sure `PC10` is still set as a **GPIO Output** in your `.ioc`.
+
+{: .important}
+Do NOT wire both signals together in the power rail. The signal wires should be connected DIRECTLY to the positive side of the EACH LED.
 
 Open **TIM3** in the `.ioc` and set it up like TIM2:
 
