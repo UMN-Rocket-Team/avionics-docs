@@ -39,9 +39,9 @@ git clone https://github.com/UMN-Rocket-Team/Avionics.git
 
 This is how you get the url for cloning if you're not sure how to:
 
-<img width="738" height="442" alt="Screenshot 2026-10-02 at 3 41 02 PM" src="https://github.com/user-attachments/assets/d400eafd-28e0-4389-a74a-1b91fae111ba" />
+<img width="740" height="455" alt="Screenshot 2026-10-11 at 2 03 03 PM" src="https://github.com/user-attachments/assets/c85bd7e0-b4c4-417c-9c7b-5fa2c711c203" />
 
-<img width="734" height="445" alt="Screenshot 2026-10-02 at 3 41 45 PM" src="https://github.com/user-attachments/assets/c1c48aa1-8005-469e-b257-c64af3c3e300" />
+<img width="1215" height="732" alt="Screenshot 2026-10-11 at 2 04 12 PM" src="https://github.com/user-attachments/assets/6b46032a-c417-4118-8b26-2b718a22856a" />
 
 {: .note}
 If you don't have access to the Avionics repo, contact the Firmware lead.
