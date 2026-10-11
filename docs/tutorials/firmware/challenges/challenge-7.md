@@ -93,7 +93,7 @@ git add .
 A commit is a permanent snapshot of your staged changes. Always provide a concise, descriptive commit message explaining the change:
 
 ```
-git commit -m "completed challenge 6"
+git commit -m "completed challenge 7"
 ```
 
 ### 6. Push to GitHub
