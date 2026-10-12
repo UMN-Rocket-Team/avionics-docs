@@ -9,6 +9,7 @@ permalink: /docs/tutorials/hardware/trade_studies
 ---
 
 # Trade Studies
+---
 {: .no_toc }
 
 <details markdown="block">
