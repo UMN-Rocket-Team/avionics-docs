@@ -66,7 +66,7 @@ Rationale should provide a clear description of each criterion and tie back to s
 How much do I care about this criterion? These should reflect the priorities of your system. For example, in a rocket, physical space and mass are both at a premium. If I have a very tight mass constraint for a subsystem, I might care a lot about the mass of my individual components in a trade study. For a pressure transducer instrumentation subsystem, I might care heavily about its accuracy, maximum operating pressure, and measurement bandwidth. Since most pressure transducers are similar in mass, comparing their masses against each other may not make sense if I have a sufficient mass budget for my system. If I'm counting grams, then that might be a different story.
 
 {: .note }
->> Weights should all add up to 100%
+> Weights should all add up to 100%
 
 <img width="2083" height="597" alt="image" src="https://github.com/user-attachments/assets/e7a33aaa-cb0c-416f-91fa-67d832e1ca1f" />
 
