@@ -18,7 +18,7 @@ permalink: /docs/tutorials/hardware/trade_studies
 {:toc}
 </details>
 
-What are trade Studies?
+What are trade studies?
 
 By definition in the NASA Systems engineering handbook, a trade study is "A means of evaluating system designs by devising alternative means to meet functional requirements, evaluating these alternatives in terms of the measures of effectiveness and system cost, ranking the alternatives according to appropriate selection criteria, dropping less promising alternatives, and proceeding to the next level of resolution, if needed."
 
