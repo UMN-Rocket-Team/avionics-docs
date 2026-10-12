@@ -56,13 +56,13 @@ permalink: /docs/team/
     <a class="email" href="mailto:whit3491@umn.edu">whit3491@umn.edu</a>
   </div>
 
-  <div class="team-card open">
+  <div class="team-card">
     <div class="avatar">
       <div class="avatar-fallback">?</div>
     </div>
-    <h3>Position Open</h3>
+    <h3>Soloman Lambert</h3>
     <p class="role">Software Lead</p>
-    <a class="email" href="mailto:moha2063@umn.edu">Interested? Contact the Avionics Lead</a>
+    <a class="email" href="mailto:lambe692@umn.edu">lambe692@umn.edu</a>
   </div>
 
 </div>
