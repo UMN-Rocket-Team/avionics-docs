@@ -9,6 +9,14 @@ permalink: /docs/tutorials/hardware/trade_studies
 ---
 
 # Trade Studies
+{: .no_toc }
+
+<details markdown="block">
+  <summary>Contents</summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
 
 What are trade Studies?
 
@@ -19,6 +27,8 @@ That's a lot of jargon. What did it actually mean? Let's break it down with an e
 The trade study template below can be found [here](https://docs.google.com/spreadsheets/d/1DZZNgTP6iAYz3JNk8SiITwpT2VR6S7-8nERe-11uSDI/edit?gid=0#gid=0)
 
 <img width="2082" height="582" alt="image" src="https://github.com/user-attachments/assets/a5f42606-f6fc-48e2-83c6-3f1143b53340" />
+
+---
 
 # How to perform a trade study
 
@@ -55,7 +65,8 @@ Rationale should provide a clear description of each criterion and tie back to s
 
 How much do I care about this criterion? These should reflect the priorities of your system. For example, in a rocket, physical space and mass are both at a premium. If I have a very tight mass constraint for a subsystem, I might care a lot about the mass of my individual components in a trade study. For a pressure transducer instrumentation subsystem, I might care heavily about its accuracy, maximum operating pressure, and measurement bandwidth. Since most pressure transducers are similar in mass, comparing their masses against each other may not make sense if I have a sufficient mass budget for my system. If I'm counting grams, then that might be a different story.
 
-Note: Weights should all add up to 100%
+{: .note }
+>> Weights should all add up to 100%
 
 <img width="2083" height="597" alt="image" src="https://github.com/user-attachments/assets/e7a33aaa-cb0c-416f-91fa-67d832e1ca1f" />
 
