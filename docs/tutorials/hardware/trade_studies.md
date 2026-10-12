@@ -25,7 +25,7 @@ By definition in the NASA Systems engineering handbook, a trade study is "A mean
 
 That's a lot of jargon. What did it actually mean? Let's break it down with an example for selecting a sensor to collect motor pressure data.
 
-The trade study template below can be found [here](https://docs.google.com/spreadsheets/d/1DZZNgTP6iAYz3JNk8SiITwpT2VR6S7-8nERe-11uSDI/edit?gid=0#gid=0)
+The trade study template below can be found [here](https://docs.google.com/spreadsheets/d/1DZZNgTP6iAYz3JNk8SiITwpT2VR6S7-8nERe-11uSDI/edit?gid=0#gid=0){:target="_blank"}
 
 <img width="2082" height="582" alt="image" src="https://github.com/user-attachments/assets/a5f42606-f6fc-48e2-83c6-3f1143b53340" />
 
