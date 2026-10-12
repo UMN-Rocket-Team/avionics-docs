@@ -58,7 +58,7 @@ permalink: /docs/team/
 
   <div class="team-card">
     <div class="avatar">
-      <div class="avatar-fallback">?</div>
+      <div class="avatar-fallback">SL</div>
     </div>
     <h3>Soloman Lambert</h3>
     <p class="role">Software Lead</p>
