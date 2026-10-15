@@ -34,7 +34,7 @@ Pinout
 : [Pinout spreadsheet](https://docs.google.com/spreadsheets/d/1Z5J-wmHlZrJ90PHBylzzkdYmuIe1y-qd6sn0RwVBkjI/edit?usp=sharing)
 
 Status
-: For 2026–27, GYRO is getting CAN bus support (fall 2026 kickoff slides).
+: For 2026–27, GYRO is getting CAN bus support, and analog servo feedback support.
 {: .facts }
 
 <details open markdown="block">
@@ -48,7 +48,7 @@ Status
 
 ## Overview
 
-The 2025–26 Midwest challenge, as the December 2025 PDR put it: use a **downward-facing camera** to record and decode a
+The 2025–26 Midwest challenge used a **downward-facing camera** to record and decode a
 secret message displayed from the ground. The rocket's roll is controlled by a **servo-actuated fin tab**, and GYRO is
 the flight computer that runs it.
 
@@ -61,9 +61,9 @@ UFC data card:
   radio and written to an SD card. Like the UFC cards, flash recording is triggered by detecting takeoff and landing
   (using the BNO055), and the flash can only be erased with a terminal command.
 - **Actuation:** four PWM headers for servos. One drives roll control; the other three are spares for the future.
-  Two of them can double as a UART for camera control, which came up at the PDR as a possible future use.
+  Two of them can double as a UART connection for camera control, which came up at the PDR as a possible future use.
 - **Pyro:** two pyro channels. They aren't used for Midwest but are there for future projects.
-- **Two screw switches**, one for the computer and one for the servo, so a problem on the actuator side can't take
+- **Two screw switches**, one for the computer and one for the servo and pyros, so a problem on the actuator side can't take
   the computer down with it.
 - **Extras:** status LEDs, programmer and debug pins, a buzzer, and two outputs for external LEDs (for Midwest's roll
   control indication challenge).
@@ -79,9 +79,6 @@ engineering approach using the
 [system characterization tool](https://docs.google.com/spreadsheets/d/1J1WzmcqXW74kMw2ttB3k-ih3p1dvYtJIzfMMIMCmOSo/edit?gid=567000003#gid=567000003).
 GYRO was built specifically for Midwest 2026; the full table with parent requirements is in the
 [Midwest requirements spreadsheet](https://docs.google.com/spreadsheets/d/164qZIYZoGh1ZgoEiZHAX8oQplVZ39T5lwZK8q8euXJw/edit?gid=1230869352#gid=1230869352).
-The requirements come from the 2026 verification matrix ("Midwest CDH" tab), which lists a verification method for
-each but no plans yet. The reasons are from the December 2025 PDR, where every one shown was already marked **Met**
-(EPS-3 and EPS-3.1 weren't on the slides).
 
 | ID | Requirement | Why | Verified by |
 |:--|:--|:--|:--|
@@ -103,8 +100,6 @@ each but no plans yet. The reasons are from the December 2025 PDR, where every o
 | EPS-3 | Power the actuation subsystem for the whole mission | | Analysis |
 | EPS-3.1 | Store at least **1.3 Wh** for actuation | | Analysis |
 
-{% include figure.html src="https://github.umn.edu/Rocket-Team/Avionics/assets/30202/48a5c7be-76b5-4683-af6c-295a3eabee1d" caption="GYRO system requirements table (image from the old wiki)" %}
-
 ### Power budget
 
 From the power tab of `Midwest System Characterization.xlsx` (2026 design review):
@@ -124,38 +119,19 @@ and **200 mAh (1.5 Wh)** for the servo, about 78 g of batteries in total. Both c
 1.3 Wh). The flight computer pack carries everything except the servo (about 1.57 W), so it should last roughly
 9.6 / 1.57 ≈ 6 hours.
 
-{: .check }
-> **Which batteries?** The PDR's power diagram shows **two 400 mAh 2S LiPos** (one per switch) instead. A 400 mAh 2S
-> pack holds about 7.4 V × 0.4 Ah ≈ 3 Wh, which is less than the 4 Wh EPS-2.1 asks for on the computer side, and
-> would last about 3 / 1.57 ≈ 1.9 hours. Check which packs actually flew.
-
-{: .check }
-> The characterization sheet is partly a template left over from another project (a component table full of
-> spacecraft parts, and broken `#REF!` cells), so only the tables above are specific to GYRO. Also:
->
-> - Its power table lists a **MicoAir LR900-A** radio, while the rest of the GYRO docs use an RFD900.
-> - Its mode simulation runs the pad mode at 0.3 W, which doesn't match the 1.87 W in the power table.
-> - Its telemetry calculator gives about 3.3 kbps (16 values at 5 Hz); a separate 2026 Midwest timing sheet gets
->   about 51 kbps for BNO, altimeter, and GPS packets at 20 Hz.
-
 ## Connections
 
 | Connector | Type | Notes |
 |:--|:--|:--|
 | Battery 1 | Power | Powers the MCU and sensors. 10 A max. |
 | Battery 2 | Power | Powers the servos and pyro channels directly. 10 A max. |
-| SW1 | Switch | Enables Battery 1 (see the warning below). 6 A max. |
-| SW2 | Switch | Enables Battery 2 (see the warning below). 6 A max. |
+| SW1 | Switch | Enables Battery 1. 6 A max. |
+| SW2 | Switch | Enables Battery 2. 6 A max. |
 | PWM1–4 | PWM | Each on an STM32 timer channel, for servos. Supplies 7.4 V, 2 A max. |
 | CAM | UART | Alternate function of PWM1 (TX) and PWM2 (RX), for controlling a camera over UART. |
 | Radio | UART, RTS/CTS | For the external radio. Supplies 5 V, 1 A max. |
 | PYRO1–2 | — | Pyro charge outputs, switched by a MOSFET driven by PWM. 6 A max. |
 | P1 / P2 | GPIO | External LEDs, for the Midwest roll control indication challenge. The current-limiting resistors are already on the board. |
-
-{: .warning }
-The old docs say to "connect the power and ground together" on SW1/SW2 to enable each battery. Taken literally that's a
-short circuit, so it almost certainly means bridging the switch header's two terminals. **Check the schematic before
-wiring a switch** so you know exactly what it connects.
 
 ## Power
 
@@ -184,15 +160,8 @@ flowchart LR
 | Part | Part no. | Input | Notes |
 |:--|:--|:--|:--|
 | 5.0 V switching regulator | [TPS62903RPJR](https://www.digikey.com/en/products/detail/texas-instruments/TPS62903RPJR/14004434) | 3–17 V | Adjustable output 0.4–5.5 V, up to 3 A |
-| 3.3 V linear regulator | [TPS74601PDRVT](https://www.digikey.com/en/products/detail/texas-instruments/TPS74601PDRVT/9860757) | | Adjustable output 0.55–5.5 V (per old docs), up to 1 A |
-| LEDs | [150060VS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060VS75000/4489906) (green), [150060BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060BS75000/4489895) (blue) | | Regulator PowerGood indicators |
-
-{: .check }
-> - **The 3.3 V regulator was replaced after the PDR.** The TPS74601 cost about $7 each, and the PDR action items
->   swapped it for a 50–75¢ part, since this rail doesn't need to be ultra-low noise. The new part number isn't
->   recorded, so the TPS74601 details above may be out of date. Check the schematic.
-> - The old docs disagree on the TPS74601's dropout: the table says 1.05 V max at 1 A, the text says 225 mV max at 1 A.
->   Either works with 5 V in and 3.3 V out, but check the datasheet before reusing this regulator elsewhere.
+| 3.3 V linear regulator | [TPS74601PDRVT](https://www.digikey.com/en/products/detail/texas-instruments/TPS74601PDRVT/9860757) | 5 V | Adjustable output 0.55–5.5 V (per old docs), up to 1 A |
+| LEDs | [150060VS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060VS75000/4489906) (green), [150060BS75000](https://www.digikey.com/en/products/detail/w%C3%BCrth-elektronik/150060BS75000/4489895) (blue) | 5 V | Regulator PowerGood indicators |
 
 ## Components
 
@@ -211,12 +180,6 @@ flowchart LR
 
 The IMU, barometer, GPS, and buzzer are wired the same way as on the UFC Primary and Interface cards; details are in the
 [Parts Reference]({{ '/docs/projects/parts-reference/' | relative_url }}).
-
-{: .check }
-The `Midwest 2025 Flight Computer Pin Allocations` sheet in the team Drive puts the **GPS on UART4** (PD1 TX, PD0 RX,
-with a TimePulse pin on PD3), not I2C as in the table above. The same sheet has the radio on UART7 with RTS/CTS
-(PE7–PE10), an I2C4 bus on PB6/PB7, the SD card on SPI2, the pyro channels on TIM13_CH1 (PA6) and TIM14_CH1 (PA7),
-and IMU reset and bootloader pins. It's labelled 2025, so check it against the v2.0 board.
 
 **Radio.** For Midwest, the RFD900 sits off the board and connects through the external radio header. Like the UFC
 Primary Card, its 5 V input goes through an 1100 mA resettable fuse and a 0 Ω jumper, because an RFD once damaged an
@@ -249,12 +212,6 @@ Renders: [3D front ↗](https://github.umn.edu/user-attachments/assets/8c92538f-
 - RX and TX were swapped on both the GPS and the radio.
 - The MOSFET schematic symbol had the wrong pin order, so source and drain were swapped.
 - The serial number and "QA Passed" silkscreen were moved so vias don't poke through them.
-
-**After the December 2025 PDR:** the 3.3 V regulator was swapped for a cheaper one (see [Power](#power)), the GPS
-backup battery was removed, and the connector labels were enlarged to at least 45 mil text height.
-
-**For a future revision:** consider switching the GPS to a u-blox SAM-M10Q, which has a built-in antenna and would be
-easier to integrate.
 
 ## GNC and firmware
 
