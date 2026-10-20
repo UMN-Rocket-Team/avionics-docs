@@ -26,46 +26,49 @@ Now that you have completed your firmware challenges, it is time to upload your 
 
 ## The Workflow: Step-by-Step
 
-### 1. Switch to the Target Branch
+### 1. Create a Branch
 In firmware development, we **never push directly to `main`**. All work happens on dedicated feature branches.
 
-Pull up a Terminal window.
+Pull up a Terminal window. Navigate to or create a folder for Rocket Team material.
 
-If you haven't already, clone the Avionics repo:
+Inside the folder, clone the Firmware-Challenges repo:
 
 ```
-git clone https://github.com/UMN-Rocket-Team/Avionics.git
+git clone https://github.com/UMN-Rocket-Team/Firmware-Challenges.git
 ```
 
-This is how you get the url for cloning if you're not sure how to:
+This is how to get the url for cloning if you're not sure how to:
 
-<img width="740" height="455" alt="Screenshot 2026-10-11 at 2 03 03 PM" src="https://github.com/user-attachments/assets/c85bd7e0-b4c4-417c-9c7b-5fa2c711c203" />
+<img width="742" height="364" alt="Screenshot 2026-10-20 at 2 08 35 PM" src="https://github.com/user-attachments/assets/815a0238-8981-42b0-8d8f-a0f1267bbe92" />
 
-<img width="1215" height="732" alt="Screenshot 2026-10-11 at 2 04 12 PM" src="https://github.com/user-attachments/assets/6b46032a-c417-4118-8b26-2b718a22856a" />
+<img width="740" height="366" alt="Screenshot 2026-10-20 at 2 09 41 PM" src="https://github.com/user-attachments/assets/9e5dc3df-02df-402a-b9a4-faeaa9437049" />
 
 {: .note}
-If you don't have access to the Avionics repo, contact the Firmware lead.
+If you don't have access to the Firmware-Challenges repo, contact the Firmware lead.
 
-Switch to the challenges branch:
+Create a branch with your x500 (first part of your email).
 
 ```
-git checkout firmware-challenges
+git branch <x500>
 ```
-
-{: .important }
-If you already made changes before switching branches, Git will usually carry your unstaged changes over to `firmware-challenges`. If Git blocks you due to conflicting files, reach out to the Firmware lead before proceeding or resolve merge conflicts if you know how to.
 
 ### 2. Pull the Latest Remote Changes
 Before staging or pushing, ensure your local copy has the newest changes that others may have added:
 
 ```
-git pull origin firmware-challenges
+git pull
 ```
 
 {: .note }
 Pulling frequently prevents merge conflicts—which happen when two or more people edit the same lines of code in different ways.
 
-### 3. Check What Changed
+### 3. Move your files to the repo
+Find where your project lives in File Explorer and move it to the Firmware-Challenges folder. We're only going to be committing Sensor_Driver.cpp. The easiest way is to have two File Explorer windows open, one with the repo and one with the file, and drag the file over.
+
+{: .note}
+Typically, you won't have to do this since you should be working directly in the repo.
+
+### 4. Check What Changed
 Inspect your workspace to see modified, untracked, or deleted files:
 
 ```
@@ -76,7 +79,7 @@ git status
 Always run `git status` before staging files to verify you are not accidentally adding code that you don't mean to add 
 (eg. test code, personal project, etc.)
 
-### 4. Stage Your Files
+### 5. Stage Your Files
 Stage only the specific files you want to include in this submission:
 
 ```
@@ -89,18 +92,18 @@ If you are sure every modified file belongs in this commit, stage everything in 
 git add .
 ```
 
-### 5. Commit Your Changes
+### 6. Commit Your Changes
 A commit is a permanent snapshot of your staged changes. Always provide a concise, descriptive commit message explaining the change:
 
 ```
 git commit -m "completed challenge 7"
 ```
 
-### 6. Push to GitHub
+### 7. Push to GitHub
 Send your local commits to the remote GitHub repository:
 
 ```
-git push origin firmware-challenges
+git push origin <branch-name>
 ```
 
 ## Quick Reference: Common Git Commands
