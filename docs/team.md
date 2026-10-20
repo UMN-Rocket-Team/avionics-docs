@@ -58,9 +58,11 @@ permalink: /docs/team/
 
   <div class="team-card">
     <div class="avatar">
+      <img src="{{ '/assets/images/team/solomon-lambert.jpg' | relative_url }}" alt="Solomon Lambert"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <div class="avatar-fallback">SL</div>
     </div>
-    <h3>Soloman Lambert</h3>
+    <h3>Solomon Lambert</h3>
     <p class="role">Software Lead</p>
     <a class="email" href="mailto:lambe692@umn.edu">lambe692@umn.edu</a>
   </div>
