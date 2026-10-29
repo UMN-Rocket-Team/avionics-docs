@@ -1,7 +1,7 @@
 ---
 layout: default
 title: CoolTerm
-parent: Firmware
+parent: Resources
 has_children: false
 nav_exclude: true
 permalink: /docs/tutorials/firmware/resources/coolterm/
@@ -14,8 +14,8 @@ permalink: /docs/tutorials/firmware/resources/coolterm/
 CoolTerm is a serial port terminal we use for testing/debugging. It's where we can see the print statements to track sensor data.
 
 ## Downloads
-
-Click [here](https://freeware.the-meiers.org/#:~:text=Very%20useful%20stuff) to go to downloads page.
+### 1. CoolTerm
+Click [here](https://freeware.the-meiers.org/#:~:text=Very%20useful%20stuff) to go to CoolTerm downloads page.
 
 I know the website looks sketchy, but I promise it's not malware.
 
@@ -23,13 +23,14 @@ Under "Very useful stuff" click on the version that's compatible with your compu
 
 <img width="1362" height="672" alt="Screenshot 2026-09-30 at 3 42 44 PM" src="https://github.com/user-attachments/assets/0a816a3b-b31b-46af-a052-82069885ac63" />
 
-We're also going to want to download the <a href="{{ '/assets/downloads/stm.cooltermsettings' | relative_url }}" download>CoolTerm configuration</a> we use for firmware testing.
-
+### 2. Configuration File
+We're also going to want to download the <a href="{{ '/assets/downloads/stm.cooltermsettings' | relative_url }}" download>CoolTerm configuration file</a>.
 
 ## Setup
 
-{: .important}
-Make sure your computer is connected to the STM before you proceed with the setup.
+We're going to be using a device called ST-LINK. ST-LINK is a hardware tool used to program and debug STM32 microcontrollers.
+
+Connect ST-LINK to your computer using a USB-C cable.
 
 Open CoolTerm and click the file icon that says "Open".
 
@@ -43,10 +44,10 @@ Once you open that file, a new terminal with a window that says "The serial port
 
 <img width="708" height="572" alt="Screenshot 2026-10-01 at 12 19 31 PM" src="https://github.com/user-attachments/assets/559e4d85-3d81-46d4-9b93-b820f0a8c71a" />
 
-"Serial Port Options" will show up. Under the "Port" dropdown, select the port that's label as `usbmodem` followed by some numbers. We don't need to change anything else so we can just hit "OK".
+"Serial Port Options" will show up. Under the "Port" dropdown, select the port that's labeled as `usbmodem` followed by some numbers. We don't need to change anything else so we can just hit "OK".
 
 {: .note}
-If the port is not showing up, it's because you're not connected to the STM.
+If the port is not showing up, it's because your computer's not connected to the ST-LINK.
 
 <img width="514" height="547" alt="Screenshot 2026-10-01 at 12 22 17 PM" src="https://github.com/user-attachments/assets/7ff5c1f5-082a-400b-910c-ecfbd2996dcb" />
 
@@ -56,6 +57,10 @@ It's going to bring you back to the terminal. The last step we have to do is to 
 
 <img width="706" height="570" alt="Screenshot 2026-10-01 at 12 23 23 PM" src="https://github.com/user-attachments/assets/4eefb8d2-b4a3-4d4a-b2a7-9b859293846d" />
 
-Your terminal is now good to go! We know that it's setup because in the bottom left corner it lists your port number and "Connected".
+Your terminal is now good to go! We know that the terminal was setup correctly because in the bottom left corner the port number and "Connected" is listed.
 
 <img width="707" height="570" alt="Screenshot 2026-10-01 at 12 24 09 PM" src="https://github.com/user-attachments/assets/e6b66311-07ee-44c1-866a-7b381ec8d2c7" />
+
+<div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+  <a href="/avionics-docs/docs/tutorials/firmware/resources/test-env-setup/" class="btn btn-primary">Setup testing environment &#10095;</a>
+</div>

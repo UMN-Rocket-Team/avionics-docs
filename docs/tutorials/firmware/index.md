@@ -26,7 +26,7 @@ The main project that firmware works on is the Universal Flight Computer (UFC). 
 
 Another key project is GYRO. GYRO was developed last year to experiment with roll control on the rocket.
 
-## Important Resources
+## Important Downloads and Setups
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
 
   <!-- GitHub Card -->
