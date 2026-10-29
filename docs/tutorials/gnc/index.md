@@ -36,7 +36,7 @@ Our current focus is **active roll control**. Every model and algorithm will be 
 ## Onboarding path
 
 1. **[Crash Course]({{ '/docs/tutorials/gnc/crash-course/' | relative_url }})**: Week 0 through Week 3. It is best to go through this in order, but skip around if you already know the material. It covers the basics of GNC plus reading and parsing flight data.
-2. **[Glossary]({{ '/docs/tutorials/gnc/glossary/' | relative_url }})**: running list of GNC and other avionics terms, acronyms, and abbreviations. If you see something missing then feel free to add it!
+2. **[Glossary]({{ '/docs/glossary/' | relative_url }})**: running list of GNC and other avionics terms, acronyms, and abbreviations. If you see something missing then feel free to add it!
 
 **Expected Background knowledge:**
 
