@@ -106,8 +106,8 @@ git commit -m "your message here"
 ```
 
 **Commit message rules:**
-- Your commit message should briefly describe what you changed or added.
-- Please make your messages descriptive enough that someone else can understand what you did.
+- Your commit message should briefly describe what you changed or added
+- Please make your messages descriptive enough that someone else can understand what you did
 - None of this: `fixes`, `fix1`, `final fix`, `final final fix`, `definitely the final`
 - Good commit message: `added second servo pwm`
 
@@ -150,9 +150,9 @@ The `-u` sets the upstream branch the first time you push. After that, you can j
 
 Once you've pushed your branch to GitHub:
 
-1. Move your Notion task to **Review**.
-2. Open a pull request (PR) from your branch into `main`.
-3. Add the **firmware lead and at least one other firmware member** as reviewers.
+1. Move your Notion task to **Review**
+2. Open a pull request (PR) from your branch into `main`
+3. Add the **firmware lead and at least one other firmware member** as reviewers
 
 Please make sure your PR has a clear title and description explaining what you changed. This makes it a lot easier for reviewers to understand what your code is supposed to do.
 
@@ -161,10 +161,10 @@ Please make sure your PR has a clear title and description explaining what you c
 If you're assigned as a reviewer, please actually review the code instead of just approving it!
 
 **As a reviewer, you should:**
-- Read through the code and make sure you understand what it's doing.
-- Test the code (when applicable) to make sure it works as expected.
-- Check for any bugs, unnecessary changes, or potential issues.
-- If something doesn't work, something looks wrong, or you just have a question about the code, leave a comment on the relevant line(s).
+- Read through the code and make sure you understand what it's doing
+- Test the code (when applicable) to make sure it works as expected
+- Check for any bugs, unnecessary changes, or potential issues
+- If something doesn't work, something looks wrong, or you just have a question about the code, leave a comment on the relevant line(s)
 - **DO NOT approve the PR until all issues and comments have been resolved.**
 
 {: .note }
