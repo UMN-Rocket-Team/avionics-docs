@@ -30,7 +30,11 @@ We're also going to want to download the <a href="{{ '/assets/downloads/stm.cool
 
 We're going to be using a device called ST-LINK. ST-LINK is a hardware tool used to program and debug STM32 microcontrollers.
 
-Connect ST-LINK to your computer using a USB-C cable.
+<img width="1975" height="2242" alt="IMG_2370" src="https://github.com/user-attachments/assets/0dc2d7d9-18ed-47a5-b270-a8be986ea34f" />
+
+Connect ST-LINK to your computer using a USB-C cable. A red light should turn on once you do so.
+
+<img width="2426" height="3033" alt="IMG_2374" src="https://github.com/user-attachments/assets/c1269bfd-f860-4b7a-a762-83d96b1d114c" />
 
 Open CoolTerm and click the file icon that says "Open".
 
@@ -47,7 +51,7 @@ Once you open that file, a new terminal with a window that says "The serial port
 "Serial Port Options" will show up. Under the "Port" dropdown, select the port that's labeled as `usbmodem` followed by some numbers. We don't need to change anything else so we can just hit "OK".
 
 {: .note}
-If the port is not showing up, it's because your computer's not connected to the ST-LINK.
+If `usbmodem` does not appear, the ST-LINK may be using a COM port instead. Try unplugging and reconnecting the ST-LINK, then click "Re-Scan Serial Ports" and check which port appears in the list. The newly detected port should be the ST-LINK.
 
 <img width="514" height="547" alt="Screenshot 2026-10-01 at 12 22 17 PM" src="https://github.com/user-attachments/assets/7ff5c1f5-082a-400b-910c-ecfbd2996dcb" />
 
