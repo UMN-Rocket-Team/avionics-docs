@@ -2,6 +2,7 @@
 layout: default
 title: General Guidelines
 parent: Resources
+grand_parent: Firmware
 has_children: false
 nav_order: 1
 permalink: /docs/tutorials/firmware/resources/general-guidelines/

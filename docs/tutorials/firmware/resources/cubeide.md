@@ -2,6 +2,7 @@
 layout: default
 title: STM32CubeIDE
 parent: Resources
+grand_parent: Firmware
 has_children: false
 nav_exclude: true
 permalink: /docs/tutorials/firmware/resources/cubeide/

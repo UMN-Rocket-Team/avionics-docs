@@ -2,6 +2,7 @@
 layout: default
 title: CoolTerm
 parent: Resources
+grand_parent: Firmware
 has_children: false
 nav_exclude: true
 permalink: /docs/tutorials/firmware/resources/coolterm/
@@ -65,6 +66,12 @@ Your terminal is now good to go! We know that the terminal was setup correctly b
 
 <img width="707" height="570" alt="Screenshot 2026-10-01 at 12 24 09 PM" src="https://github.com/user-attachments/assets/e6b66311-07ee-44c1-866a-7b381ec8d2c7" />
 
+Leave the CoolTerm window open. We're going to need it for testing.
+
 <div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
-  <a href="{{ '/docs/tutorials/firmware/resources/test-env-setup/' | relative_url }}" class="btn btn-primary">Setup testing environment &#10095;</a>
+  <a href="{{ '/docs/tutorials/firmware/resources/test-env-setup/' | relative_url }}" class="btn btn-primary">Firmware: Setup testing environment &#10095;</a>
+</div>
+
+<div style="display: flex; justify-content: flex-end; margin-top: 2rem;">
+  <a href="{{ '/docs/tutorials/gnc/resources/testing/#required-software' | relative_url }}" class="btn btn-primary">GNC: Setup testing environment &#10095;</a>
 </div>

@@ -2,6 +2,7 @@
 layout: default
 title: Testing Environment Setup
 parent: Resources
+grand_parent: Firmware
 has_children: false
 nav_exclude: false
 permalink: /docs/tutorials/firmware/resources/test-env-setup/
