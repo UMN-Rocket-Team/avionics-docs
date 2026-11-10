@@ -11,6 +11,9 @@ permalink: /docs/tutorials/gnc/resources/testing/
 
 This guide walks through setting up and testing GYRO. If you're confused about any step, please ask the Firmware lead.
 
+{: .warning }
+GYRO is a $400 board. Please handle it carefully to avoid damaging the hardware.
+
 ## Download the GitHub Actions Build Artifact
 
 Go to the [GYRO repo](https://github.com/UMN-Rocket-Team/GYRO) on GitHub and click on **Actions**.
@@ -115,9 +118,20 @@ The batteries should not be below 7.4 V. If a battery measures below 7.4 V, use 
 
 Connect the batteries to the connectors attached to Battery 1 (and Battery 2 if needed).
 
-| Without Servos | With Servos |
-|:---------|:------------|
-| <img width="878" height="659" alt="Screenshot 2026-11-10 at 1 13 22 AM" src="https://github.com/user-attachments/assets/54ac4fc0-06af-4933-94ef-a5d6cf59e134" /> | <img width="4032" height="3024" alt="IMG_2394" src="https://github.com/user-attachments/assets/bb6f2598-46f7-40aa-94ff-8d54c56cba78" /> |
+<table style="width: 100%; table-layout: fixed;">
+  <tr>
+    <th style="width: 50%;">Without Servos</th>
+    <th style="width: 50%;">With Servos</th>
+  </tr>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/54ac4fc0-06af-4933-94ef-a5d6cf59e134" style="width: 100%; height: auto;">
+    </td>
+    <td>
+      <img src="https://github.com/user-attachments/assets/bb6f2598-46f7-40aa-94ff-8d54c56cba78" style="width: 100%; height: auto;">
+    </td>
+  </tr>
+</table>
 
 {: .important }
 Always connect and disconnect batteries using the **battery connectors**, NOT the screw terminals on the board!
