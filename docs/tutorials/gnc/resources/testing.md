@@ -79,7 +79,7 @@ Each battery has a corresponding screw switch:
 
 The screw switches allow you to control whether the board and its components receive power when the batteries are connected.
 
-<img width="4032" height="3024" alt="IMG_2385" src="https://github.com/user-attachments/assets/cd588ec9-5f15-4ec0-98d3-f14d5cd44af7" />
+<img width="1448" height="1086" alt="Annotated Green PCB and Connectors" src="https://github.com/user-attachments/assets/e6434be3-201f-4a46-b096-be322f40aa86" />
 
 **If you're not using the servos**, set up the board as follows:
 
@@ -115,7 +115,9 @@ The batteries should not be below 7.4 V. If a battery measures below 7.4 V, use 
 
 Connect the batteries to the connectors attached to Battery 1 (and Battery 2 if needed).
 
-<img width="4032" height="3024" alt="IMG_2392" src="https://github.com/user-attachments/assets/9f878b56-7813-4b36-905d-4c96c72ea5e7" />
+| Without Servos | With Servos |
+|:---------|:------------|
+| <img width="878" height="659" alt="Screenshot 2026-11-10 at 1 13 22 AM" src="https://github.com/user-attachments/assets/54ac4fc0-06af-4933-94ef-a5d6cf59e134" /> | <img width="4032" height="3024" alt="IMG_2394" src="https://github.com/user-attachments/assets/bb6f2598-46f7-40aa-94ff-8d54c56cba78" /> |
 
 {: .important }
 Always connect and disconnect batteries using the **battery connectors**, NOT the screw terminals on the board!
@@ -124,9 +126,9 @@ Always connect and disconnect batteries using the **battery connectors**, NOT th
 
 1. Open STM32CubeProgrammer
 <img width="1197" height="667" alt="Screenshot 2026-11-09 at 3 42 01 PM" src="https://github.com/user-attachments/assets/6247c683-30d5-4061-83e5-e996d470d8c2" />
-2. Leave the settings at their default values
+2. Leave the configuration settings at their default values
 3. Click **Connect**
-<img width="1197" height="667" alt="Screenshot 2026-11-09 at 3 42 01 PM" src="https://github.com/user-attachments/assets/979de617-5ef0-4c0a-ad3d-ac4d0eee3604" />
+<img width="1188" height="660" alt="Screenshot 2026-11-10 at 1 29 41 AM" src="https://github.com/user-attachments/assets/7e8b4ec4-277c-4514-bdfd-8b0f2786b96d" />
 <img width="1197" height="668" alt="Screenshot 2026-11-09 at 3 42 34 PM" src="https://github.com/user-attachments/assets/1a7e5304-cc68-439a-a976-d01c4f2ccd8f" />
 
 {: .note }
