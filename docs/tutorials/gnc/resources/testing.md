@@ -12,7 +12,7 @@ permalink: /docs/tutorials/gnc/resources/testing/
 This guide walks through setting up and testing GYRO. If you're confused about any step, please ask the Firmware lead.
 
 {: .warning }
-GYRO is a $400 board. Please handle it carefully to avoid damaging the hardware.
+GYRO is a $400 board. Please handle it carefully to avoid damaging hardware.
 
 ## Download the GitHub Actions Build Artifact
 
@@ -84,7 +84,7 @@ The screw switches allow you to control whether the board and its components rec
 
 <img width="1448" height="1086" alt="Annotated Green PCB and Connectors" src="https://github.com/user-attachments/assets/e6434be3-201f-4a46-b096-be322f40aa86" />
 
-**If you're not using the servos**, set up the board as follows:
+**If you're NOT using the servos**, set up the board as follows:
 
 - Battery 1 has a battery connector attached
 - SW1 is connected and screwed in
@@ -92,13 +92,16 @@ The screw switches allow you to control whether the board and its components rec
 
 <img width="4032" height="3024" alt="IMG_2386" src="https://github.com/user-attachments/assets/a0951bd6-5b01-4261-9a63-4c83bee6102e" />
 
-**If you're using the servos**, set up the board as follows:
+**If you ARE using the servos**, set up the board as follows:
 
 - Both battery terminals have battery connectors attached
 - SW1 and SW2 are connected and screwed in
 - Servos are connected to PWM1 and PWM3
 
 <img width="4032" height="3024" alt="IMG_2385 2" src="https://github.com/user-attachments/assets/839952e1-a51e-4bfd-94f2-c9b5b6984693" />
+
+{: .important }
+Make sure the batteries are DISCONNECTED before connecting or adjusting any hardware, including servos, wires, or screw terminals.
 
 ### Check Battery Voltage
 
@@ -116,7 +119,13 @@ The batteries should not be below 7.4 V. If a battery measures below 7.4 V, use 
 
 ### Connect the Batteries
 
-Connect the batteries to the connectors attached to Battery 1 (and Battery 2 if needed).
+Before connecting the batteries, double-check that the screw terminals are secure and the battery connectors have the correct polarity.
+
+{: .note}
+If you're unsure which battery to use, where to connect it, or whether the battery connectors have the correct polarity, ask the Firmware lead before proceeding.
+
+- **For general GYRO testing:** Connect one battery to Battery 1
+- **For servo testing:** Connect one battery to Battery 1 and a second battery to Battery 2
 
 <table style="width: 100%; table-layout: fixed;">
   <tr>
@@ -135,6 +144,22 @@ Connect the batteries to the connectors attached to Battery 1 (and Battery 2 if 
 
 {: .important }
 Always connect and disconnect batteries using the **battery connectors**, NOT the screw terminals on the board!
+
+Once Battery 1 is connected and SW1 is enabled, the board should light up and produce a _pleasant_ sound.
+
+### Ummm... the board's not turning on
+
+If the board doesn't power on, check the following:
+
+1. **Battery voltage:** Is the battery sufficiently charged?
+2. **Battery connection:** Is the battery connected to Battery 1 rather than Battery 2?
+3. **Screw switches:** Is SW1 properly connected and screwed in?
+4. **Connections:** Are the battery connectors secure?
+
+{: .warning }
+ALWAYS DISCONNECT THE BATTERIES BEFORE ADJUSTING ANY SCREW TERMINALS OR WIRES!!! Never adjust the battery terminals while the batteries are connected. Accidentally shorting power and ground can permanently damage the board or battery.
+
+If everything looks correct and the board still doesn't turn on, ask the Firmware lead before continuing.
 
 ## STM32CubeProgrammer Setup
 
