@@ -22,23 +22,14 @@ If you recently pushed changes to `build/GNCv1.0` and the generated files in `Fi
 Otherwise, you can manually trigger the workflow for `main` or any other branch:
 
 1. Select the build workflow under **Actions**
-   
 <img width="1242" height="677" alt="Screenshot 2026-11-09 at 6 46 31 PM" src="https://github.com/user-attachments/assets/1dc848a2-9031-41d6-98ae-2d5244444d57" />
-
-3. Click **Run workflow**
-
+2. Click **Run workflow**
 <img width="1245" height="676" alt="Screenshot 2026-11-09 at 6 48 41 PM" src="https://github.com/user-attachments/assets/ca4f7a75-66f8-4ce5-b176-4f866f112e4a" />
-
-4. Select the correct branch from the dropdown menu
-
+3. Select the correct branch from the dropdown menu
 <img width="1244" height="668" alt="Screenshot 2026-11-09 at 6 50 09 PM" src="https://github.com/user-attachments/assets/935d7454-f1e5-41ad-990b-0b841ab4d7a6" />
-
-5. Click **Run workflow** to start the build
-
+4. Click **Run workflow** to start the build
 <img width="1244" height="673" alt="Screenshot 2026-11-09 at 6 51 35 PM" src="https://github.com/user-attachments/assets/7fc3b64e-cb23-4e28-8045-c63dc7f425d9" />
-
-7. Wait for the workflow to finish and verify that it completed successfully, indicated by a green checkmark
-
+5. Wait for the workflow to finish and verify that it completed successfully, indicated by a green checkmark
 <img width="1243" height="679" alt="Screenshot 2026-11-09 at 6 53 14 PM" src="https://github.com/user-attachments/assets/4603360f-aed5-4b94-8593-77bf40f6ab4d" />
 
 {: .note }
@@ -49,26 +40,19 @@ If the workflow fails or no build is available, contact the Firmware lead.
 ### Download the Build
 
 1. Click on the successfully completed workflow run
-
 <img width="1506" height="824" alt="Screenshot 2026-11-09 at 7 08 46 PM" src="https://github.com/user-attachments/assets/ea43a3a8-f75f-4a05-b7f0-8e191045c2d8" />
-
 2. Scroll down to **Artifacts**
-
 <img width="1510" height="820" alt="Screenshot 2026-11-09 at 7 12 14 PM" src="https://github.com/user-attachments/assets/04423faf-5ad5-453c-bd45-e7f50d03152b" />
-
 3. Download `GYRO-firmware`
-
 <img width="1511" height="824" alt="Screenshot 2026-11-09 at 7 11 02 PM" src="https://github.com/user-attachments/assets/45636dbe-8ddf-49e1-846b-1a88763e6e19" />
-
 4. Extract the downloaded ZIP file. It should contain `GYRO.elf`
-
 <img width="758" height="125" alt="Screenshot 2026-11-09 at 7 18 18 PM" src="https://github.com/user-attachments/assets/db6097c4-8c85-45a0-9fed-73790bbb919d" />
 
 ## Required Software
 
 Before testing, make sure you have the following software installed:
 
-1. [CoolTerm](/docs/tutorials/firmware/resources/coolterm/)
+1. [CoolTerm]({{ '/docs/tutorials/firmware/resources/coolterm/' | relative_url }})
 2. [STM32CubeProgrammer](https://www.st.com/en/development-tools/stm32cubeprog.html#st-get-software)
 
 ## Board Setup
@@ -120,7 +104,7 @@ Before connecting the batteries to the board, make sure they're sufficiently cha
 1. Set your multimeter to DC voltage (V)
 2. Connect the red probe to the battery's positive terminal (red wire)
 3. Connect the black probe to the battery's negative terminal (black wire)
-4. Verify that the voltage above **7.4 V**
+4. Verify that the voltage is above **7.4 V**
 
 <img width="3024" height="4032" alt="IMG_2318" src="https://github.com/user-attachments/assets/356577f3-44a8-4d50-a08f-fdfd05dfaeb6" />
 
@@ -129,7 +113,7 @@ The batteries should not be below 7.4 V. If a battery measures below 7.4 V, use 
 
 ### Connect the Batteries
 
-Connect the batteries to the connectors attached to Battery 1 and Battery 2 (if needed).
+Connect the batteries to the connectors attached to Battery 1 (and Battery 2 if needed).
 
 <img width="4032" height="3024" alt="IMG_2392" src="https://github.com/user-attachments/assets/9f878b56-7813-4b36-905d-4c96c72ea5e7" />
 
@@ -143,11 +127,10 @@ Always connect and disconnect batteries using the **battery connectors**, NOT th
 2. Leave the settings at their default values
 3. Click **Connect**
 <img width="1197" height="667" alt="Screenshot 2026-11-09 at 3 42 01 PM" src="https://github.com/user-attachments/assets/979de617-5ef0-4c0a-ad3d-ac4d0eee3604" />
-
 <img width="1197" height="668" alt="Screenshot 2026-11-09 at 3 42 34 PM" src="https://github.com/user-attachments/assets/1a7e5304-cc68-439a-a976-d01c4f2ccd8f" />
 
 {: .note }
-If you receive the error `No debug probe detected`, STM32CubeProgrammer cannot detect the ST-LINK. Check that the ST-LINK is properly connected to your computer. Also, check that Battery 1 is plugged in.
+If you receive the error `No debug probe detected`, make sure the ST-LINK is properly connected to your computer and Battery 1 is connected to GYRO. Also, check that SW1 is screwed in.
 
 ## Programming the Board
 
@@ -171,7 +154,7 @@ After programming, verify the following:
 - The board's startup flashing sequence stops
 
 <div class="video-container">
-  <video controls playsinline preload="metadata">
+  <video controls playsinline preload="metadata" style="width: 500px; max-width: 100%; height: auto;">
     <source src="{{ '/assets/videos/gyro-startup.mp4' | relative_url }}" type="video/mp4">
     Your browser does not support embedded video. You can <a href="{{ '/assets/videos/gyro-startup.mp4' | relative_url }}">open the video directly</a>.
   </video>

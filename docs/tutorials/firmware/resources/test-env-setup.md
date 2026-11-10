@@ -10,7 +10,7 @@ permalink: /docs/tutorials/firmware/resources/test-env-setup/
 
 # Testing Environment Setup
 
-Download and setup [CoolTerm](/docs/tutorials/firmware/resources/coolterm/) if not done already. Leave the CoolTerm window open. We're going to need this later.
+Download and setup [CoolTerm]({{ '/docs/tutorials/firmware/resources/coolterm/' | relative_url }}) if not done already. Leave the CoolTerm window open. We're going to need this later.
 
 Now we're going to setup the hardware.
 
