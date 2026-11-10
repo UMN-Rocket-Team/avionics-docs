@@ -1,13 +1,13 @@
 ---
 layout: default
-title: GYRO Testing
+title: GYRO Testing Guide
 parent: Resources
 grand_parent: GNC
 nav_order: 1
 permalink: /docs/tutorials/gnc/resources/testing/
 ---
 
-# GYRO Testing
+# GYRO Testing Guide
 
 This guide walks through setting up and testing GYRO. If you're confused about any step, please ask the Firmware lead.
 
