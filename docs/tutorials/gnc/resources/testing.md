@@ -14,6 +14,13 @@ This guide walks through setting up and testing GYRO. If you're confused about a
 {: .warning }
 GYRO is a $400 board. Please handle it carefully to avoid damaging hardware.
 
+<details markdown="block">
+  <summary>Contents</summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+
 ## Download the GitHub Actions Build Artifact
 
 Go to the [GYRO repo](https://github.com/UMN-Rocket-Team/GYRO) on GitHub and click on **Actions**.
