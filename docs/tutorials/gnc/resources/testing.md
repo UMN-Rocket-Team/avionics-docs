@@ -107,6 +107,8 @@ The screw switches allow you to control whether the board and its components rec
 
 <img width="4032" height="3024" alt="IMG_2385 2" src="https://github.com/user-attachments/assets/839952e1-a51e-4bfd-94f2-c9b5b6984693" />
 
+There should already be battery connectors attached to the board. If not, ask the Firmware lead to get you one.
+
 {: .important }
 Make sure the batteries are DISCONNECTED before connecting or adjusting any hardware, including servos, wires, or screw terminals.
 
@@ -121,8 +123,23 @@ Before connecting the batteries to the board, make sure they're sufficiently cha
 
 <img width="3024" height="4032" alt="IMG_2318" src="https://github.com/user-attachments/assets/356577f3-44a8-4d50-a08f-fdfd05dfaeb6" />
 
-{: .important }
 The batteries should not be below 7.4 V. If a battery measures below 7.4 V, use the battery charger before testing.
+
+{: .important }
+If the batteries are below 5 V, do NOT attempt to charge it! Let the Firmware, Hardware, or Avionics lead know.
+
+Battery charging instructions:
+1. Inspect the battery for any damage, swelling, or unusual heat before charging
+2. Connect both connectors of the battery to the charger
+3. Make sure the charger is configured for a 2S LiPo battery with the correct charging mode and current
+- Press START once to change battery charging settings
+4. Hold START to begin charging
+5. The charger will beep once charging is complete
+
+{: .important }
+Never leave LiPo batteries charging unattended!
+
+If you're unfamiliar with the charger or unsure about the correct settings, ask the Firmware, Hardware, or Avionics lead before proceeding.
 
 ### Connect the Batteries
 
@@ -132,7 +149,10 @@ Before connecting the batteries, double-check that the screw terminals are secur
 If you're unsure which battery to use, where to connect it, or whether the battery connectors have the correct polarity, ask the Firmware lead before proceeding.
 
 - **For general GYRO testing:** Connect one battery to Battery 1
-- **For servo testing:** Connect one battery to Battery 1 and a second battery to Battery 2
+- **For servo testing:** Connect a battery to Battery 2 first, then connect a battery to Battery 1
+
+{: .important }
+Always connect and disconnect batteries using the **battery connectors**, NOT the screw terminals on the board!
 
 <table style="width: 100%; table-layout: fixed;">
   <tr>
@@ -149,12 +169,9 @@ If you're unsure which battery to use, where to connect it, or whether the batte
   </tr>
 </table>
 
-{: .important }
-Always connect and disconnect batteries using the **battery connectors**, NOT the screw terminals on the board!
-
 Once Battery 1 is connected and SW1 is enabled, the board should light up and produce a _pleasant_ sound.
 
-### Ummm... the board's not turning on
+#### Ummm... the board's not turning on
 
 If the board doesn't power on, check the following:
 
@@ -214,11 +231,14 @@ After programming, verify the following:
 2. Check that all required drivers initialized successfully
 
 {: .note }
-If output is not showing up in CoolTerm, it's likely due to the serial port in CoolTerm not being connected.
+If output is not showing up in CoolTerm, it's likely due to the serial port in CoolTerm not being connected or that the [configuration settings](/docs/tutorials/firmware/resources/coolterm/#2-configuration-file) aren't loaded into CoolTerm.
 
 <img width="510" height="372" alt="Screenshot 2026-10-13 at 6 35 06 PM" src="https://github.com/user-attachments/assets/daa6ffed-c86c-4262-aa71-f63f23fa0e95" />
 
 If any drivers fail to initialize, report the issue to the Firmware lead.
+
+{: .note }
+As of 11/12/26, `SDDriver` does not initialize successfully on GYRO Board 2. This is a known issue.
 
 ### Start Testing
 
