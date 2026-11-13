@@ -167,10 +167,24 @@ If everything looks correct and the board still doesn't turn on, ask the Firmwar
 ## Programming the Board
 
 1. Select the GYRO project in STM32CubeIDE's Project Explorer
-2. Select the correct build configuration (**Release** for normal testing or **Debug** for debugging)
+
+<img width="1512" height="948" alt="Screenshot 2026-11-12 at 6 49 51 PM" src="https://github.com/user-attachments/assets/e3081c3f-652c-43b6-a6c5-fa64a6205665" />
+
+2. Right click the Build icon and select the correct build configuration (**Release** for normal testing or **Debug** for debugging)
+
+<img width="1512" height="950" alt="Screenshot 2026-11-12 at 6 52 22 PM" src="https://github.com/user-attachments/assets/6de9a182-5fd0-481f-a519-3ae8b01ea46a" />
+
 3. Build the project
-4. Make sure the build completes without any errors
+
+<img width="1512" height="950" alt="Screenshot 2026-11-12 at 6 54 01 PM" src="https://github.com/user-attachments/assets/41e0add1-a7dc-4685-94c6-bdf2254c454d" />
+
+4. Make sure the build completes without any errors (warnings are fine)
+
+<img width="1511" height="950" alt="Screenshot 2026-11-12 at 6 55 13 PM" src="https://github.com/user-attachments/assets/1cc1693e-b5da-4c35-b272-fe04b694d81b" />
+
 5. Click **Run** to program the board
+
+<img width="1512" height="948" alt="Screenshot 2026-11-12 at 6 55 52 PM" src="https://github.com/user-attachments/assets/263d8a86-40da-44e7-8790-75e7664b170a" />
 
 {: .note }
 Make sure you're working on the correct branch and that your project contains the changes you want to test.
