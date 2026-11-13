@@ -238,7 +238,7 @@ Depending on the firmware configuration, you may notice:
 2. Check that all required drivers initialized successfully
 
 {: .note}
-If you're not seeing anything in CoolTerm, double-check that CoolTerm is connected and you have the [configuration settings](/docs/tutorials/firmware/resources/coolterm/#2-configuration-file) loaded into CoolTerm.
+If you're not seeing anything in CoolTerm, double-check that CoolTerm is connected and you have the [configuration settings]({{ '/docs/tutorials/firmware/resources/coolterm/#2-configuration-file' | relative_url }}) loaded into CoolTerm.
 
 <img width="510" height="372" alt="Screenshot 2026-10-13 at 6 35 06 PM" src="https://github.com/user-attachments/assets/daa6ffed-c86c-4262-aa71-f63f23fa0e95" />
 

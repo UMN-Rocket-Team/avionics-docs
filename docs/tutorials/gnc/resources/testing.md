@@ -233,7 +233,7 @@ After programming, verify the following:
 2. Check that all required drivers initialized successfully
 
 {: .note }
-If output is not showing up in CoolTerm, it's likely due to the serial port in CoolTerm not being connected or that the [configuration settings](/docs/tutorials/firmware/resources/coolterm/#2-configuration-file) aren't loaded into CoolTerm.
+If output is not showing up in CoolTerm, it's likely due to the serial port in CoolTerm not being connected or that the [configuration settings]({{ '/docs/tutorials/firmware/resources/coolterm/#2-configuration-file' | relative_url }}) aren't loaded into CoolTerm.
 
 <img width="510" height="372" alt="Screenshot 2026-10-13 at 6 35 06 PM" src="https://github.com/user-attachments/assets/daa6ffed-c86c-4262-aa71-f63f23fa0e95" />
 
