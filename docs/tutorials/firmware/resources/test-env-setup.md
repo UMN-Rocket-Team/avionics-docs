@@ -102,12 +102,14 @@ If a 2S LiPo battery measures below 5.0 V, do NOT attempt to charge or use it. L
 
 #### Battery charging instructions
 
-1. Inspect the battery for any damage, swelling, or unusual heat before charging
-2. Connect both connectors of the battery to the charger
-3. Make sure the charger is configured for a 2S LiPo battery with the correct charging mode and current
+1. Connect both connectors of the battery to the charger
+<img width="3024" height="4032" alt="IMG_2419" src="https://github.com/user-attachments/assets/21c636b9-3a84-4c25-8839-daf5923b11b8" />
+2. Make sure the charger is configured for a 2S LiPo battery with the correct charging mode and current (correct settings shown in image below)
+<img width="3024" height="3043" alt="IMG_2417" src="https://github.com/user-attachments/assets/c028cb20-ba95-4ba3-b840-ac89a1619596" />
 - Press START once to change battery charging settings
-4. Hold START to begin charging
-5. The charger will beep once charging is complete
+  <img width="3024" height="3043" alt="IMG_2417" src="https://github.com/user-attachments/assets/19c7b7f9-829e-4a6f-8852-abae7fe3bfc8" />
+3. Hold START to begin charging
+4. The charger will beep once charging is complete
 
 If you're unfamiliar with the charger or unsure about the correct settings, ask the Firmware or Avionics lead before proceeding.
 
