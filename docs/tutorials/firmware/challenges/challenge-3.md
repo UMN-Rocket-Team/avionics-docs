@@ -169,7 +169,7 @@ Don't forget the $-1$ in Step B and Step C. You compute $\text{PSC} + 1$ and $\t
   <br>
   Then $\text{ARR} + 1 = \dfrac{10{,}000}{5} = 2000$, so $\text{ARR} = 1999$.
   <br>
-  Check: $\dfrac{80{,}000{,}000}{8000 \times 2000} = 5\text{ Hz}$. ✅
+  Check: $\dfrac{80{,}000{,}000}{8000 \times 2000} = 5\text{ Hz}$.
 </details>
 
 ---
@@ -238,7 +238,7 @@ Wait, how did we get those numbers? Plug them back into the formula:
 
 $$\frac{80{,}000{,}000}{(7999+1) \times (9999+1)} = \frac{80{,}000{,}000}{8000 \times 10{,}000} = 1 \text{ Hz}$$
 
-There's more than one "right" answer here. For example, `PSC = 79` and `ARR = 999999` also gives 1 Hz. What matters is that the product $(PSC+1) \times (ARR+1)$ equals $80{,}000{,}000$. We picked `PSC = 7999` by choosing a friendly 10 kHz tick rate first, then letting ARR finish the job. See [How to Pick a Prescaler and Counter Period](#how-to-pick-a-prescaler-and-counter-period) above for the full recipe.
+There's more than one "right" answer here. For example, `PSC = 79` and `ARR = 999999` also gives 1 Hz. What matters is that the product $(PSC+1) \times (ARR+1)$ equals $80{,}000{,}000$. We picked `PSC = 7999` by choosing a friendly 10 kHz tick rate first, then letting ARR finish the job. See [How to Pick a Prescaler and Counter Period](#how-to-pick-a-prescaler-and-counter-period) above for the full formula.
 
 <img width="1512" height="949" alt="TIM2 Parameter Settings with Prescaler 7999 and Counter Period 9999" src="https://github.com/user-attachments/assets/0f6c5b32-dbaa-4816-a14d-0ba59ec3242e" />
 
